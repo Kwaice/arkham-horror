@@ -232,6 +232,7 @@
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="4"/>
     <property name="Agility" value="1"/>
+    <property name="Level" value="0"/>
     <property name="Skill Icons" value="ί"/>
     <property name="Slot" value="Hand"/>
     <property name="Traits" value="Item. Weapon. Firearm."/>
@@ -244,6 +245,7 @@
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="2"/>
     <property name="Willpower" value="1"/>
+    <property name="Level" value="0"/>
     <property name="Combat" value="1"/>
     <property name="Skill Icons" value="ήά"/>
     <property name="Traits" value="Talent."/>
