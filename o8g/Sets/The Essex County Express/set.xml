@@ -8,6 +8,7 @@
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="2"/>
     <property name="Health" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Sanity" value="-"/>
     <property name="Skill Icons" value="ή"/>
     <property name="Slot" value="Body"/>
@@ -30,6 +31,7 @@
     <property name="Quantity" value="2"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Seeker"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="2"/>
     <property name="Health" value="1"/>
     <property name="Sanity" value="2"/>
@@ -51,6 +53,7 @@
   <card id="e4137ee1-3e1d-4144-826a-baf74bbad176" name="&quot;I'm outta here!&quot;">
     <property name="Card Number" value="151"/>
     <property name="Quantity" value="2"/>
+   <property name="Level" value="0"/>
     <property name="Type" value="Event"/>
     <property name="Class" value="Rogue"/>
     <property name="Cost" value="0"/>
@@ -76,6 +79,7 @@
     <property name="Type" value="Event"/>
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="3"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="ίή"/>
     <property name="Slot" value="Arcane"/>
     <property name="Traits" value="Spell."/>
@@ -96,6 +100,7 @@
   <card id="5be07212-70ea-46da-abfa-e93ae7284c4a" name="Newspaper">
     <property name="Card Number" value="155"/>
     <property name="Quantity" value="2"/>
+   <property name="Level" value="0"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Survivor"/>
     <property name="Cost" value="1"/>
