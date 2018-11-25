@@ -255,6 +255,7 @@
     <property name="Type" value="Asset"/>
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="4"/>
+    <property name="Level" value="0"/>
     <property name="Combat" value="1"/>
     <property name="Health" value="2"/>
     <property name="Sanity" value="2"/>
@@ -270,6 +271,7 @@
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="2"/>
     <property name="Willpower" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="ά"/>
     <property name="Traits" value="Talent. Science."/>
     <property name="Text" value="Uses (3 supplies). If First Aid has no supplies, discard it.&#10;η Spend 1 supply: Heal 1 damage or horror from an investigator at your location."/>
@@ -279,6 +281,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Guardian"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="3"/>
     <property name="Combat" value="1"/>
     <property name="Skill Icons" value="ή"/>
@@ -290,6 +293,7 @@
     <property name="Card Number" value="21"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Asset"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="3"/>
     <property name="Combat" value="1"/>
@@ -305,6 +309,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
     <property name="Class" value="Guardian"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="1"/>
     <property name="Intellect" value="2"/>
     <property name="Skill Icons" value="έέ"/>
@@ -318,6 +323,7 @@
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="1"/>
     <property name="Willpower" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Agility" value="1"/>
     <property name="Skill Icons" value="ίά"/>
     <property name="Traits" value="Tactic."/>
@@ -329,6 +335,7 @@
     <property name="Type" value="Event"/>
     <property name="Class" value="Guardian"/>
     <property name="Cost" value="5"/>
+   <property name="Level" value="0"/>
     <property name="Willpower" value="1"/>
     <property name="Skill Icons" value="ά"/>
     <property name="Traits" value="Tactic."/>
@@ -339,6 +346,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Skill"/>
     <property name="Class" value="Guardian"/>
+   <property name="Level" value="0"/>
     <property name="Combat" value="1"/>
     <property name="Skill Icons" value="ή"/>
     <property name="Traits" value="Practiced."/>
@@ -401,6 +409,7 @@
   <card id="746d5cdc-a24a-48ae-8e8a-3ce69dafc0d0" name="Magnifying Glass">
     <property name="Card Number" value="30"/>
     <property name="Quantity" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Seeker"/>
     <property name="Cost" value="1"/>
@@ -415,6 +424,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Seeker"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="3"/>
     <property name="Willpower" value="1"/>
     <property name="Skill Icons" value="ά"/>
@@ -425,6 +435,7 @@
   <card id="03adb92f-6100-4b9e-baca-54f3475ff5ef" name="Research Librarian">
     <property name="Card Number" value="32"/>
     <property name="Quantity" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Seeker"/>
     <property name="Cost" value="2"/>
@@ -443,6 +454,7 @@
     <property name="Unique" value="ο"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Seeker"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="4"/>
     <property name="Intellect" value="1"/>
     <property name="Health" value="1"/>
@@ -458,6 +470,7 @@
     <property name="Type" value="Asset"/>
     <property name="Class" value="Seeker"/>
     <property name="Cost" value="2"/>
+   <property name="Level" value="0"/>
     <property name="Intellect" value="1"/>
     <property name="Agility" value="1"/>
     <property name="Skill Icons" value="ίέ"/>
@@ -473,6 +486,7 @@
     <property name="Combat" value="1"/>
     <property name="Skill Icons" value="ή"/>
     <property name="Slot" value="Hand"/>
+   <property name="Level" value="0"/>
     <property name="Traits" value="Item. Tome."/>
     <property name="Text" value="η Choose an investigator at your location and test έ (2). If you succeed, heal 1 damage from that investigator. If you fail, deal 1 damage to that investigator."/>
   </card>
@@ -482,6 +496,7 @@
     <property name="Type" value="Event"/>
     <property name="Class" value="Seeker"/>
     <property name="Cost" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Combat" value="1"/>
     <property name="Agility" value="1"/>
     <property name="Skill Icons" value="ίή"/>
@@ -492,6 +507,7 @@
     <property name="Card Number" value="37"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Seeker"/>
     <property name="Cost" value="2"/>
     <property name="Skill Icons" value="έέ"/>
@@ -502,6 +518,7 @@
   <card id="e7c36f79-c7ac-422a-ad1b-ceef10d9e666" name="Barricade">
     <property name="Card Number" value="38"/>
     <property name="Quantity" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Type" value="Event"/>
     <property name="Class" value="Seeker"/>
     <property name="Cost" value="0"/>
@@ -518,6 +535,7 @@
     <property name="Type" value="Skill"/>
     <property name="Class" value="Seeker"/>
     <property name="Intellect" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="έ"/>
     <property name="Traits" value="Practiced."/>
     <property name="Text" value="If this skill test is successful while investigating a location, discover 1 additional clue at that location."/>
@@ -582,6 +600,7 @@
     <property name="Class" value="Rogue"/>
     <property name="Cost" value="1"/>
     <property name="Agility" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="ί"/>
     <property name="Slot" value="Hand"/>
     <property name="Traits" value="Item. Weapon. Melee. Illicit."/>
@@ -591,6 +610,7 @@
     <property name="Card Number" value="45"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Asset"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Rogue"/>
     <property name="Cost" value="1"/>
     <property name="Intellect" value="1"/>
@@ -604,6 +624,7 @@
     <property name="Type" value="Asset"/>
     <property name="Class" value="Rogue"/>
     <property name="Cost" value="2"/>
+   <property name="Level" value="0"/>
     <property name="Agility" value="1"/>
     <property name="Skill Icons" value="ί"/>
     <property name="Traits" value="Talent. Illicit."/>
@@ -617,6 +638,7 @@
     <property name="Cost" value="3"/>
     <property name="Skill Icons" value="ή"/>
     <property name="Slot" value="Hand"/>
+   <property name="Level" value="0"/>
     <property name="Traits" value="Item. Weapon. Firearm. Illicit."/>
     <property name="Keywords" value="Uses (3 ammo)."/>
     <property name="Text" value="η Spend 1 ammo: Fight. You get +2 ή for this attack. If you suceed by 2 or more, this attack deals +1 damage."/>
@@ -628,6 +650,7 @@
     <property name="Unique" value="ο"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Rogue"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="6"/>
     <property name="Intellect" value="1"/>
     <property name="Health" value="2"/>
@@ -643,6 +666,7 @@
     <property name="Type" value="Asset"/>
     <property name="Class" value="Rogue"/>
     <property name="Cost" value="2"/>
+   <property name="Level" value="0"/>
     <property name="Combat" value="1"/>
     <property name="Agility" value="1"/>
     <property name="Skill Icons" value="ίή"/>
@@ -655,6 +679,7 @@
     <property name="Type" value="Event"/>
     <property name="Class" value="Rogue"/>
     <property name="Cost" value="2"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="ίέ"/>
     <property name="Traits" value="Tactic."/>
     <property name="Keywords" value="Fast. Play only during your turn."/>
@@ -665,6 +690,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
     <property name="Class" value="Rogue"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="3"/>
     <property name="Combat" value="1"/>
     <property name="Agility" value="1"/>
@@ -676,6 +702,7 @@
     <property name="Card Number" value="52"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Rogue"/>
     <property name="Cost" value="2"/>
     <property name="Skill Icons" value="έή"/>
@@ -686,6 +713,7 @@
     <property name="Card Number" value="53"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Skill"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Rogue"/>
     <property name="Skill Icons" value="ΰ"/>
     <property name="Traits" value="Innate."/>
@@ -753,6 +781,7 @@
     <property name="Type" value="Asset"/>
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="0"/>
+   <property name="Level" value="0"/>
     <property name="Intellect" value="1"/>
     <property name="Skill Icons" value="έ"/>
     <property name="Traits" value="Talent."/>
@@ -765,6 +794,7 @@
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="2"/>
     <property name="Willpower" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Health" value="-"/>
     <property name="Sanity" value="2"/>
     <property name="Skill Icons" value="ά"/>
@@ -779,6 +809,7 @@
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="3"/>
     <property name="Combat" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="ή"/>
     <property name="Slot" value="Arcane"/>
     <property name="Traits" value="Spell."/>
@@ -791,6 +822,7 @@
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="1"/>
     <property name="Intellect" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="έ"/>
     <property name="Slot" value="Arcane"/>
     <property name="Traits" value="Spell."/>
@@ -800,6 +832,7 @@
     <property name="Card Number" value="62"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Asset"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="2"/>
     <property name="Willpower" value="1"/>
@@ -813,6 +846,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Mystic"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="1"/>
     <property name="Willpower" value="1"/>
     <property name="Health" value="1"/>
@@ -828,6 +862,7 @@
     <property name="Type" value="Event"/>
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="0"/>
+   <property name="Level" value="0"/>
     <property name="Willpower" value="1"/>
     <property name="Intellect" value="1"/>
     <property name="Skill Icons" value="έά"/>
@@ -838,6 +873,7 @@
     <property name="Card Number" value="65"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Mystic"/>
     <property name="Cost" value="1"/>
     <property name="Skill Icons" value="ΰ"/>
@@ -849,6 +885,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
     <property name="Class" value="Mystic"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="2"/>
     <property name="Willpower" value="1"/>
     <property name="Agility" value="1"/>
@@ -861,6 +898,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Skill"/>
     <property name="Class" value="Mystic"/>
+   <property name="Level" value="0"/>
     <property name="Willpower" value="1"/>
     <property name="Skill Icons" value="ά"/>
     <property name="Traits" value="Innate."/>
@@ -930,6 +968,7 @@
     <property name="Health" value="2"/>
     <property name="Sanity" value="-"/>
     <property name="Skill Icons" value="ή"/>
+   <property name="Level" value="0"/>
     <property name="Slot" value="Body"/>
     <property name="Traits" value="Item. Armor."/>
   </card>
@@ -939,6 +978,7 @@
     <property name="Type" value="Asset"/>
     <property name="Class" value="Survivor"/>
     <property name="Cost" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Intellect" value="1"/>
     <property name="Skill Icons" value="έ"/>
     <property name="Traits" value="Talent."/>
@@ -949,6 +989,7 @@
     <property name="Quantity" value="1"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Survivor"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="2"/>
     <property name="Combat" value="1"/>
     <property name="Skill Icons" value="ή"/>
@@ -964,6 +1005,7 @@
     <property name="Cost" value="1"/>
     <property name="Skill Icons" value="ΰ"/>
     <property name="Slot" value="Accessory"/>
+   <property name="Level" value="0"/>
     <property name="Traits" value="Item. Charm."/>
     <property name="Text" value="ι After you fail a skill test, exhaust Rabbit's Foot: Draw 1 card."/>
   </card>
@@ -975,6 +1017,7 @@
     <property name="Cost" value="1"/>
     <property name="Agility" value="1"/>
     <property name="Health" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Sanity" value="-"/>
     <property name="Skill Icons" value="ί"/>
     <property name="Slot" value="Ally"/>
@@ -990,6 +1033,7 @@
     <property name="Willpower" value="1"/>
     <property name="Agility" value="1"/>
     <property name="Skill Icons" value="ίά"/>
+   <property name="Level" value="0"/>
     <property name="Traits" value="Talent."/>
     <property name="Text" value="θ Spend 1 resource: You get +1 ά for this skill test.&#10;θ Spend 1 resource: You get +1 ί for this skill test."/>
   </card>
@@ -999,6 +1043,7 @@
     <property name="Type" value="Event"/>
     <property name="Class" value="Survivor"/>
     <property name="Cost" value="5"/>
+   <property name="Level" value="0"/>
     <property name="Willpower" value="1"/>
     <property name="Skill Icons" value="άΰ"/>
     <property name="Traits" value="Tactic."/>
@@ -1008,6 +1053,7 @@
     <property name="Card Number" value="79"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Survivor"/>
     <property name="Cost" value="2"/>
     <property name="Intellect" value="2"/>
@@ -1019,6 +1065,7 @@
     <property name="Card Number" value="80"/>
     <property name="Quantity" value="1"/>
     <property name="Type" value="Event"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Survivor"/>
     <property name="Cost" value="1"/>
     <property name="Traits" value="Fortune."/>
@@ -1030,6 +1077,7 @@
     <property name="Type" value="Skill"/>
     <property name="Class" value="Survivor"/>
     <property name="Agility" value="1"/>
+   <property name="Level" value="0"/>
     <property name="Skill Icons" value="ί"/>
     <property name="Traits" value="Innate."/>
     <property name="Text" value="If this skill test is successful [during an] evasion attempt, the [evading investigator] may immediately [disengage each] enemy engaged with [him or her, and] move to a connecting [location]."/>
@@ -1091,6 +1139,7 @@
     <property name="Quantity" value="4"/>
     <property name="Type" value="Asset"/>
     <property name="Class" value="Neutral"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="1"/>
     <property name="Combat" value="1"/>
     <property name="Skill Icons" value="ή"/>
@@ -1104,6 +1153,7 @@
     <property name="Type" value="Asset"/>
     <property name="Class" value="Neutral"/>
     <property name="Cost" value="2"/>
+   <property name="Level" value="0"/>
     <property name="Intellect" value="1"/>
     <property name="Skill Icons" value="έ"/>
     <property name="Slot" value="Hand"/>
@@ -1115,6 +1165,7 @@
     <property name="Quantity" value="4"/>
     <property name="Type" value="Event"/>
     <property name="Class" value="Neutral"/>
+   <property name="Level" value="0"/>
     <property name="Cost" value="0"/>
     <property name="Traits" value="Supply."/>
     <property name="Text" value="Gain 3 resources."/>
@@ -1123,6 +1174,7 @@
     <property name="Card Number" value="89"/>
     <property name="Quantity" value="2"/>
     <property name="Type" value="Skill"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Neutral"/>
     <property name="Willpower" value="2"/>
     <property name="Skill Icons" value="άά"/>
@@ -1134,6 +1186,7 @@
     <property name="Quantity" value="2"/>
     <property name="Type" value="Skill"/>
     <property name="Class" value="Neutral"/>
+   <property name="Level" value="0"/>
     <property name="Intellect" value="2"/>
     <property name="Skill Icons" value="έέ"/>
     <property name="Traits" value="Practiced."/>
@@ -1144,6 +1197,7 @@
     <property name="Quantity" value="2"/>
     <property name="Type" value="Skill"/>
     <property name="Class" value="Neutral"/>
+   <property name="Level" value="0"/>
     <property name="Combat" value="2"/>
     <property name="Skill Icons" value="ήή"/>
     <property name="Traits" value="Practiced."/>
@@ -1153,6 +1207,7 @@
     <property name="Card Number" value="92"/>
     <property name="Quantity" value="2"/>
     <property name="Type" value="Skill"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Neutral"/>
     <property name="Agility" value="2"/>
     <property name="Skill Icons" value="ίί"/>
@@ -1163,6 +1218,7 @@
     <property name="Card Number" value="93"/>
     <property name="Quantity" value="2"/>
     <property name="Type" value="Skill"/>
+   <property name="Level" value="0"/>
     <property name="Class" value="Neutral"/>
     <property name="Skill Icons" value="ΰΰ"/>
     <property name="Traits" value="Innate."/>
