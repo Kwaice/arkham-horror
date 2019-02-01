@@ -55,7 +55,7 @@ def phasePassed(args):
     mute()
     thisPhase = currentPhase()
     newPhase = thisPhase[1]
-
+    
     if newPhase == 1:
         if turnNumber() != 1 and getGlobalVariable("allowMythosPhase") == "True":
             doMythosPhase(False)
@@ -69,19 +69,19 @@ def phasePassed(args):
     elif newPhase == 4 and getGlobalVariable("allowUpkeepPhase") == "True":
         # Upkeep
         remoteCall(me, "doUpkeepPhase", [False])
-
+        
         setGlobalVariable("allowUpkeepPhase", "False")
 
 
 def turnPassed(args):
     setGlobalVariable("allowMythosPhase", "True")
     setGlobalVariable("allowUpkeepPhase", "True")
-
+    
     if turnNumber() == 1:
         setPhase(2)
     else:
         setPhase(1)
-
+    
 
 def advancePhase(group = None, x = 0, y = 0):
     if turnNumber() == 0:
@@ -94,7 +94,7 @@ def advancePhase(group = None, x = 0, y = 0):
         else:
             setPhase(nextPhase)
 
-
+        
 #Return the default x coordinate of the players investigator
 def investigatorX(player):
     return (BoardWidth * player / len(getPlayers())) - (BoardWidth / 2)
@@ -164,13 +164,12 @@ def cardDoubleClicked(args):
         if card.Type == "Chaos Bag": # Draw Chaos Token
             drawChaosTokenForPlayer(me, [])
         elif card.Type == "Chaos Token": # Discard Chaos Token
-            discard(card)
-        elif card.Type == "Encounter Draw": # Draw Encounter Card
-            card = encounterDeck().top()
-            if card.Text.find("Peril.") != -1 or card.Keywords.find("Peril") != -1:
-                addHidden(table)
+            if card.controller == me:
+                doDiscard(me, card, chaosBag())
             else:
-                addEncounter(table)
+                remoteCall(card.controller, "doDiscard", [me, card, chaosBag()])
+        elif card.Type == "Encounter Draw": # Draw Encounter Card
+            addEncounter(table)
         elif card.Type == "Path": # Rotate Path cards
             rotateRight(card)
 
@@ -373,7 +372,7 @@ def clearLock():
 def myID():
     if me.getGlobalVariable("game") == getGlobalVariable("game") and len(me.getGlobalVariable("playerID")) > 0:
         return playerID(me) # We already have a valid ID for this game
-
+        
     g = getGlobalVariable("playersSetup")
     if len(g) == 0:
         id = 0
@@ -387,7 +386,7 @@ def myID():
     debug("Player {} sits in position {} for game {}".format(me, id, game))
     return id
 
-def playerID(p):
+def playerID(p):    
     return num(p.getGlobalVariable("playerID"))
 
 #In phase management this represents the player highlighted in green
@@ -414,18 +413,18 @@ def deckLocked():
 
 def lockDeck():
     me.setGlobalVariable("deckLocked", "1")
-
+    
 def unlockDeck():
     me.setGlobalVariable("deckLocked", "0")
-
+        
 #---------------------------------------------------------------------------
 # Workflow routines
 #---------------------------------------------------------------------------
 
 #Triggered event OnGameStart
-def startOfGame():
+def startOfGame(): 
     unlockDeck()
-    setActivePlayer(None)
+    setActivePlayer(None)   
     if me._id == 1:
         setGlobalVariable("playersSetup", "")
         setGlobalVariable("game", str(num(getGlobalVariable("game"))+1))
@@ -443,7 +442,7 @@ def deckLoaded(args):
     mute()
     if args.player != me:
         return
-
+    
     isShared = False
     isPlayer = False
     for g in args.groups:
@@ -451,8 +450,8 @@ def deckLoaded(args):
             isPlayer = True
         elif g.name in shared.piles:
             isShared = True
-
-    #If we are loading into the shared piles we need to become the controller of all the shared piles
+    
+    #If we are loading into the shared piles we need to become the controller of all the shared piles   
     if isShared:
         notify("{} Takes control of the encounter deck".format(me))
         for p in shared.piles:
@@ -460,8 +459,8 @@ def deckLoaded(args):
                 shared.piles[p].controller = me
         #rnd(1,2) # This causes OCTGN to sync the controller changes!
         update()
-
-    #Cards for the encounter deck and player deck are loaded into the discard pile because this has visibility="all"
+            
+    #Cards for the encounter deck and player deck are loaded into the discard pile because this has visibility="all"    
     #Check for cards with a Setup effects and move other cards back into the correct pile
     for pile in args.groups:
         for card in pile:
@@ -499,16 +498,16 @@ def loadBasicWeaknesses(group, x = 0, y = 0):
         notify("{} loaded Basic Weakness Deck".format(me))
     else:
         notify("{}'s Basic Weakness Deck already loaded.".format(me))
-
+        
 # #Triggered event OnPlayerGlobalVariableChanged
-# #We use this to manage turn and phase management by tracking changes to the player "done" variable
+# #We use this to manage turn and phase management by tracking changes to the player "done" variable            
 def globalChanged(args):
     debug("globalChanged(Variable {}, from {}, to {})".format(args.name, args.oldValue, args.value))
     if args.name == "done":
         checkPlayersDone()
     elif args.name == "phase":
         notify("Phase: {}".format(args.value))
-
+        
 # calculate the number of plays that are Done
 def numDone():
     done = getGlobalVariable("done")
@@ -516,7 +515,7 @@ def numDone():
         return len(eval(done))
     else:
         return 0
-
+    
 def highlightPlayer(p, state):
     if len(getPlayers()) <= 1:
         return
@@ -526,9 +525,9 @@ def highlightPlayer(p, state):
             card.highlight = state
 
 #Called when the "done" global variable is changed by one of the players
-#We use this check to see if all players are ready to advance to the next phase
+#We use this check to see if all players are ready to advance to the next phase 
 #Note - all players get called whenever any player changes state. To ensure we don't all do the same thing multiple times
-#       only the Encounter player is allowed to change the phase or step and only the player triggering the event is allowed to change the highlights
+#       only the Encounter player is allowed to change the phase or step and only the player triggering the event is allowed to change the highlights   
 def checkPlayersDone():
     mute()
     if not turnManagement():
@@ -549,19 +548,19 @@ def isLocation(cards):
         if c.Type != 'Location':
             return False
     return True
-
+    
 def isEnemy(cards):
     for c in cards:
         if c.isFaceUp and (c.type != "Enemy" or c.orientation == Rot90):
             return False
     return True
-
+    
 # def isFirstPlayerToken(cards):
 #   for c in cards:
 #       if c.model != "15e40d4f-b763-4dcc-aa52-e32b64a992dd":
 #           return False
 #   return True
-
+    
 #---------------------------------------------------------------------------
 # Table group actions
 #---------------------------------------------------------------------------
@@ -570,13 +569,13 @@ def turnManagementOn(group, x=0, y=0):
     mute()
     setGlobalVariable("Automation", "Turn")
     clearHighlights(group)
-
+    
 def automationOff(group, x = 0, y = 0):
     mute()
     setGlobalVariable("Automation", "Off")
     clearHighlights(group)
     notify("{} disables all turn management".format(me))
-
+    
 def turnManagement():
     mute()
     auto = getGlobalVariable("Automation")
@@ -616,7 +615,7 @@ def randomAsset(group, x=0, y=0):
 def randomHero(group, x=0, y=0):
     mute()
     randomCard(table, "Investigator")
-
+    
 def randomCard(group, type):
     n = 0
     for card in group:
@@ -645,11 +644,11 @@ def readyForRefresh(group, x = 0, y = 0):
     if turnManagement():
         highlightPlayer(me, WaitingColour)
     doRestoreAll()
-
-def doRestoreAll(group=table):
+    
+def doRestoreAll(group=table): 
     mute()
-
-    debug("doRestoreAll({})".format(group))
+        
+    debug("doRestoreAll({})".format(group)) 
     myCards = (card for card in group
                 if card.controller == me)
     for card in myCards:
@@ -673,10 +672,10 @@ def addHidden(group=None, x=0, y=0):
 
 def addHiddenSpecial(group, x=0, y=0):
     nextEncounter(specialDeck(), x, y, True)
-
+    
 def addEncounter(group=None, x=0, y=0):
     nextEncounter(encounterDeck(), x, y, False)
-
+    
 def addEncounterSpecial(group=None, x=0, y=0):
     nextEncounter(specialDeck(), x, y, False)
 
@@ -692,38 +691,32 @@ def addToStagingArea(card, facedown=False, who=me):
     while move is not None:
         layoutStage(move)
         move = overlapCard(ex, ey, card.width, card.height)
-    card.moveToTable(ex, ey, facedown)
+    card.moveToTable(ex, ey, facedown)          
     layoutStage(card)
     notify("{} adds '{}' to the staging area.".format(who, card))
-
+    
 def nextEncounter(group, x, y, facedown, who=me):
     mute()
 
     if group.controller != me:
         remoteCall(group.controller, "nextEncounter", [group, x, y, facedown, me])
         return
-
+        
     if len(group) == 0:
         resetEncounterDeck(group)
     if len(group) == 0: # No cards
         return
-
+        
     clearTargets()
     card = group.top()
     if x == 0 and y == 0:  #Move to default position in the staging area
-        #addToStagingArea(card, facedown, who)
+        #addToStagingArea(card, facedown, who)   
         card.moveToTable(EncounterX, EncounterY, facedown)
-        notify("{} places '{}' on the table.".format(who, card))
+        notify("{} places '{}' on the table.".format(who, card))    
     else:
         card.moveToTable(x, y, facedown)
         notify("{} places '{}' on the table.".format(who, card))
     card.controller = who
-
-    if card.Text.find("Hidden.") != -1 or card.Keywords.find("Hidden") != -1: #The card has the Hidden keyword; move it to the controllers hand
-        remoteCall(who, "moveToRemote", [card, who.hand])
-    elif facedown and (card.Text.find("Peril.") != -1 or card.Keywords.find("Peril") != -1): #Show the Peril card to the controller
-        remoteCall(who, "peekRemote", [card])
-
     if len(group) == 0:
         resetEncounterDeck(group)
 
@@ -745,60 +738,60 @@ def nextLocation(group, x, y, who=me):
         card.moveToTable(x-card.width()/2, y-card.height()/2, facedown)
         notify("{} places '{}' on the table.".format(who, card))
     card.controller = who
-
+    
 def nextAgendaStage(group=None, x=0, y=0):
     mute()
-
+    
     #We need a new Agenda card
     if group is None or group == table:
         group = agendaDeck()
     if len(group) == 0: return
-
+    
     if group.controller != me:
         remoteCall(group.controller, "nextAgendaStage", [group, x, y])
         return
-
+        
     if x == 0 and y == 0: #The keyboard shortcut was used
         #Count Agenda cards already on table to work out where to put this one
         #n, count = questCount(table)
         #x = QuestStartX + 89*(count // 2) + 64*n
-        #y = QuestStartY + 64*(count % 2)
+        #y = QuestStartY + 64*(count % 2)   
         x = AgendaX
         y = AgendaY
-
+            
     card = group.top()
     card.moveToTable(x, y)
-
+    
     agendaSetup(card)
     notify("{} advances agenda to '{}'".format(me, card))
 
-
+    
 def nextActStage(group=None, x=0, y=0):
     mute()
-
+    
     #We need a new Act card
     if group is None or group == table:
         group = actDeck()
     if len(group) == 0: return
-
+    
     if group.controller != me:
         remoteCall(group.controller, "nextActStage", [group, x, y])
         return
-
+        
     if x == 0 and y == 0: #The keyboard shortcut was used
         #Count Agenda cards already on table to work out where to put this one
         #n, count = questCount(table)
         #x = QuestStartX + 89*(count // 2) + 64*n
-        #y = QuestStartY + 64*(count % 2)
+        #y = QuestStartY + 64*(count % 2)   
         x = ActX
         y = ActY
-
+            
     card = group.top()
     card.moveToTable(x, y)
-
-    notify("{} advances act to '{}'".format(me, card))
-
-
+    
+    notify("{} advances act to '{}'".format(me, card))	
+	
+	
 def addToTable(card):
     x = AgendaX - 45.5
     y = -96
@@ -806,8 +799,8 @@ def addToTable(card):
     while blocked is not None:
         x += 16
         blocked = overlapPartialCard(x, y)
-    card.moveToTable(x, y)
-
+    card.moveToTable(x, y)  
+    
 def agendaSetup(card):
     if len(card.Setup) + len(setupDeck()) > 0:
         cardsToStage = card.Setup.count('s')
@@ -831,33 +824,33 @@ def nextAgenda(group = None, x = 0, y = 0):
 
 def nextActStage(group=None, x=0, y=0):
     mute()
-
+    
     #If the current Act card has side A showing it is simply flipped and we are done
     for c in table:
         if c.Type in ("Act") and c.alternates is not None and "B" in c.alternates and c.alternate != "B":
             flipcard(c)
             return
-
+    
     #We need a new Act card
     if group is None or group == table:
         group = actDeck()
     if len(group) == 0: return
-
+    
     if group.controller != me:
         remoteCall(group.controller, "nextActStage", [group, x, y])
         return
-
+        
     if x == 0 and y == 0: #The keyboard shortcut was used
         #Count Act cards already on table to work out where to put this one
         #n, count = questCount(table)
         #x = QuestStartX + 89*(count // 2) + 64*n
-        #y = QuestStartY + 64*(count % 2)
+        #y = QuestStartY + 64*(count % 2)   
         x = ActX
         y = ActY
-
+            
     card = group.top()
     card.moveToTable(x, y)
-
+    
 #   actSetup(card)
     notify("{} advances act to '{}'".format(me, card))
 
@@ -869,9 +862,9 @@ def setAbilityCounters(investigatorCard):
     me.counters['Intellect'].value = num(investigatorCard.Intellect)
     me.counters['Combat'].value = num(investigatorCard.Combat)
     me.counters['Agility'].value = num(investigatorCard.Agility)
-
-
-
+    
+    
+    
 def readyForNextRound(group=table, x=0, y=0):
     mute()
     #notify("readyForNextRound {}".format(turnManagement()))
@@ -882,7 +875,7 @@ def readyForNextRound(group=table, x=0, y=0):
 def doUpkeepPhase(setPhaseVar = True):
     mute()
     debug("doUpkeepPhase()")
-
+    
     if setPhaseVar:
         setGlobalVariable("phase", "Upkeep")
 
@@ -896,7 +889,7 @@ def doUpkeepPhase(setPhaseVar = True):
     clearTargets()
     doRestoreAll()
     draw(me.deck)
-
+    
     # Check for hand size!
     if len(me.hand) > 8:
         discardCount = len(me.hand) - 8
@@ -909,7 +902,7 @@ def doUpkeepPhase(setPhaseVar = True):
         if cardsSelected is not None:
             for card in cardsSelected:
                 discard(card)
-
+    
     for card in table:
         if card.Type == "Investigator" and card.controller == me and not isLocked(card) and card.isFaceUp:
             addResource(card)
@@ -924,7 +917,7 @@ def doUpkeepPhase(setPhaseVar = True):
 def doMythosPhase(setPhaseVar = True):
     mute()
     debug("doMythosPhase()")
-
+    
     if setPhaseVar:
         setGlobalVariable("phase", "Mythos")
 
@@ -938,15 +931,15 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
     if not getLock():
         whisper("Others players are setting up, please try manual setup again (Ctrl+Shift+S)")
         return
-
+        
     unlockDeck()
     if doPlayer:
         id = myID() # This ensures we have a unique ID based on our position in the setup order
         investigatorCount = countInvestigators(me)
-
+        
         # Find any Permanent cards
         permanents = filter(lambda card: "Permanent" in card.Keywords or "Permanent." in card.Text, me.deck)
-
+        
         # Move Investigators to the table
         newInvestigator = False
         investigator = filter(lambda card: card.Type == "Investigator", me.hand)
@@ -964,21 +957,21 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
             miniCard.moveToTable(miniX, cardY(investigatorCard))
             miniWidth = miniCard.width
             notify("{} places his Investigator on the table".format(me))
-
+        
         # Move any Permanents found to the table
         permX = miniX + miniWidth + InvestigatorSpacing
         for card in permanents:
             card.moveToTable(permX, cardY(investigatorCard))
             permX = permX + card.width + InvestigatorSpacing
             notify("{} places the Permanent card {} on the table".format(me, card))
-
+        
         if newInvestigator:
             if len(me.hand) == 0:
                 drawOpeningHand()
             for i in repeat(None, 5):
                 addResource(investigatorCard)
-
-
+        
+        
     # If we loaded the encounter deck - add the first Agenda & Act card to the table
     if doEncounter or encounterDeck().controller == me:
         count = agendaCount(table)
@@ -986,8 +979,8 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
             nextAgendaStage()
             nextActStage()
             shuffle(encounterDeck())
-            shuffle(specialDeck())
-
+            shuffle(specialDeck())  
+        
     if not clearLock():
         notify("Players performed setup at the same time causing problems, please reset and try again")
 
@@ -1009,7 +1002,7 @@ def removeWeaknessCards():
         card.moveTo(me.deck)
 
     return removeWeaknessCards()
-
+    
 def toggleLock(group, x=0, y=0):
     if deckLocked():
         unlockDeck()
@@ -1022,7 +1015,7 @@ def toggleLock(group, x=0, y=0):
         if len(me.deck) > 0:
             lockCard(me.deck.top())
         notify("{} Locks his deck".format(me))
-
+    
 #---------------------------------------------------------------------------
 # Table card actions
 #---------------------------------------------------------------------------
@@ -1060,7 +1053,7 @@ def defaultAction(card, x = 0, y = 0):
         flipcard(card, x, y)
     else:
         exhaust(card, x, y)
-
+        
 def exhaust(card, x = 0, y = 0):
     mute()
     card.orientation ^= Rot90
@@ -1074,10 +1067,10 @@ def inspectCard(card, x = 0, y = 0):
     for k in card.properties:
         if len(card.properties[k]) > 0:
             whisper("{}: {}".format(k, card.properties[k]))
-
+                                
 def flipcard(card, x = 0, y = 0):
     mute()
-
+    
     if card.controller != me:
         notify("{} gets {} to flip card".format(me, card.controller()))
         remoteCall(card.controller, "flipcard", card)
@@ -1095,7 +1088,7 @@ def flipcard(card, x = 0, y = 0):
         notify("{} turns '{}' face up.".format(me, card))
     elif card.isFaceUp:
         card.isFaceUp = False
-        notify("{} turns '{}' face down.".format(me, card))
+        notify("{} turns '{}' face down.".format(me, card))        
     else:
         card.isFaceUp = True
         notify("{} turns '{}' face up.".format(me, card))
@@ -1143,15 +1136,15 @@ def rotateLeft(card, x = 0, y = 0):
 #   mute()
 #   if card.Type != "Location": return
 #   card.moveToTable(252, -229)
-
+        
 def addResource(card, x = 0, y = 0):
     addToken(card, Resource)
-
+    
 def addClue(card, x = 0, y = 0):
     addToken(card, Clue)
 
 def addDoom(card, x = 0, y = 0):
-    addToken(card, Doom)
+    addToken(card, Doom)  
 
 def addDamage(card, x = 0, y = 0):
     addToken(card, Damage)
@@ -1165,14 +1158,14 @@ def addAction(card, x = 0, y = 0):
 
 
 # def addAttack(card, x = 0, y = 0):
-#     addToken(card, AttackToken)
+#     addToken(card, AttackToken)  
 
 # def addDefense(card, x = 0, y = 0):
-#     addToken(card, DefenseToken)
+#     addToken(card, DefenseToken)  
 
 # def addThreat(card, x = 0, y = 0):
 #     addToken(card, ThreatToken)
-
+    
 # def addTime(card, x=0, y=0):
 #     addToken(card, TimeToken)
 
@@ -1184,25 +1177,25 @@ def addToken(card, tokenType):
     mute()
     card.markers[tokenType] += 1
     notify("{} adds a {} to '{}'".format(me, tokenType[0], card))
-
+    
 
 def subResource(card, x = 0, y = 0):
     subToken(card, Resource)
-
+    
 def subClue(card, x = 0, y = 0):
     subToken(card, Clue)
 
 def subDoom(card, x = 0, y = 0):
-    subToken(card, Doom)
+    subToken(card, Doom)  
 
 def subDamage(card, x = 0, y = 0):
     subToken(card, Damage)
 
 def subHorror(card, x = 0, y = 0):
-    subToken(card, Horror)
+    subToken(card, Horror)  
 
 def subAction(card, x = 0, y = 0):
-    subToken(card, Action)
+    subToken(card, Action)  
 
 
 def subToken(card, tokenType):
@@ -1212,13 +1205,13 @@ def subToken(card, tokenType):
 
 def markerChanged(args):
     card = args.card
-
+    
     thisPhase = currentPhase()
-
+    
     inMythosPhase = False
     if getGlobalVariable("phase") == "Mythos" or thisPhase[1] == 1:
         inMythosPhase = True
-
+    
     if card.Type == "Agenda" and args.marker == Doom[0] and inMythosPhase == True and card.properties[Doom[0]] != "":
         if card.markers[Doom] >= int(card.properties[Doom[0]]):
             card.highlight = EliminatedColour
@@ -1236,43 +1229,42 @@ def lockCard(card, x=0, y=0):
 
 def isLocked(card):
     return card.markers[Lock] > 0
-
+    
 def setControllerRemote (card, player):
-        card.controller=player
-
+		card.controller=player
+    
 def discard(card, x=0, y=0):
     mute()
     if card.controller != me:
         whisper("{} does not control '{}' - discard cancelled".format(me, card))
         remoteCall (card.controller, "setControllerRemote", [card, me])
-
-
+        
+        
     if card.Type == "Agenda": #If we remove the only Agenda card then we reveal the next one
         card.moveToBottom(agendaDiscard())
         notify("{} discards '{}'".format(me, card))
         nextAgendaStage()
         return
-
+        
     if card.Type == "Act": #If we remove the only Act card then we reveal the next one
         card.moveToBottom(actDiscard())
         notify("{} discards '{}'".format(me, card))
         nextActStage()
         return
-
+		
     if isPlayerCard(card):
         pile = card.owner.piles['Discard Pile']
     elif isLocationCard(card):
         pile = locationDiscard()
     elif isChaosToken(card):
         pile = chaosBag()
-        card.Subtype = ""
     else:
         pile = encounterDiscard()
-
+        
     who = pile.controller
     notify("{} discards '{}'".format(me, card))
     if who != me:
-        card.controller = who
+        card.controller = who     
         remoteCall(who, "doDiscard", [me, card, pile])
     else:
         doDiscard(who, card, pile)
@@ -1282,7 +1274,7 @@ def discardSpecial(card, x=0, y=0):
     if card.controller != me:
         whisper("{} does not control '{}' - discard cancelled".format(me, card))
         return
-
+        
     if card.Type == "Agenda": #If we remove the only quest card then we reveal the next one
         card.moveToBottom(agendaDiscard())
         notify("{} discards '{}'".format(me, card))
@@ -1295,11 +1287,11 @@ def discardSpecial(card, x=0, y=0):
         pile = specialDiscard()
     else:
         pile = specialDiscard()
-
+        
     who = pile.controller
     notify("{} discards '{}'".format(me, card))
     if who != me:
-        card.controller = who
+        card.controller = who    
         remoteCall(who, "doDiscard", [me, card, pile])
     else:
         doDiscard(who, card, pile)
@@ -1314,7 +1306,7 @@ def shuffleIntoDeck(card, x=0, y=0, player=me):
     if card.controller != me:
         whisper("{} does not control '{}' - shuffle cancelled".format(me, card))
         return
-
+        
     if card.Type == "Agenda":
         whisper("Invalid operation on a {} card".format(card.Type))
         return
@@ -1329,18 +1321,18 @@ def shuffleIntoDeck(card, x=0, y=0, player=me):
         pile = encounterDeck()
 
     who=pile.controller
-    notify("{} moves '{}' to '{}'".format(me, card, pile.name))
+    notify("{} moves '{}' to '{}'".format(me, card, pile.name))     
     if who != me:
         card.controller = who
         remoteCall(who, "doMoveShuffle", [me, card, pile])
     else:
         doMoveShuffle(me, card, pile)
-
+        
 def doMoveShuffle(player, card, pile):
     mute()
     card.moveTo(pile)
     shuffle(pile)
-
+    
 def playCard(card, x=0, y=0):
     if x == 0 and y == 0 and not eliminated(me):
         x, y = firstInvestigator(me).position
@@ -1359,7 +1351,7 @@ def sumVictory():
     for c in shared.piles['Victory Display']:
         v += num(c.properties['Victory Points'])
     shared.VictoryPoints = v
-
+    
 def moveToVictory(card, x=0, y=0):
     mute()
     card.moveTo(shared.piles['Victory Display'])
@@ -1367,36 +1359,7 @@ def moveToVictory(card, x=0, y=0):
     sumVictory()
     notify("{} adds '{}' (+{}) to the Global Victory Display (Total = {})".format(me, card, v, shared.VictoryPoints))
 
-def sealChaosToken(group, x=0, y=0):
-    sealChaosTokenForPlayer(me, group, x, y)
-
-
-def sealChaosTokenForPlayer(player, group, x=0, y=0):
-    mute()
-
-    if chaosBag().controller != me:
-        remoteCall(chaosBag().controller, "sealChaosTokenForPlayer", [me, group, x, y])
-        return
-
-    tokenList = [token for token in chaosBag()]
-    for card in table:
-        if (card.Type == 'Chaos Token' and not isLocked(card)):
-            tokenList.append(card)
-
-    dlg = cardDlg(tokenList)
-    dlg.title = "Choose Chaos Token"
-    dlg.text = "Choose a Chaos Token to seal"
-
-    token = dlg.show()[0]
-
-    token.moveToTable(ChaosTokenX, ChaosTokenY)
-    token.controller = player
-
-    token.properties["Subtype"] = "Sealed"
-    token.filter = '#99ffffff'
-
-    notify("{} seals {}.".format(player, token.name))
-
+    
 #---------------------------
 #movement actions
 #---------------------------
@@ -1411,10 +1374,10 @@ def randomDiscard(group):
     if card is None: return
     notify("{} randomly discards '{}'.".format(me, card))
     card.moveTo(me.piles['Discard Pile'])
-
+ 
 def mulligan(group, x = 0, y = 0):
     mute()
-
+    
     dlg = cardDlg(me.hand)
     dlg.title = "Mulligan!"
     dlg.text = "Select the cards you wish to replace:"
@@ -1427,7 +1390,7 @@ def mulligan(group, x = 0, y = 0):
             notify("{} replaces {}.".format(me, card))
             card.moveToBottom(me.deck)
             draw(me.deck)
-
+        
         shuffle(me.deck)
 
 
@@ -1466,7 +1429,7 @@ def drawMany(group, count = None):
     for c in group.top(count):
         c.moveTo(me.hand)
         notify("{} draws '{}'".format(me, c))
-
+ 
 def search(group, count = None):
     mute()
     if len(group) == 0: return
@@ -1475,28 +1438,28 @@ def search(group, count = None):
     if count is None or count <= 0:
         whisper("search: invalid card count")
         return
-
-    notify("{} searches top {} cards".format(me, count))
+        
+    notify("{} searches top {} cards".format(me, count))    
     moved = 0
     for c in group.top(count):
         c.moveTo(me.piles['Discard Pile'])
         moved += 1
     me.piles['Discard Pile'].lookAt(moved)
-
+    
 def moveMany(group, count = None):
     if len(group) == 0: return
     mute()
     if count is None:
         count = askInteger("Move how many cards to secondary deck?", 1)
         if count is None or count <= 0: return
-
+    
     moved = 0
-
+    
     if group == me.deck:
         pile = me.piles['Secondary Deck']
     else:
         pile = specialDeck()
-
+    
     for c in group.top(count):
         c.moveTo(pile)
         moved += 1
@@ -1510,7 +1473,7 @@ def discardMany(group, count = None):
     if count is None:
         count = askInteger("Discard how many cards?", 1)
         if count is None or count <= 0: return
-
+        
     if group == me.deck:
         pile = me.piles['Discard Pile']
         fr = "his deck"
@@ -1529,7 +1492,7 @@ def moveAllToEncounter(group):
             c.moveTo(encounterDeck())
         notify("{} moves all cards from {} to the Encounter Deck".format(me, group.name))
         shuffle(encounterDeck())
-
+        
 def moveAllToEncounterBottom(group):
     mute()
     if confirm("Move all cards from {} to the bottom of the Encounter Deck?".format(group.name)):
@@ -1586,9 +1549,9 @@ def drawPileToTable(player, group, x, y):
     card.moveToTable(x, y)
     notify("{} draws {} from the {}.".format(player, card.name, group.name))
     return card
-
+    
 def drawChaosToken(group, x = 0, y = 0):
-    drawChaosTokenForPlayer(me, group, x, y)
+    drawChaosTokenForPlayer(me, group, x, y)  
 
 
 def drawChaosTokenForPlayer(player, group, x = 0, y = 0, replace = True, xMod = 0, yMod = 0):
@@ -1597,50 +1560,36 @@ def drawChaosTokenForPlayer(player, group, x = 0, y = 0, replace = True, xMod = 
         if replace:
             # check for existing chaos token on table
             table_chaos_tokens = [card for card in table
-                if (card.Type == 'Chaos Token' and card.Subtype != "Sealed")]
+                if card.Type == 'Chaos Token']
             for token in table_chaos_tokens:
                 if token.controller == me:
                     token.moveTo(chaosBag())
                 else:
                     remoteCall(token.controller, "moveToRemote", [token, chaosBag()])
             chaosBag().shuffle()
-
+  
         drawPileToTable(player, chaosBag(), ChaosTokenX + xMod, ChaosTokenY + yMod)
-
+        
     else:
         remoteCall(chaosBag().controller, "drawChaosTokenForPlayer", [me, chaosBag(), x, y, replace])
-
+    
 def moveToRemote (token, pile):
-   token.moveTo(pile)
-
-
-def peekRemote(card):
-    card.peek()
-
+   token.moveTo(pile)	
+	
+    
 def drawXChaosTokens(player, group, x = 0, y = 0):
     mute()
     xChaosTokens = askInteger("Draw how many Chaos Tokens?", 1)
     if xChaosTokens == None: return
-
+    
     for xTokens in range(0, xChaosTokens):
         replace = False
         if xTokens == 0: replace = True
         if chaosBag().controller == me:
-                drawChaosTokenForPlayer(me, chaosBag(), x, y, replace, (xTokens * 10), (xTokens * 10))
+                drawChaosTokenForPlayer(me, chaosBag(), x, y, replace, (xTokens * 10), (xTokens * 10))  
         else:
             remoteCall(chaosBag().controller, "drawChaosTokenForPlayer", [me,  chaosBag(), x, y, replace, (xTokens * 10), (xTokens * 10)])
 
-def drawAdditionalChaosToken(player, group, x = 0, y = 0):
-    mute()
-    numToken = 0
-    for card in table:
-        if card.Type == 'Chaos Token':
-            numToken += 1
-
-    if chaosBag().controller == me:
-        drawChaosTokenForPlayer(me, chaosBag(), x, y, False, (numToken * 10), (numToken * 10))
-    else:
-        remoteCall(chaosBag().controller, "drawChaosTokenForPlayer", [me, chaosBag(), x, y, False, (numToken * 10), (numToken * 10)])
 
 def drawBasicWeakness(group, x = 0, y = 0):
     mute()
@@ -1671,20 +1620,20 @@ def drawBasicWeaknessToHand(group, x = 0, y = 0):
     card = drawBasicWeakness(group, x, y)
     card.moveTo(me.hand)
     notify("{} draws the Basic Weakness '{}' into their hand.".format(me, card))
-
+    
 
 def createCard(group=None, x=0, y=0):
-    cardID, quantity = askCard()
-    cards = table.create(cardID, x, y, quantity, True)
-    try:
-        iterator = iter(cards)
-    except TypeError:
-        # not iterable
-        notify("{} created {}.".format(me, cards))
-    else:
-        # iterable
-        for card in cards:
-            notify("{} created {}.".format(me, card))
+	cardID, quantity = askCard()
+	cards = table.create(cardID, x, y, quantity, True)
+	try:
+		iterator = iter(cards)
+	except TypeError:
+		# not iterable
+		notify("{} created {}.".format(me, cards))
+	else:
+		# iterable	
+		for card in cards:
+			notify("{} created {}.".format(me, card))
 
 
 def drawUnrevealed(group=None, x=0, y=0):
@@ -1697,7 +1646,7 @@ def drawUnrevealed(group=None, x=0, y=0):
     card.moveToTable(EncounterX, EncounterY, True)
     notify("{} draws an unrevealed card from the {}.".format(me, card.name, group.name))
     return card
-
+    
 
 def placeLongPath(group, x=0, y=0):
     pathCard = group.create("7f4029c8-1cee-406a-9913-9fbc6e341bed", x, y, 1, False)
@@ -1741,7 +1690,7 @@ def lockAllPaths(group, x=0, y=0):
 def unlockAllPaths(group, x=0, y=0):
     for card in table:
         if card.Type == "Path":
-            card.anchor = False
+            card.anchor = False    
 
 
 
@@ -1751,7 +1700,7 @@ def unlockAllPaths(group, x=0, y=0):
 #   mute()
 #   if group == me.deck:
 #       pile = me.piles['Secondary Deck']
-#   else: return
+#   else: return        
 #   if confirm("Create your capture deck?"):
 #       for c in group:
 #           if c.Type == "Ally":
@@ -1768,7 +1717,7 @@ def unlockAllPaths(group, x=0, y=0):
 #   MapStartX = 350
 #   MapStartY = -90
 #   i = 0
-#   j = 0
+#   j = 0 
 #   for c in group:
 #       c.moveToTable(MapStartX,MapStartX)
 #       if c.name == "Lost Island":
@@ -1782,7 +1731,7 @@ def unlockAllPaths(group, x=0, y=0):
 #           c.moveToTable(MapStartX+64*4,MapStartY+89*j)
 #           j=j+1
 
-
+        
 # Reminders
 
 # def enableReminders(group, x=0, y=0):
@@ -1791,13 +1740,13 @@ def unlockAllPaths(group, x=0, y=0):
 # def disableReminders(group, x=0, y=0):
 #   setGlobalVariable("Reminders", "Off")
 #   whisper("Reminders disabled.")
-
+    
 # def isTextInCard(text,card):
 #   match = re.search(text,card.Text)
 #   if match: return True
 #   match = re.search(text,card.alternateProperty("B","Text"))
 #   if match: return True
-
+    
 # def setReminders(card):
 #   match = re.search('Time ([0-9]+)',card.Text)
 #   if match:
@@ -1807,7 +1756,7 @@ def unlockAllPaths(group, x=0, y=0):
 #   if match:
 #       for i in range(num(match.group(1))):
 #           addTime(card)
-
+    
 #   if isTextInCard('resource phase',card): setReminderResource(card)
 #   if isTextInCard('quest phase',card): setReminderQuest(card)
 #   if isTextInCard('staging step',card): setReminderQuest(card)
@@ -1821,7 +1770,7 @@ def unlockAllPaths(group, x=0, y=0):
 #   reminder = getGlobalVariable("reminderResource")
 #   for c in table:
 #       if str(c._id) in reminder:
-#           c.target(True)
+#           c.target(True)  
 
 # def questReminders():
 #   if getGlobalVariable("Reminders") == "Off": return;
@@ -1829,14 +1778,14 @@ def unlockAllPaths(group, x=0, y=0):
 #   for c in table:
 #       if str(c._id) in reminder:
 #           c.target(True)
-
+            
 # def combatReminders():
 #   if getGlobalVariable("Reminders") == "Off": return;
 #   reminder = getGlobalVariable("reminderCombat")
 #   for c in table:
 #       if str(c._id) in reminder:
 #           c.target(True)
-
+            
 # def refreshReminders():
 #   if getGlobalVariable("Reminders") == "Off": return;
 #   clearTargets()
@@ -1865,7 +1814,7 @@ def unlockAllPaths(group, x=0, y=0):
 # def removeReminderQuest(card,x=0,y=0):
 #   reminder = getGlobalVariable("reminderQuest")
 #   reminder = reminder.replace(str(card._id) + ",","")
-#   setGlobalVariable("reminderQuest",reminder)
+#   setGlobalVariable("reminderQuest",reminder) 
 
 # def setReminderCombat(card,x=0,y=0):
 #   reminder = getGlobalVariable("reminderCombat")
@@ -1875,8 +1824,8 @@ def unlockAllPaths(group, x=0, y=0):
 # def removeReminderCombat(card,x=0,y=0):
 #   reminder = getGlobalVariable("reminderCombat")
 #   reminder = reminder.replace(str(card._id) + ",","")
-#   setGlobalVariable("reminderCombat",reminder)
-
+#   setGlobalVariable("reminderCombat",reminder)    
+    
 # def setReminderRefresh(card,x=0,y=0):
 #   reminder = getGlobalVariable("reminderRefresh")
 #   if not str(card._id) in reminder:
@@ -1885,8 +1834,8 @@ def unlockAllPaths(group, x=0, y=0):
 # def removeReminderRefresh(card,x=0,y=0):
 #   reminder = getGlobalVariable("reminderRefresh")
 #   reminder = reminder.replace(str(card._id) + ",","")
-#   setGlobalVariable("reminderRefresh",reminder)
-
+#   setGlobalVariable("reminderRefresh",reminder)   
+    
 # def setGlobalReminders():
 #   setGlobalVariable("Reminders", "Off")
 #   setGlobalVariable("reminderResource","")
