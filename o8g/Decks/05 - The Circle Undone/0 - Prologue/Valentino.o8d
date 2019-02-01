@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a6d114c7-2e2a-4896-ad8c-0330605c90bf" sleeveid="0">
+  <section name="Investigator" shared="False">
+    <card qty="1" id="b10c7dcf-18d5-44c8-8547-be6d637d0adf">Valentino Rivas</card>
+    <card qty="1" id="4bdebbca-6526-490e-bc98-b347d255f983">Valentino Rivas</card>
+  </section>
+  <section name="Special" shared="False" />
+  <section name="Asset" shared="False">
+    <card qty="1" id="a587e7a6-1668-40d1-825d-3b7bd6e63569">Sure Gamble</card>
+    <card qty="2" id="703a598e-88b5-4a2c-8d5e-3d78da305350">Money Talks</card>
+    <card qty="1" id="c8e50677-51af-411c-8350-593dcb0cac5d">Opportunist</card>
+    <card qty="1" id="593e0f81-fbce-4600-a9ba-10fdf73a7054">.41 Derringer</card>
+    <card qty="2" id="62eb6da1-32fa-47b1-bdfd-ec8c48b94d6c">Cunning</card>
+    <card qty="1" id="5711b576-6d6a-4fdf-a3c7-d778ab494b95">Well Connected</card>
+  </section>
+  <section name="Event" shared="False" />
+  <section name="Skill" shared="False" />
+  <section name="Weakness" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Basic Weaknesses" shared="False" />
+  <section name="Agenda" shared="True" />
+  <section name="Act" shared="True" />
+  <section name="Encounter" shared="True" />
+  <section name="Location" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Chaos Bag" shared="True" />
+  <section name="Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a6d114c7-2e2a-4896-ad8c-0330605c90bf" sleeveid="0">
+  <section name="Agenda" shared="True">
+    <card qty="1" id="178fc849-c9bc-4b53-9ea6-eebe03995d9c">Temperance , XIV</card>
+    <card qty="1" id="ad440b22-8cb6-4f2b-b22c-7beafc72d0cd">The Night Howls</card>
+  </section>
+  <section name="Act" shared="True">
+    <card qty="1" id="a65c6bc1-53d0-4914-bb31-96a94fcdddf5">Lost in the Woods</card>
+    <card qty="1" id="1d3c9272-c0bc-46f5-84ab-20049e95915b">Witch Hauntings</card>
+    <card qty="1" id="5715228f-1dae-4d6c-b09c-12e1c881be8e">Paths Into Twilights</card>
+    <card qty="1" id="8240ed52-1427-490f-845f-c6724bfda45d">A Circle Unbroken</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="501730c1-6f1a-47c3-9683-719bff03ca76">Coven Initiate</card>
+    <card qty="2" id="8d15e313-41f9-4e94-92a2-f62aafb96742">Priestess of the Coven</card>
+    <card qty="2" id="6b25fd79-437b-4ce0-8405-82e9c2d541be">Evil Past</card>
+    <card qty="3" id="eddfac33-2e84-4de0-94cf-1e8a66dceefe">Centuries of Secrets</card>
+    <card qty="3" id="a964717e-3126-4ff0-9eb5-d1e7884ee538">Diabolic Voices</card>
+    <card qty="2" id="bfbfda7f-1527-4564-a3bc-3660f5890596">Wracked</card>
+    <card qty="2" id="90cb11ac-0ded-48c0-9323-d3b3df0bff11">Bedeviled</card>
+    <card qty="3" id="2f2f179f-dbbc-4bfc-85cc-b67e1bd7aa9a">Ancient Evils</card>
+    <card qty="3" id="d411e61d-9f83-49cb-bc13-d5d6b5c58336">Rotting Remains</card>
+    <card qty="2" id="569bb661-9875-4e36-a23e-a865df3fca21">Frozen in Fear</card>
+    <card qty="2" id="27eb17a3-e8ae-4c44-9f56-1018e6047d67">Dissonant Voices</card>
+  </section>
+  <section name="Location" shared="True">
+    <card qty="1" id="9a7baca0-df19-4c7a-9e83-c044f6e62400">Witch-Haunted Woods</card>
+    <card qty="1" id="af5661b1-057f-41a6-abaa-ef2faa21dbb8">Witch-Haunted Woods</card>
+    <card qty="1" id="6d6531f2-da76-4206-8d18-6b8ac7b0e567">Witch-Haunted Woods</card>
+    <card qty="1" id="e04696c5-3ad6-45b9-af8b-550a63e8e86c">Witch-Haunted Woods</card>
+    <card qty="1" id="0f2df301-961c-4e6a-982e-752e61d9b06c">Witch-Haunted Woods</card>
+    <card qty="1" id="472de247-2729-4531-baa3-ad5500a9af8f">Witch-Haunted Woods</card>
+    <card qty="1" id="e7492d31-fbef-417e-b50e-94c84307275d">Witch-Haunted Woods</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="2d298162-d07c-4ab6-82f4-5a529db221c5">Anette Mason</card>
+    <card qty="1" id="cedfc228-4770-4d64-99e9-495a3b629da9">Arkham Woods</card>
+    <card qty="1" id="a7a16b01-49da-4e9f-8818-18ddd3cbc153">Arkham Woods</card>
+    <card qty="1" id="6773a3ce-8cc1-4125-add8-96f716e6c807">Arkham Woods</card>
+    <card qty="1" id="5b7c1138-a82a-44d8-801e-9da8334977e6">Arkham Woods</card>
+    <card qty="1" id="531433a8-fb9b-4820-a492-b75916c38c32">Arkham Woods</card>
+    <card qty="1" id="3d5d6da0-c7e0-4cc5-b80c-7649a424706a">Arkham Woods</card>
+  </section>
+  <section name="Second Special" shared="True">
+    <card qty="1" id="3c598051-bdc1-407e-9de0-e52afc45b52b">Piper of Azathoth</card>
+    <card qty="3" id="3c0425f9-95b6-4f33-a783-ffa09f7107ca">Daemonic Piping</card>
+    <card qty="1" id="1042db12-9e8c-4dd4-ba27-10c2059efca9">Relentless Dark Young</card>
+    <card qty="3" id="3d4420ab-52eb-40df-9e63-13dd49fd125c">Goat Spawn</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="a0c5c588-b501-42bc-8ce6-53875f8c5a1f">The Witching Hour</card>
+  </section>
+  <section name="Investigator" shared="False" />
+  <section name="Special" shared="False" />
+  <section name="Asset" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Skill" shared="False" />
+  <section name="Weakness" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Basic Weaknesses" shared="False" />
+  <section name="Chaos Bag" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

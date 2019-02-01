@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a6d114c7-2e2a-4896-ad8c-0330605c90bf" sleeveid="0">
+  <section name="Investigator" shared="False" />
+  <section name="Special" shared="False" />
+  <section name="Asset" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Skill" shared="False" />
+  <section name="Weakness" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Basic Weaknesses" shared="False" />
+  <section name="Agenda" shared="True">
+    <card qty="1" id="2b32df92-f577-43e7-a565-41cad4814267">Justice . XI</card>
+    <card qty="1" id="028a4d00-6dc5-43fa-a80a-8ceea9e6fc9e">Over the Threshold</card>
+  </section>
+  <section name="Act" shared="True">
+    <card qty="1" id="b5f877d4-d618-4c9f-97fc-910e76894b38">Hidden Agendas</card>
+    <card qty="1" id="eb397293-d9a3-49a7-a445-cdb03dfd7650">The Spectral Realm</card>
+    <card qty="1" id="07b44472-8561-4e2c-bebc-2c8171cde01c">Escape the cage</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="78970dbe-6539-46c4-b4f6-51200e51fcea">Lodge Neophyte</card>
+    <card qty="1" id="33c47873-254f-478b-82da-9334cfdbf4ea">Keeper of Secrets</card>
+    <card qty="2" id="4b91457d-477b-40ef-81f8-79e3a8644d21">Mysteries of the Lodge</card>
+    <card qty="2" id="57197e20-ec0a-4383-bc8c-6c60a2a37e0b">Wraith</card>
+    <card qty="2" id="2abaf9f5-7308-436e-8c2e-de4aa74df0cf">Trapped Spirits</card>
+    <card qty="1" id="c18ce601-e1d2-44a4-bef2-b1c9a8b9b936">Nether Mist</card>
+    <card qty="2" id="05e23ad4-07c3-496d-9a7a-62c77b536ccb">Shadow Hounds</card>
+    <card qty="2" id="5c62d461-f713-4bd7-bdb4-3cd93a20b25c">Whispers in the Dark</card>
+    <card qty="3" id="f8a088dc-787f-4b12-b4d9-6eb417547745">Terror in the Night</card>
+    <card qty="3" id="39f45715-7bb8-4130-a4ab-e3e2aa9b09ae">Fate of All Fools</card>
+    <card qty="2" id="457be9d8-fdd3-4319-86eb-de9d07a5e572">Crypt Chill</card>
+    <card qty="2" id="91a7fccc-8260-413c-b181-48f04ef58b99">Obscuring Fog</card>
+  </section>
+  <section name="Location" shared="True">
+    <card qty="1" id="5653bc0f-b73c-4ca2-a313-124c1095656a">Entry Hall</card>
+    <card qty="1" id="341e554e-33be-4854-948d-d18d16e13069">Victorian Halls</card>
+    <card qty="1" id="f745f7cd-6966-4b8f-bb4a-4beb8a894526">Trophy Room</card>
+    <card qty="1" id="90ced6b1-3bb9-46bc-9c12-203a1ebdb53a">Billiards Room</card>
+    <card qty="1" id="9c6df308-f7d7-4a76-bf2b-d275d9896d8c">Master Bedroom</card>
+    <card qty="1" id="9fa3433b-78f8-41df-9922-cb4458856e7e">Balcony</card>
+    <card qty="1" id="3f197c86-8d95-4e7b-9a25-c61342ca8ca2">Office</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="9686b942-a8cb-46c9-85b3-bd7d6faee40c">Josef Meiger</card>
+  </section>
+  <section name="Second Special" shared="True">
+    <card qty="2" id="9e1a0a3f-b47d-463b-852f-af0b39557984">Realm of Torment</card>
+    <card qty="2" id="31b852a4-8199-4e3e-a062-e0624b954bfa">Shapes in the Mist</card>
+    <card qty="1" id="5c226792-755e-4ad3-b74b-f42864cda61b">The Spectral Watcher</card>
+    <card qty="2" id="6b11ef39-6fc6-4c90-b96b-7f32a6ca8b6b">Watcher's Grasp</card>
+  </section>
+  <section name="Chaos Bag" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="0d050f5f-bfa0-4ac8-8306-7e0d1fe12111">At Death's Doorstep</card>
+    <card qty="1" id="a8ab1079-cfc8-4637-b395-de06fb65fea2">Entry Hall</card>
+    <card qty="1" id="d80da97d-2281-4af0-8723-f7ec5af54d25">Victorian Halls</card>
+    <card qty="1" id="374e8dbf-7870-4ebb-b6ec-a24d662550bf">Trophy Room</card>
+    <card qty="1" id="ceceda9a-2a4b-40ff-b3dc-a23dc10df902">Billiards Room</card>
+    <card qty="1" id="b29e2ca7-412a-4c5c-9b1e-2359f234badb">Master Bedroom</card>
+    <card qty="1" id="6de12c2f-6ac1-44aa-8c40-d9ca3cbdedc0">Balcony</card>
+    <card qty="1" id="2ffeea83-93a0-4f52-8cd6-77e50b87d350">Office</card>
+  </section>
+  <notes><![CDATA[]]></notes>
+</deck>

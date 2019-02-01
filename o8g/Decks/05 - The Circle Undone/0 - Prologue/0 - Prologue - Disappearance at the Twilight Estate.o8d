@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a6d114c7-2e2a-4896-ad8c-0330605c90bf" sleeveid="0">
+  <section name="Investigator" shared="False" />
+  <section name="Special" shared="False" />
+  <section name="Asset" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Skill" shared="False" />
+  <section name="Weakness" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Basic Weaknesses" shared="False" />
+  <section name="Agenda" shared="True">
+    <card qty="1" id="f7c72cae-7302-4832-b1aa-45ed8f3c352c">Judgement . XX</card>
+  </section>
+  <section name="Act" shared="True">
+    <card qty="1" id="c08134db-bfcf-4c9d-b6cb-3becde20e73f">The Disappearance</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="6b11ef39-6fc6-4c90-b96b-7f32a6ca8b6b">Watcher's Grasp</card>
+    <card qty="3" id="f8a088dc-787f-4b12-b4d9-6eb417547745">Terror in the Night</card>
+    <card qty="3" id="39f45715-7bb8-4130-a4ab-e3e2aa9b09ae">Fate of All Fools</card>
+    <card qty="2" id="9e1a0a3f-b47d-463b-852f-af0b39557984">Realm of Torment</card>
+    <card qty="2" id="31b852a4-8199-4e3e-a062-e0624b954bfa">Shapes in the Mist</card>
+    <card qty="1" id="c18ce601-e1d2-44a4-bef2-b1c9a8b9b936">Nether Mist</card>
+    <card qty="2" id="05e23ad4-07c3-496d-9a7a-62c77b536ccb">Shadow Hounds</card>
+    <card qty="2" id="5c62d461-f713-4bd7-bdb4-3cd93a20b25c">Whispers in the Dark</card>
+    <card qty="2" id="57197e20-ec0a-4383-bc8c-6c60a2a37e0b">Wraith</card>
+    <card qty="2" id="2abaf9f5-7308-436e-8c2e-de4aa74df0cf">Trapped Spirits</card>
+    <card qty="2" id="457be9d8-fdd3-4319-86eb-de9d07a5e572">Crypt Chill</card>
+    <card qty="2" id="91a7fccc-8260-413c-b181-48f04ef58b99">Obscuring Fog</card>
+  </section>
+  <section name="Location" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Chaos Bag" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="cfce580e-3060-4162-b1fa-581d511ebb6f">Disappearance at the Twilight Estate</card>
+    <card qty="1" id="341e554e-33be-4854-948d-d18d16e13069">Victorian Halls</card>
+    <card qty="1" id="f745f7cd-6966-4b8f-bb4a-4beb8a894526">Trophy Room</card>
+    <card qty="1" id="90ced6b1-3bb9-46bc-9c12-203a1ebdb53a">Billiards Room</card>
+    <card qty="1" id="9c6df308-f7d7-4a76-bf2b-d275d9896d8c">Master Bedroom</card>
+    <card qty="1" id="9fa3433b-78f8-41df-9922-cb4458856e7e">Balcony</card>
+    <card qty="1" id="3f197c86-8d95-4e7b-9a25-c61342ca8ca2">Office</card>
+    <card qty="1" id="5653bc0f-b73c-4ca2-a313-124c1095656a">Entry Hall</card>
+    <card qty="1" id="5c226792-755e-4ad3-b74b-f42864cda61b">The Spectral Watcher</card>
+  </section>
+  <notes><![CDATA[]]></notes>
+</deck>
