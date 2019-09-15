@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<set xmlns:noNamespaceSchemaLocation="CardSet.xsd" name="The Dream-Eaters" id="156dc3cb-6a38-44a1-972f-a29887b70682" gameId="a6d114c7-2e2a-4896-ad8c-0330605c90bf" gameVersion="1.0.0.0" version="1.0.0.0">
+ <cards>
+  <card id="7d63e326-4667-4c31-ac63-e53a63587a9a" name="Luke Robinson" size="InvestigatorCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Dream-Eaters"/>
+    <property name="Subtitle" value="The Dreamer"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Investigator"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Willpower" value="4"/>
+    <property name="Intellect" value="3"/>
+    <property name="Combat" value="2"/>
+    <property name="Agility" value="3"/>
+    <property name="Health" value="5"/>
+    <property name="Sanity" value="9"/>
+    <property name="Traits" value="Dreamer. Drifter. Wayfarer."/>
+    <alternate name="Luke Robinson" size="InvestigatorCard" type="B">
+      <property name="Encounter Set" value="The Dream-Eaters"/>
+      <property name="Unique" value="*"/>
+      <property name="Type" value="Investigator"/>
+      <property name="Class" value="Mystic"/>
+    </alternate>
+  </card>
+     <card id="a36158e8-cf51-4c68-9c38-b6621b747aba" name="Luke Robinson" size="MiniCard">
+    <property name="Card Number" value=""/>
+    <property name="Quantity" value="1"/>
+    <property name="Type" value="Mini"/>
+    <property name="Class" value="Mystic"/>
+    <alternate name="Luke Robinson" size="MiniCard" type="B">
+      <property name="Type" value="Mini"/>
+    </alternate>
+  </card>
+    <card id="67d6c7ca-4246-4eb2-a35a-7c45b132544a" name="Gate Box">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Dream-Eaters"/>
+    <property name="Unique" value="*"/>
+	<property name="Keywords" value="Permanent."/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Neutral"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Relic."/>
+  </card>
+  <card id="c59a89fa-833b-4471-9e61-51aedb0482aa" name="Dream Gate">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Dream-Eaters"/>
+	<property name="Subtitle" value="Wondrous Journey"/>
+    <property name="Type" value="Location"/>
+    <property name="Cost" value=""/>
+    <property name="Traits" value="Dreamlands."/>
+	<alternate name="Dream Gate" size="EncounterCard" type="B" >
+      <property name="Encounter Set" value="The Dream-Eaters"/>
+	  <property name="Subtitle" value="Pointless Reality"/>
+      <property name="Unique" value=""/>
+      <property name="Type" value="Location"/>
+    </alternate>
+  </card>
+  <card id="c90f9461-951c-4934-9dce-d07c59de00a5" name="Detached from Reality">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Circle Undone"/>
+    <property name="Type" value="Treachery"/>
+    <property name="Subtype" value="Weakness"/>
+    <property name="Traits" value="Madness"/>
+  </card>
+ </cards>  
+</set>
