@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<set xmlns:noNamespaceSchemaLocation="CardSet.xsd" name="Union and Disillusion" id="9c776683-e97f-48ef-911f-645d23897b3d" gameId="a6d114c7-2e2a-4896-ad8c-0330605c90bf" gameVersion="1.0.0.0" version="1.0.0.0">
+ <cards>
+  <card id="75197ee3-51d1-4420-a1d1-390ee58212ef" name="Warning Shot">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Tactic. Trick."/>
+  </card>
+  <card id="bc15b2f4-ba24-44b6-b0a0-310aeb1656dc" name="Telescopic Sight">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Upgrade."/>
+  </card>
+  <card id="89cbd801-ddf7-4d3a-8dff-579e72311059" name="Knowledge is Power">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Insight."/>
+  </card>
+  <card id="42a78aed-9369-449a-9af4-0a471ecb9b78" name="Esoteric Atlas">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="1"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Tome."/>
+  </card>
+  <card id="6429acbe-92bf-4d64-b187-ebc0d3657236" name="Investments">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Connection."/>
+  </card>
+  <card id="52c77882-a8be-42c4-978b-dd73a6ff4651" name="Decoy">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Favor. Service."/>
+  </card>
+  <card id="260cb314-19f0-4f27-8847-0e47f88da5dc" name="De Vermis Mysteriis">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="2"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Item. Tome."/>
+  </card>
+  <card id="f5788635-470a-42ba-a8c1-17cefbdec983" name="Guiding Spirit">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="1"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Ally. Geist."/>
+  </card>
+  <card id="5a80d2c4-7ee8-44a1-b523-c3b529514ad8" name="Fortune or Fate">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="2"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Fortune. Blessed."/>
+  </card>
+  <card id="9aa5fc93-d97e-4764-8bf4-c8a0812a902d" name="Union and Disillusion">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Subtitle" value="Easy / Normal"/>
+    <property name="Type" value="Scenario"/>
+    <alternate name="Union and Disillusion" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Subtitle" value="Hard / Expert"/>
+      <property name="Type" value="Scenario"/>
+    </alternate>
+  </card>
+  <card id="e10005a2-4660-4d2c-a7d1-b6a2481cad8a" name="The Lovers . VI" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="8"/>
+    <alternate name="Stolen Souls" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="b7838ce8-ce9f-4458-ad24-3a0e7550dc99" name="Crossroads of Fate" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="10"/>
+    <alternate name="A Victor Emerges" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="41a8307b-2582-4c01-85ed-c8dcc39a0708" name="The Unvisited Isle" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="The Mist Returns" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="6a9c4f0b-e243-4ea9-88c0-a1fe2ce165d3" name="Fated Souls" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="From the Depths" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="233e6d70-667e-42a0-bd8f-808549c0dd6b" name="Beyond the Mist (v. I)" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Against the Witches" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="00186199-5929-47ff-915f-5e48cc678696" name="Beyond the Mist (v. II)" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Loyalty is Earned" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="bd43034f-7f60-4829-8921-32ea783893ba" name="Beyond the Mist (v. III)" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="True Colors" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="e9a512d8-194a-4030-8ba9-6d66ed8b8a21" name="Beyond the Mist (v. IV)" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Against the Lodge" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="168d0488-59f7-48ab-a063-a77e46a6cbce" name="The Binding Rite" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="4"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Disillusion" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="4"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="ad0ee053-f407-479e-a4fe-397c1c8dc1f1" name="The Broken Rite" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="4"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Union" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="4"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="8c498ca1-e93b-4431-8436-1f53c6d6a327" name="Miskatonic River" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Miskatonic River" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="ef4565f1-c4f9-4e80-9703-ec59c40226b5" name="Forbidding Shore" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Forbidding Shore" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="6b18a0a8-02e7-47a1-a770-ff4dae7a9148" name="Unvisited Isle" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Unvisited Isle" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Subtitle" value="Standing Stones"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="1dd5dd03-e830-439d-b796-a7b2690779a0" name="Unvisited Isle" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Unvisited Isle" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Subtitle" value="Misty Clearing"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="ebcce0b7-9eaa-4b52-add4-055f3bef4609" name="Unvisited Isle" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Unvisited Isle" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Subtitle" value="Forsaken Woods"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="cb389f30-3ad8-4ea2-9f83-1d832393b992" name="Unvisited Isle" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Unvisited Isle" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Subtitle" value="Moss-Covered Steps"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="54bce460-8738-440e-8098-1414a579091d" name="Unvisited Isle" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Unvisited Isle" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Subtitle" value="Haunted Spring"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="555186e1-76bf-4fab-b259-6ce32627b47c" name="Unvisited Isle" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Unvisited Isle" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Subtitle" value="Decayed Willow"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="aed34261-162a-4932-8030-89a40682e6a7" name="The Geist-Trap" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="The Geist-Trap" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="81f140c0-908c-4e2a-ba8b-6873d689545b" name="Gavriella Mizrah">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Ally. Veteran."/>
+  </card>
+  <card id="ab5b243f-7d30-482a-acd7-3c3235a9eb86" name="Jerome Davids">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Ally. Assistant."/>
+  </card>
+  <card id="e3675ff2-bd9d-40bf-83c9-7650b5861ab2" name="Penny White">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Ally. Assistant."/>
+  </card>
+  <card id="b5682e41-1f4c-47c2-b777-203e86020b1e" name="Valentino Rivas">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Ally. Socialite."/>
+  </card>
+  <card id="8ebedfdd-1def-4676-945f-ecf217e1e324" name="Gavriella's Fate">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Story"/>
+    <alternate name="Gavriella Mizrah" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Enemy"/>
+    </alternate>
+  </card>
+  <card id="016a4542-fea7-4cd8-84d7-a21576cecee6" name="Jerome's Fate">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Story"/>
+    <alternate name="Jerome Davids" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Enemy"/>
+    </alternate>
+  </card>
+  <card id="c0b08dd9-efb6-4942-a320-0593d06ba294" name="Penny's Fate">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Story"/>
+    <alternate name="Penny White" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Enemy"/>
+    </alternate>
+  </card>
+  <card id="40a8573d-26e1-48b7-8ead-32b6f3a5a032" name="Valentino's Fate">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Story"/>
+    <alternate name="Valentino Rivas" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Union and Disillusion"/>
+      <property name="Type" value="Enemy"/>
+    </alternate>
+  </card>
+  <card id="aa3cbf5a-a763-4334-85c4-2d7e40539f2d" name="Whippoorwill" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="56b11620-bd2a-43bc-98e8-dcb1e85b0b40" name="Spectral Raven" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="09100df5-5fa9-4f5e-a4d0-79329e93c83d" name="Eager for Death" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="5119451d-8971-45d2-b65c-61eac4e7ed83" name="Psychopomp's Song" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="432099e4-4eb0-4e7d-9d61-1fc5adf60667" name="Death Approaches" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="637bb4f8-f115-4d81-99e4-1e9199089cc4" name="Marked for Death" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="6b1c726f-0aa4-4a7d-9cba-374888239bc1" name="Watcher's Gaze" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Union and Disillusion"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+ </cards>
+</set>

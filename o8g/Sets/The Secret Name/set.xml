@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<set xmlns:noNamespaceSchemaLocation="CardSet.xsd" name="The Secret Name" id="d45e4049-aaa5-4c01-aaac-62e1d32b294c" gameId="a6d114c7-2e2a-4896-ad8c-0330605c90bf" gameVersion="1.0.0.0" version="1.0.0.0">
+ <cards>
+  <card id="66380ca0-ef33-4971-8f75-a1a0af1d2bf6" name="Something Worth Fighting For">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Talent."/>
+  </card>
+  <card id="4b27add2-747c-4816-bc29-b7e4360fd9e8" name="Crack the Case">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Event "/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Insight."/>
+  </card>
+  <card id="2ea6bc11-00db-47ec-a7cc-caee7913e02c" name="Intel Report">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Event "/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Favor. Service."/>
+  </card>
+  <card id="c06d05a0-3b4f-4dcc-9dca-8e952e719390" name="Sign Magick">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Ritual. Talent."/>
+  </card>
+  <card id="b4a81360-e740-4d16-a310-811298e6ad3b" name="Banish">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Event "/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="1"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Spell."/>
+  </card>
+  <card id="5c22aad1-66ec-4943-a4af-6c21c5a0a303" name="Meat Cleaver">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Weapon. Melee."/>
+  </card>
+  <card id="241dd56d-75c2-448c-baad-14458d65441f" name=".45 Thompson">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Guardian. Rogue."/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="6"/>
+    <property name="Traits" value="Item. Weapon. Firearm. Illicit."/>
+  </card>
+  <card id="a6b8856c-4b53-47b8-974b-4f359515729b" name="Scroll of Secrets">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Seeker. Mystic."/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Item. Tome."/>
+  </card>
+  <card id="21c81f02-91a2-415d-985e-4ac3657e9066" name="Tennessee Sour Mash">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Rogue. Survivor."/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Illicit."/>
+  </card>
+  <card id="6f04f194-ef9d-4bf6-a317-23bd0367854f" name="Enchanted Blade">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Guardian. Mystic."/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Relic. Weapon. Melee."/>
+  </card>
+  <card id="5b22bad0-49ac-4b7a-9f48-ed752be67730" name="Grisly Totem.">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Survivor. Seeker."/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Charm."/>
+  </card>
+  <card id="728060d9-02a5-4bf1-82ee-f5c07409b3e1" name="The Secret Name">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Subtitle" value="Easy / Normal"/>
+    <property name="Type" value="Scenario"/>
+    <alternate name="The Secret Name" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Subtitle" value="Hard / Expert"/>
+      <property name="Type" value="Scenario"/>
+    </alternate>
+  </card>
+  <card id="c9980555-c810-4987-9d60-39873893155f" name="The Hermit . IX" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="4"/>
+    <alternate name="Rats in the Walls" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="2bf3e369-47e7-4df6-a203-f591cf159f2a" name="The Familiar" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="6"/>
+    <alternate name="The Crone" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="c325e6b4-e3a9-4e04-8fc7-5c2a741ae0ff" name="The Witch Light" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="8"/>
+    <alternate name="An Awakening" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="f188be55-f279-4ff1-b0ba-6806bb41f92d" name="Marked for Sacrifice" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="4"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="8"/>
+    <alternate name="A Dream in the Witch House" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="4"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="cb51b74d-4df7-4517-a274-3f80879e94d6" name="Investigating the Witch House" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Specter of the Past" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="a2ab668e-9f28-4336-a546-567300a2a742" name="Beyond the Witch House" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="A Profane Ritual" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="7099d24b-1dfd-40c5-904e-65fd05defde6" name="Stopping the Ritual" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Ritual Averted" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="814215cf-e39a-407b-a0dc-26b88a9422a1" name="Moldy Halls" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Moldy Halls" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="4"/>
+      <property name="Clues" value="1pi"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="b1d9a088-be3a-4928-a07c-4d4b41933d82" name="Decrepit Door" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Landlord's Quarters" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="2"/>
+      <property name="Clues" value="1pi"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="47763fcc-7c2c-4bdc-892b-13a9431ce713" name="Decrepit Door" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Joe Mazurewicz's Room" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="3"/>
+      <property name="Clues" value="1pi"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="cc55ba33-88ee-481a-b12a-dec125b72a9d" name="Decrepit Door" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Frank Elwood's Room" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="3"/>
+      <property name="Clues" value="1pi"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="41957540-f4fa-4ea2-94e0-f82e6a81e5ea" name="Walter Gilman's Room" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Walter Gilman's Room" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="4"/>
+      <property name="Clues" value="1pi"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="c7b945e8-2fda-46fd-9a03-3df8093c3c8e" name="Keziah's Room" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Keziah's Room" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="3"/>
+      <property name="Clues" value="0"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="651806bf-055f-4ee5-aee9-e65a1bdf8094" name="Unknown Places" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Moldy Halls" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="2"/>
+      <property name="Clues" value="0"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="b5018cbc-f15c-4627-8e4b-2a47f08fe59f" name="Unknown Places" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Twilight Abyss" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="2"/>
+      <property name="Clues" value="2pi"/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="66c113ac-01fc-4d3f-b5c9-a6f6861b9c40" name="Unknown Places" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="City of the Elder Things" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="3"/>
+      <property name="Clues" value="2pi"/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="a7afe427-60cb-4820-aacc-45e17f341d48" name="Unknown Places" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="With House Ruins" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="2"/>
+      <property name="Clues" value="0"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="9911ed42-9da6-42cd-af34-873dd4eea59a" name="Unknown Places" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Salem Gaol. 1692" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="3"/>
+      <property name="Clues" value="1pi"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="cc8af128-6626-4979-93c0-6099d8a73f3d" name="Unknown Places" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Physics Classroom" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="4"/>
+      <property name="Clues" value="1pi"/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="04924ccc-859b-4b58-bc0e-ef019a2e7a25" name="Unknown Places" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Court of the Great Ones" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="3"/>
+      <property name="Clues" value="2pi"/>
+      <property name="Doom" value=""/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="59f73ffb-b60b-4363-85fb-a308df71cec7" name="Site of the Sacrifice" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Site of the Sacrifice" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Secret Name"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value="4"/>
+      <property name="Clues" value="3pi"/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="10731bf1-8538-412d-8cf2-1ee83471f564" name="Strange Geometry" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+  </card>
+  <card id="0d13b249-89ea-46d6-b21e-3de1b8df655d" name="Meddlesome Familiar" size="EncounterCard">
+    <property name="Quantity" value="3"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="7ce1da01-9c87-45eb-a309-ba3dced9e98a" name="Ghostly Presence" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="999242cb-5037-42bf-8724-003b45c061da" name="Extradimensional Visions" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="ccbcfcdd-3f5f-4852-b132-0517f08f6604" name="Pulled by the Stars" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="c74d71a7-104f-476f-b995-0a2a69be7956" name="Disquieting Dreams" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="c2a5b8af-fff2-4b9d-813a-2b82ecb110cc" name="Brown Jenkin" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="3d78e7fc-59db-4bdd-98c8-e90238692c2b" name="Nahab" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="f1543090-fe94-4c06-8637-c15d6b008466" name="The Black Book">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Secret Name"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+  </card>
+ </cards>
+</set>

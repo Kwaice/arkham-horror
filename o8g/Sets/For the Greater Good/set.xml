@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<set xmlns:noNamespaceSchemaLocation="CardSet.xsd" name="For the Greater Good" id="5181dc10-95b9-449c-b9ba-947a79f73fca" gameId="a6d114c7-2e2a-4896-ad8c-0330605c90bf" gameVersion="1.0.0.0" version="1.0.0.0">
+ <cards>
+  <card id="c5ef4b1c-d0ec-48c8-823e-30dacae444bc" name=".45 Thompson">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="6"/>
+    <property name="Traits" value="Item. Weapon. Firearm. Illicit."/>
+  </card>
+  <card id="bcab997c-b4e0-47fd-939d-58df6125b16c" name=".45 Thompson">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="5"/>
+    <property name="Traits" value="Item. Weapon. Firearm. Illicit."/>
+  </card>
+  <card id="8018de4a-437b-4f6d-8e89-a56f71e2e548" name="Scroll of Secrets">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Item. Tome."/>
+  </card>
+  <card id="e5d6783c-d8ea-43ce-b3f1-f762eb2a39ff" name="Scroll of Secrets">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Item. Tome."/>
+  </card>
+  <card id="2cab8cfa-5a47-4d51-b691-0ede2f417d83" name="Tennessee Sour Mash">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Illicit."/>
+  </card>
+  <card id="1c1c62f3-024c-4e15-ae8e-addcd99dc8ad" name="Tennessee Sour Mash">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Item. Illicit."/>
+  </card>
+  <card id="db4750a6-a7b9-43a0-9696-3244a7fefd62" name="Enchanted Blade">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Relic. Weapon. Melee."/>
+  </card>
+  <card id="4cb4b4da-c137-4805-9b09-fcf09dcf46ad" name="Enchanted Blade">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Relic. Weapon. Melee."/>
+  </card>
+  <card id="d873f49a-47e9-470a-b1ed-1974bc60d19f" name="Grisly Totem">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Item. Charm. Cursed."/>
+  </card>
+  <card id="c5ad29a6-698e-43a8-a3f8-c37ac834c41b" name="Grisly Totem">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Item. Charm. Blessed."/>
+  </card>
+  <card id="fc657d4a-9685-4a61-b3d1-ff4c86f6cbba" name="The Council's Coffer">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Neutral"/>
+    <property name="Level" value="2"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Item. Relic."/>
+  </card>
+  <card id="1fd4b696-ec76-4037-a4f0-6674db5ba1ab" name="For The Greater Good">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Subtitle" value="Easy / Normal"/>
+    <property name="Type" value="Scenario"/>
+    <alternate name="For The Greater Good" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Subtitle" value="Hard / Expert"/>
+      <property name="Type" value="Scenario"/>
+    </alternate>
+  </card>
+  <card id="7bc3c198-545f-4b8a-b7b1-f8d6185f8b9b" name="The Hierophant . V" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value=""/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="8"/>
+    <alternate name="Meeting of Minds" size="HorizCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value=""/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="167343e3-8b53-4e31-b267-9d554fbabf2f" name="Ends and Means" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value=""/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="10"/>
+	<property name="Text" value="Each Silver Twilight enemy in a Sanctum location loses aloof.
+Forced – When you defeat a Silver Twilight enemy: You leave behind some evidence of the scuffle. Move 1 doom from each enemy at that location to the current agenda."/>
+    <alternate name="The Greater Good" size="HorizCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value=""/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="f7f86acc-40ea-41b2-a249-b2049171cc1c" name="Warm Welcome" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value=""/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="The Initiation" size="HorizCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value=""/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="6a0d7d0f-4622-42a2-925e-fe27d05d9250" name="Infiltrating the Lodge" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value=""/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="The Indoctrination" size="HorizCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value=""/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="086c4244-8586-4a22-a807-847e4dbfbb53" name="Obtaining the Device" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value=""/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="The Puzzle Box" size="HorizCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value=""/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="a79e9c32-0944-4761-8ac3-2bb7f75c0083" name="The Four Keys" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value=""/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Opening the Box" size="HorizCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value=""/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="d1da53ac-2614-4c4b-92f3-352c1810b048" name="Lodge Gates" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lodge Gates" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Subtitle" value="We've Been Expecting You"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="d556cece-72fa-4b09-bfa3-10b7808cfe5e" name="Lodge Gates" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Subtitle" value="Members Only"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lodge Gates" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Subtitle" value="Members Only"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="62fc5c64-f421-4d86-89bd-11755e4e169f" name="Lobby" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lobby" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Subtitle" value="We've Been Expecting You"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="b02d089e-44af-4ffa-837f-88022320e514" name="Lobby " size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Subtitle" value="Members Only"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lobby " size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Subtitle" value="Members Only"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="ef959cca-775f-4c50-bc62-ea2716cb4028" name="Lodge Cellar" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lodge Cellar" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="d3fa89f4-efc7-48da-9e88-5cc050c3c7ca" name="Lodge Cellar" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lodge Cellar" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="730c5f69-62fa-4ceb-a019-9576599c108a" name="Lounge" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lounge" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="f60e1cb4-4698-44a1-80a1-2bce95e5ae8a" name="Vault" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Vault" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="8a88ea36-d8ac-4119-82a1-5d8f0f27a9a6" name="Library" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Library " size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="bdf4d0cc-aa25-4646-aa55-f77c8383f03c" name="Lodge Catacombs" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Lodge Catacombs" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="96f26933-2d90-453f-b38b-7d46ca384555" name="Sanctum Doorway" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Ceremony Room" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="51992820-d2cc-4d87-8a06-e5251c760fd3" name="Sanctum Doorway" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Holding Cells" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="1636fc2e-b319-4ea5-8d26-957c4fbddf73" name="Inner Sanctum" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Inner Sanctum" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="ebeb1e0f-dc1f-48b1-bb50-bb6d141c098d" name="Nathan Wick" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Victory Points" value="1"/>
+    <alternate name="Nathan Wick" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="For The Greater Good"/>
+      <property name="Unique" value="*"/>
+      <property name="Type" value="Enemy"/>
+      <property name="Victory Points" value="1"/>
+    </alternate>
+  </card>
+  <card id="2f0eed58-9c7b-4d52-a270-a3754833b1bc" name="Lodge Jailor" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="ce0a1234-0336-4043-af96-51a485c3b5b0" name="Cell Keeper" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="405a3a6f-0caa-4f94-a90f-73f57e86f2a2" name="Summoned Beast" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Victory Points" value="2"/>
+  </card>
+  <card id="7cdfe052-6b62-4fd0-a9af-d8b17fbd7312" name="Knight of the Inner Circle" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="69e17b43-2aa8-448b-8bf9-9020f4c4743e" name="Knight of the Outer Void" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="9d69f9f7-7ce3-40e8-9756-26c87122c49b" name="Call to Order" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="21673d4b-6e20-4580-9faa-10dee3ab9a6f" name="Expulsion" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="05d6881c-55ba-42ab-be19-09876a90df22" name="Beneath the Lodge" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="fedaa96c-254e-461a-a56d-4ed85c34116d" name="Mark of the Order" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="6d6bf48f-2f36-42b8-9e93-6933f21739a3" name="August Lindquist">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+  </card>
+  <card id="86ec0d12-6adc-4e32-9268-4d7294864169" name="Puzzle Box">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="For The Greater Good"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Cost" value="0"/>
+  </card>
+ </cards>
+</set>

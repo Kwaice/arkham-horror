@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<set xmlns:noNamespaceSchemaLocation="CardSet.xsd" name="The Wage of Sin" id="73d8d78e-86b8-4643-a64b-1c90c9716a98" gameId="a6d114c7-2e2a-4896-ad8c-0330605c90bf" gameVersion="1.0.0.0" version="1.0.0.0">
+ <cards>
+  <card id="1a6cb2f4-17b5-476b-9d8a-7136e2d8149e" name="Alice Luxley">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="4"/>
+    <property name="Traits" value="Ally. Detective. Police."/>
+  </card>
+  <card id="f589b339-0538-4352-83eb-ec096ab9d389" name="Well-Maintained">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="1"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Upgrade."/>
+  </card>
+  <card id="5be0335d-4d87-481a-8471-e360a7888d77" name="Mr. &quot;Rook&quot;">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Ally."/>
+  </card>
+  <card id="c91fbe51-d723-4d5b-825e-687ec617e9f8" name="Hawk-Eye Folding Camera">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Item. Tool."/>
+  </card>
+  <card id="cee0726f-2fc0-461f-8fd7-22ff0c81596c" name="Henry Wan">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Ally. Criminal."/>
+  </card>
+  <card id="60eee045-b2c0-466d-8bbd-8a0bc4787bbf" name="Swift Reflexes">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Gambit."/>
+  </card>
+  <card id="0c74d397-3a60-4f06-8f9b-78dedf832973" name="Wither">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Spell."/>
+  </card>
+  <card id="bbe58fd5-ec1d-4a47-a96b-27597f2b9c7c" name="Sixth Sense">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Spell."/>
+  </card>
+  <card id="54b1c360-be07-481b-80e0-e2abc4f65fa9" name="Drawing Thin">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Talent."/>
+  </card>
+  <card id="304c3251-db70-4994-ae34-14641d7be79b" name="Belly of the Beast">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Gambit. Trick."/>
+  </card>
+  <card id="fc36d533-b139-43b4-b8d6-760b80a33c54" name="The Wages of Sin">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Subtitle" value="Easy / Normal"/>
+    <property name="Type" value="Scenario"/>
+    <alternate name="The Wages of Sin" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Subtitle" value="Hard / Expert"/>
+      <property name="Type" value="Scenario"/>
+    </alternate>
+  </card>
+  <card id="15386e42-d3d2-4f07-9f6d-c41b13449c55" name="The Hanged Man . XII" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="8"/>
+    <alternate name="Death's Descent" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="fe7416d2-d59d-45f5-a67a-4ce897bd985b" name="Death's Approach" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="7"/>
+    <alternate name="Death's Embrace" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="0609b294-99d4-4981-a0fd-476c4550c8d7" name="In Pursuit of the Dead" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="The Barrier Between" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="e822b498-d0d8-4aa1-8fd4-9f2260ce9154" name="In Pursuit of the Living" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Was it Worth it ?" size="HorizCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="f3af9e50-a7d5-459d-a28f-5bb04790175b" name="Hangman's Brook" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="4"/>
+    <property name="Clues" value="1pi"/>
+    <property name="Doom" value=""/>
+    <alternate name="Hangman's Brook" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="3a5acd7d-54c1-4195-a82c-475b7b11b474" name="Haunted Fields" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="3"/>
+    <property name="Clues" value="2pi"/>
+    <property name="Doom" value=""/>
+    <property name="Victory Points" value="1"/>
+    <alternate name="Haunted Fields" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="964b95c8-bcf1-47c1-b95f-914e2e2ff800" name="Abandoned Chapel" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="2"/>
+    <property name="Clues" value="2pi"/>
+    <property name="Doom" value=""/>
+    <property name="Victory Points" value="1"/>
+    <alternate name="Abandoned Chapel" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="fa5967a6-b29c-44cb-8216-a38c337c267b" name="The Gallows" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="3"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="The Gallows" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="0fa97632-f538-4c68-8d78-57e377d26a51" name="The Gallows" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="X"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="The Gallows" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="b96cf0dc-22ce-42dc-ad5e-9342cd4ab896" name="Heretic's Graves" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="7"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="Heretic's Graves" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="6870bc7f-cbc5-47a6-8e23-1a2d29283a7f" name="Heretic's Graves" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="4"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="Heretic's Graves" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="cc47fbf8-76ad-40b1-93b7-0d00a22dfc38" name="Chapel Crypt" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="6"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="Chapel Crypt" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="7c1c07eb-4282-43c6-acfe-9eede395d348" name="Chapel Crypt" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="6"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="Chapel Crypt" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="c83eb089-48af-4bc0-a0d8-ea7ae0091116" name="Chapel Attic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="4"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="Chapel Attic" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="a7eafd3b-5c71-44a6-b465-00c48afa7939" name="Chapel Attic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value="8"/>
+    <property name="Clues" value="0"/>
+    <property name="Doom" value=""/>
+    <alternate name="Chapel Attic" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="d6b87cb6-c78e-4ab3-99e1-e64f9697ff7c" name="Spectral Web">
+    <property name="Quantity" value="4"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Neutral"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Spell."/>
+  </card>
+  <card id="3d120551-9daf-43f2-b97a-ba345c1921b0" name="Heretic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Monster. Geist. Witch. Spectral. Elite."/>
+    <alternate name="Heretic" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+    </alternate>
+  </card>
+  <card id="b0fe0df5-cd4b-49c5-8f0f-3a7ea685aede" name="Heretic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Monster. Geist. Witch. Spectral. Elite."/>
+    <alternate name="Heretic" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+    </alternate>
+  </card>
+  <card id="e121a259-e65a-4040-ba07-b363115be112" name="Heretic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Monster. Geist. Witch. Spectral. Elite."/>
+    <alternate name="Heretic" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+    </alternate>
+  </card>
+  <card id="a016884a-b059-40dc-b878-4b63619f362c" name="Heretic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Monster. Geist. Witch. Spectral. Elite."/>
+    <alternate name="Heretic" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+    </alternate>
+  </card>
+  <card id="42cf4cd6-471e-454c-b0dc-1205bed68428" name="Heretic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Monster. Geist. Witch. Spectral. Elite."/>
+    <alternate name="Heretic" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+    </alternate>
+  </card>
+  <card id="41dbe647-a61b-47a8-a0cb-c3a33fe9221b" name="Vengeful Witch" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Humanoid. Witch."/>
+  </card>
+  <card id="229b9e7a-f135-4912-9f6f-cd22369667f2" name="Malevolent Spirit" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Monster. Geist. Spectral."/>
+  </card>
+  <card id="e822743d-6f9a-40e7-a3b2-dcb17a90638e" name="Punishment" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Treachery"/>
+    <property name="Traits" value="Hex."/>
+  </card>
+  <card id="6026970e-ccaa-4033-9421-f0665cc91c60" name="Burdens of the Past" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Treachery"/>
+    <property name="Traits" value="Curse. Spectral."/>
+  </card>
+  <card id="33e6e039-c27e-45d5-b476-a32acb87bdde" name="Ominous Potent" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Treachery"/>
+    <property name="Traits" value="Omen."/>
+  </card>
+  <card id="93a7c40a-c813-4881-b4ee-0d1d0b915443" name="Grave-Light" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Treachery"/>
+    <property name="Traits" value="Curse."/>
+  </card>
+  <card id="d59c5afe-283d-4001-9422-656c60d674b9" name="Bane of the Living" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Treachery"/>
+    <property name="Traits" value="Curse. Spectral."/>
+  </card>
+  <card id="73caafdf-7895-4648-8d88-fb6793361a3b" name="Heretic" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="The Wages of Sin"/>
+    <property name="Type" value="Enemy"/>
+    <property name="Traits" value="Monster. Geist. Witch. Spectral. Elite."/>
+    <alternate name="Heretic" type="B">
+      <property name="Encounter Set" value="The Wages of Sin"/>
+    </alternate>
+  </card>
+ </cards>
+</set>

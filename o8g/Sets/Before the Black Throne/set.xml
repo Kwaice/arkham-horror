@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<set xmlns:noNamespaceSchemaLocation="CardSet.xsd" name="Before the Black Throne" id="c5815126-dca7-478c-a59f-7c18d5a6f317" gameId="a6d114c7-2e2a-4896-ad8c-0330605c90bf" gameVersion="1.0.0.0" version="1.0.0.0">
+ <cards>
+  <card id="4af2d499-b014-4c23-9d61-13e172e74ae1" name="Hallowed Mirror">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Item. Relic. Occult. Blessed."/>
+  </card>
+  <card id="f1343caf-7cd5-43f2-bcd7-42c7f6d8b0ee" name="Soothing Melody">
+    <property name="Quantity" value="3"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Spell."/>
+    <property name="Keywords" value="Bonded."/>
+  </card>
+  <card id="2715816d-1890-439b-815f-7fbbecc61e25" name="&quot;I've had worse…&quot;">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Guardian"/>
+    <property name="Level" value="2"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Spirit."/>
+  </card>
+  <card id="b16b949c-6abf-4f59-8675-c4d31b1f5252" name="Occult Lexicon">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Item. Tome. Occult."/>
+  </card>
+  <card id="a80813c1-ef5b-4e02-91c3-5a4e5eb3874b" name="Blood-Rite">
+    <property name="Quantity" value="3"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Spell."/>
+  </card>
+  <card id="e170d325-bf0e-4aea-a6d4-e1d67a2da566" name="Glimpse the Unthinkable">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Seeker"/>
+    <property name="Level" value="5"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Insight."/>
+  </card>
+  <card id="33ce62b4-3f8c-4880-a99f-aef3cfedcb99" name="&quot;You owe me one!&quot;">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="0"/>
+    <property name="Cost" value="0"/>
+    <property name="Traits" value="Favor. Gambit."/>
+  </card>
+  <card id="f491e2e3-85fa-43a2-808c-c88cf9081f73" name="Double, Double">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Rogue"/>
+    <property name="Level" value="4"/>
+    <property name="Cost" value="4"/>
+    <property name="Traits" value="Ritual."/>
+    <property name="Keywords" value="Exceptional."/>
+  </card>
+  <card id="e5deae6a-6d68-4fcc-ba98-981a0fe8d0c9" name="Wither">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="4"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Spell."/>
+  </card>
+  <card id="ff11d96e-d2f3-4906-831c-ffed4197323d" name="Sixth Sense">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Asset"/>
+    <property name="Class" value="Mystic"/>
+    <property name="Level" value="4"/>
+    <property name="Cost" value="3"/>
+    <property name="Traits" value="Spell."/>
+  </card>
+  <card id="a2ecbeb0-0713-4901-be09-c23fd2b3957c" name="Lure">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="2"/>
+    <property name="Cost" value="1"/>
+    <property name="Traits" value="Trick."/>
+  </card>
+  <card id="3cafb7c1-06a6-46a9-9c73-a72d2213561c" name="Eucatastrophe">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Event"/>
+    <property name="Class" value="Survivor"/>
+    <property name="Level" value="3"/>
+    <property name="Cost" value="2"/>
+    <property name="Traits" value="Fortune. Blessed."/>
+  </card>
+  <card id="5988f434-232e-4f1f-8b9b-120cb681ee67" name="Before the Black Throne">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Subtitle" value="Easy / Standard"/>
+    <property name="Type" value="Scenario"/>
+    <alternate name="Before the Black Throne" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Subtitle" value="Hard Expert"/>
+      <property name="Type" value="Scenario"/>
+    </alternate>
+  </card>
+  <card id="c2cce665-126b-44ef-83ef-634183963c6c" name="Wheel of Fortune . X" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="4"/>
+    <alternate name="Rejoice, For the End is Near!" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="17b03690-d0ba-474c-8164-4be3010507f7" name="It Awaits" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="6"/>
+    <alternate name="Gnawing Hungrily" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="0b74bf5c-6e6e-49a5-9449-96071ff5f233" name="The Final Countdown" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Agenda"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value="8"/>
+    <alternate name="Azathoth Stirs…" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Agenda"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="70555a22-7965-4c3c-bd80-bf41690b282e" name="The Cosmos Beckons" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="1"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Palace of the Old Ones" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="1"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="c5aff074-9ab7-4270-bd91-575aa0912db8" name="In Azathoth's Domain" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="2"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="Nucleus of the Universe" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="2"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="f2c384cc-6459-4d6b-b2d8-3ca690633a8d" name="What Must Be Done" size="HorizCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Act"/>
+    <property name="Level" value="3"/>
+    <property name="Subtype" value="a"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <alternate name="The End" size="HorizCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Act"/>
+      <property name="Level" value="3"/>
+      <property name="Subtype" value="b"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+    </alternate>
+  </card>
+  <card id="3a9b25f4-e301-4177-b433-60d950431ede" name="Cosmic Ingress" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Cosmic Ingress" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld."/>
+    </alternate>
+  </card>
+  <card id="a415ae65-164b-4491-be98-82e8206af4d0" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Hideous Palace" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld."/>
+    </alternate>
+  </card>
+  <card id="32ebcd86-dfbf-4ea2-ba67-bcfceb4e345e" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Court of the Great Old Ones" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld."/>
+    </alternate>
+  </card>
+  <card id="323461bc-869b-4cb7-808d-b99232905694" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="The Black Throne" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld."/>
+    </alternate>
+  </card>
+  <card id="d16b62f3-dd5c-4819-bafd-1cdea0ee8d87" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Dancer's Mist" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld. Void."/>
+    </alternate>
+  </card>
+  <card id="da6b3b30-c4cc-4cc2-88f1-e670956a6d21" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Flight into Oblivion" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld. Void."/>
+    </alternate>
+  </card>
+  <card id="28cfb6c3-8d99-4fb9-80fa-4b09e5b0d963" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Infinity of Darkness" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld. Void."/>
+    </alternate>
+  </card>
+  <card id="0e64f49a-52b1-48d0-a1e8-6cc1c0e6e00b" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Cosmic Gate" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld. Void."/>
+    </alternate>
+  </card>
+  <card id="f3d2963d-3254-43f8-9e2d-70cb9d32ef27" name="Cosmos" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Location"/>
+    <property name="Shroud" value=""/>
+    <property name="Clues" value=""/>
+    <property name="Doom" value=""/>
+    <property name="Traits" value="Otherworld"/>
+    <alternate name="Pathway into Void" size="EncounterCard" type="B">
+      <property name="Encounter Set" value="Before the Black Throne"/>
+      <property name="Type" value="Location"/>
+      <property name="Shroud" value=""/>
+      <property name="Clues" value=""/>
+      <property name="Doom" value=""/>
+      <property name="Traits" value="Otherworld. Void."/>
+    </alternate>
+  </card>
+  <card id="dbfe61cc-d512-4504-9a95-bfdb02f35740" name="Mindless Dancer" size="EncounterCard">
+    <property name="Quantity" value="3"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+  <card id="e3b31099-83a9-4733-92cf-75f67e2ee67c" name="Ultimate Chaos" size="EncounterCard">
+    <property name="Quantity" value="3"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="90a15d11-689d-45e0-b0be-29402ffb497c" name="Whispered Bargain" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="fb0a0f2f-af34-4352-98fc-e065d5d93ef8" name="The End is Nigh!" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="02f3f102-5b5e-42c9-af29-7eaf29e7ddee" name="A World of Darkness" size="EncounterCard">
+    <property name="Quantity" value="2"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Type" value="Treachery"/>
+  </card>
+  <card id="5bfbe8e0-d176-4fc7-812d-af437b87b5b6" name="Azathoth" size="EncounterCard">
+    <property name="Quantity" value="1"/>
+    <property name="Encounter Set" value="Before the Black Throne"/>
+    <property name="Unique" value="*"/>
+    <property name="Type" value="Enemy"/>
+  </card>
+ </cards>
+</set>
