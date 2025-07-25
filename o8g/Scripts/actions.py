@@ -19,6 +19,8 @@ Zero = ("Zero", "605c41ac-98f0-4475-a86d-d58847b1f19b")
 CurseID = '81df3f18-e341-401d-a6bb-528940a9c39e'
 BlessID = '360db0ee-c362-4bbe-9554-b1fbf101d9ab'
 
+boost_lookup = {'Eye of Ghatanothoa': ('Willpower', [2]),'Four of Cups': ('Willpower', [1]),'Dr. Francis Morgan': (('Combat', [None])), "St. Hubert's Key": (('Willpower', [0]), ('Intellect', [0])), 'Peter Sylvestre': (('Willpower', [2]), ('Agility', [0, 2])), 'Holy Rosary': (('Willpower', [0, 2]),), 'Brother Xavier': (('Willpower', [1]),), 'Crystal Pendulum': (('Willpower', [0]),), 'Crystalline Elder Sign': (('Willpower', [3]), ('Agility', [3]), ('Combat', [3]), ('Intellect', [3])), 'The Codex of Ages': (('Willpower', None),), 'Granny Orne': (('Willpower', [0, 3]), ('Intellect', [3])), 'Plucky': (('Willpower', [3]), ('Intellect', [3])), 'Moxie': (('Willpower', [3]), ('Agility', [3])), "Alton O'Connell": (('Agility', [0]),), 'Cat Burglar': (('Agility', [1]),), 'Combat Training': (('Agility', [3]), ('Combat', [3])), 'Track Shoes': (('Agility', [0]),), 'The Moon · XVIII': (('Agility', [1]),), "Delilah O'Rourke": (('Agility', [3]), ('Combat', [3])), 'Robert Castaigne': (('Combat', [0, 4]),), 'Dr. Francis Morgan': (('Combat', [None]),), 'Lonnie Ritter': (('Combat', [0]),), 'Ace of Swords': (('Combat', [1]),), 'Beat Cop': (('Combat', [0, 2]),), 'Grete Wagner': (('Combat', [0, 3]), ('Intellect', [3])), 'Jessica Hyde': (('Combat', [1]),), 'Archibald MacVeigh': (('Intellect', [5]),), 'Lawrence Carlisle': (('Intellect', [0]),), 'Gabriel Carillo': (('Intellect', [1]),), 'Alice Luxley': (('Intellect', [0, 2]),), 'Alyssa Graham': (('Intellect', [0]),), 'Death XIII': (('Intellect', [1]),), 'Dr. Milan Christopher': (('Intellect', [0]),), 'Field Agent': (('Intellect', [2]),)}
+
 BoardWidth = 1100
 Spacing = 92
 InvestigatorSpacing = 10
@@ -93,7 +95,7 @@ def phasePassed(args):
     mute()
     thisPhase = currentPhase()
     newPhase = thisPhase[1]
-    
+   
     if newPhase == 1:
         phase = "Myth"
         if turnNumber() != 1 and getGlobalVariable("allowMythosPhase") == "True":
@@ -114,12 +116,14 @@ def phasePassed(args):
         phase = "Upkeep"
         remoteCall(me, "doUpkeepPhase", [False])
         setGlobalVariable("allowUpkeepPhase", "False")
-
+        
     saveTable(phase)
 
 def turnPassed(args):
+
     setGlobalVariable("allowMythosPhase", "True")
     setGlobalVariable("allowUpkeepPhase", "True")
+    
     
     if turnNumber() == 1:
         setPhase(2)
@@ -131,12 +135,12 @@ def advancePhase(group = None, x = 0, y = 0):
     if turnNumber() == 0:
         me.setActive()
         for c in table:
-            if InvestigatorName(c.controller) == "Norman Withers":
-                if not c.controller.deck.top().isFaceUp:
-                    flipcard(c.controller.deck.top())
-                    if c.controller.deck.top().Name == "The Harbinger":
-                        if not deckLocked(c.controller):
-                            toggleLock(c.controller.deck)
+            if InvestigatorName(c.owner) == "Norman Withers":
+                if not c.owner.deck.top().isFaceUp:
+                    flipcard(c.owner.deck.top())
+                    if c.owner.deck.top().Name == "The Harbinger":
+                        if not deckLocked(c.owner):
+                            toggleLock(c.owner.deck)
                 break
     else:
         thisPhase = currentPhase()
@@ -169,7 +173,7 @@ def moveCard(model, x, y):
 def firstInvestigator(player):
     first = None
     for h in table:
-        if h.controller == player and h.Type == "Investigator" and h.isFaceUp:
+        if h.owner == player and h.Type == "Investigator" and h.isFaceUp:
             if first is None:
                 first = h
             else:
@@ -195,7 +199,7 @@ def countInvestigators():
 #Work out if the player is still in the game (threat < 50 and has heroes on the table)
 def inGame(p):
     for card in table:
-        if card.Type == "Mini" and card.controller == p:
+        if card.Type == "Mini" and card.owner == p:
             return True
 
 def cardDoubleClicked(args):
@@ -258,6 +262,17 @@ def overlaps(x1, y1, x2, y2, w1, h1, w2 = 0, h2 = 0):
     if int(x1) + int(w1) >= int(x2) and int(x1) <= int(x2) and int(y1) >= int(y2) and int(y1) <= int(y2) + int(h2): return True
     if int(x1) >= int(x2) and int(x1) <= int(x2) + int(w2) and int(y1) + int(h1) >= int(y2) and int(y1) <= int(y2): return True
     if int(x1) + int(w1) >= int(x2) and int(x1) <= int(x2) and int(y1) + int(h1) >= int(y2) and int(y1) <= int(y2): return True
+    return False
+
+def cardoverlaps(card1,card2):
+    x1,y1 = card1.position
+    x2,y2 = card2.position
+    w1 = card1.width
+    h1 = card1.height
+    if overlaps(x1,y1,x2,y2,w1,h1):
+        if (x1,y1) == (x2,y2):
+            return False
+        else: return True
     return False
 
 def overlapPartialCard(x, y):
@@ -367,19 +382,22 @@ def setupDeck():
     return shared.piles['Setup']
 
 def isPlayerCard(card):
-    return card.controller in getPlayers()
+    return ((card.Subtype in ["Weakness", "Basic Weakness"]) or (card.Type in ["Asset","Event","Skill","Mini","Investigator"])) and card.Class != "Mythos"
 
 def isLocationCard(card):
-    return card.Type == 'Location'
+    return card.Type == 'Location' and card.Traits != "Otherworld. Extradimensional."
 
 def isChaosToken(card):
     return card.Type == 'Chaos Token'
 
 def isEncounterCard(card):
-	return (card.Type == 'Enemy' or card.Type == 'Treachery') and card.Subtype not in ["Weakness", "Basic Weakness"]
+	return ((card.Type == 'Enemy' or card.Type == 'Treachery') and card.Subtype not in ["Weakness", "Basic Weakness"])
 
 def isPath(card):
     return card.Type == 'Path'
+
+def isConcealed(card):
+    return card.Type == "Mini" and card.alternateProperty("", "Name") == "Concealed Card"
     
 #------------------------------------------------------------
 # Global variable manipulations function
@@ -466,7 +484,8 @@ def unlockDeck():
 
 #Triggered event OnGameStart
 def startOfGame():
-    global AmandaCard
+    global HunchCard, AmandaCard 
+    HunchCard = None
     AmandaCard = None
     unlockDeck()
     setActivePlayer(None)   
@@ -487,41 +506,64 @@ def release(args):
         if len(args.cards) == 1:
             card = args.cards[0]
             marker = eval(args.markers[0])
-            if card.controller == me:
+            if card.owner == me:
                 if Bless in marker:
                     for _ in range(marker[Bless]):
                         addBless()
-                if Curse in marker:
+                elif Curse in marker:
                     for _ in range(marker[Curse]):
                         addCurse()
-                if Zero in marker:
+                elif Zero in marker:
                     for _ in range(marker[Zero]):
-                        createChaosTokenInBag('35137ccc-db2b-4fdd-b0a8-a5d91f453a43')
-                    notify("{} releases {} 0 tokens.".format(card.controller, marker[Zero]))
-                card.Subtype = ""
+                        chaosBag().create('35137ccc-db2b-4fdd-b0a8-a5d91f453a43', quantity = 1)
+                    notify("{} releases {} 0 tokens.".format(card.owner, marker[Zero]))
                 if card._id in attached: # if card is a host card, deletes all dict entries
                     del(attached[card._id])
                 elif isAttached(card._id): # if it is attached
                     detachCard(card)
 
+def setUpgrades(card, x=0, y=0):
+    mute()
+    bondedUpgrade = [c for c in card.owner.piles['Sideboard'] if c.Name == card.Name and c.Type == "Upgrades"]
+    if bondedUpgrade:
+        upgrade = bondedUpgrade[0]
+        match = re.findall(r'□+\s(.*?)\.\s(.*?)\.(?:&#10;)?', upgrade.Text)
+        choice_list = []
+        color_list = []
+        for m in match:
+            choice_list.append(str(m[0]))
+            color_list.append(InvestigatorColor(card.owner))
+        choice_list.append("Done")
+        color_list.append("#999999")
+        while True:
+            choice = askChoice("Choose upgrades", choice_list, color_list)
+            if choice != 0 and choice != len(choice_list):
+                choice_list.pop(choice -1)
+                color_list.pop(choice -1)
+                card.properties["Name"] = card.properties["Name"] + "&#10;" + match[choice - 1][1]
+                notify("{} {}".format(match[choice - 1][1], card.properties["Name"]))
+            else:
+                break
+
+
 def normanDeck(args):
     mute()
     card = args.cards[0] # card being moved
-    if InvestigatorName(card.controller) == "Norman Withers" and turnNumber() > 0 and card.controller == me: # if card being moved belongs to Norman's player
+    if InvestigatorName(me) == "Norman Withers" and turnNumber() > 0 and card.owner == me: # if card being moved belongs to Norman's player
         if card.Name == "The Harbinger":
-            if args.fromGroups[0] == card.controller.deck and card.controller.getGlobalVariable("deckLocked") == "1": # Unlocks the deck if HB leaves it for any reason
-                toggleLock(card.controller.deck)
-        if args.fromGroups[0] == card.controller.deck or args.toGroups[0] == card.controller.deck:
-            if not(len(card.controller.deck)):
+            if args.fromGroups[0] == card.owner.deck and card.owner.getGlobalVariable("deckLocked") == "1": # Unlocks the deck if HB leaves it for any reason
+                toggleLock(card.owner.deck)
+        if args.fromGroups[0] == card.owner.deck or args.toGroups[0] == card.owner.deck:
+            if not(len(card.owner.deck)):
                 return
-            if len(card.controller.deck) >= 2:
-                if card.controller.deck[1].isFaceUp: # checks if second top is face up and turns it down if so
-                    flipcard(card.controller.deck[1])
-            if not card.controller.deck.top().isFaceUp: # Flips first card of the deck faceup
-                flipcard(card.controller.deck.top())
-            if card.controller.deck.top().Name == "The Harbinger": # Locks deck if it is the Harbinger
-                if card.controller.getGlobalVariable("deckLocked") == "0":
-                    toggleLock(card.controller.deck)
+            if len(card.owner.deck) >= 2:
+                if card.owner.deck[1].isFaceUp: # checks if second top is face up and turns it down if so
+                   card.owner.deck[1].isFaceup = False
+            if not card.owner.deck.top().isFaceUp: # Flips first card of the deck faceup
+                card.owner.deck.top().isFaceUp = True
+            if card.owner.deck.top().Name == "The Harbinger": # Locks deck if it is the Harbinger
+                if card.owner.getGlobalVariable("deckLocked") == "0":
+                    toggleLock(card.owner.deck)
 
 def autoClues(args):
     mute()
@@ -538,30 +580,19 @@ def autoCharges(args):
     if isinstance(args.fromGroups[0],Pile) and isinstance(args.toGroups[0],Table):
         if len(args.cards) == 1:
             card = args.cards[0]
-            if card.controller == me and card.isFaceUp and (card.properties["Type"] == "Asset" or card.properties["Type"] == "Event"):
-                #Capture text between "Uses (..)"
-                description_search = re.search('.*([U|u]ses\s\(.*?\)).*', card.properties["Text"], re.IGNORECASE)
-                if description_search:
-                    strCharges = description_search.group(1)
-                    #Capture text between "(...)""
-                    strCharges = re.search('.*\((.*)\).*',strCharges).group(1)
-                    # Check if not only 1 numeric
-                    if not strCharges.isnumeric():
-                        word = re.search('(\d|X)(.*)',strCharges).group(2)
-                        strCharges = re.search('(\d|X)(.*)',strCharges).group(1)
-                        strCharges = strCharges.replace(" ", "")
-                        if strCharges.isnumeric():
-                            isAkachi = filter(lambda card: (card.Name == "Akachi Onyele" and card.Type == "Investigator" and card.controller == me and not isLocked(card)), table)
-                            if isAkachi and ("Uses (" and "charges)." in card.properties["Text"]):
-                                    notify("{} adds {} {} on {}".format(me,int(strCharges)+1,word,card))
-                                    for i in range(0, (int(strCharges)+1)):
-                                        addResource(card)
-                            else:
-                                notify("{} adds {} {} on {}".format(me,strCharges,word,card))
-                                for i in range(0, (int(strCharges))):
-                                    addResource(card)
-                        elif strCharges == "X":
-                                notify("Sorry, no automation for X on {}".format(card))
+            if card.owner == me and card.isFaceUp and card.Type in ["Asset","Event"]:
+                autocharges = re.search(r'[Uu]ses\s\((\d+|X)\s(\w+)\)',card.Text)
+                if autocharges:
+                    if autocharges.group(1).isnumeric():
+                        charges = int(autocharges.group(1))
+                        text = autocharges.group(2)
+                        if text == "charges" and InvestigatorName(card.owner) == "Akachi Onyele":
+                            charges += 1
+                        if charges > 1 and text[-1] != "s":
+                            text += "s"
+                        notify("{} adds {} {} to {}".format(card.owner, charges, text, card))
+                        card.markers[Resource] = charges
+                    else: print("Sorry, no automation for X")
 
 #Triggered event OnLoadDeck
 # args: player, cards, fromGroups, toGroups, indexs, xs, ys, highlights, markers, faceups, filters, alternates
@@ -799,8 +830,11 @@ def doRestoreAll(group=table):
     myCards = (card for card in group
                 if card.controller == me)
     for card in myCards:
-        if not isLocked(card) and not card.anchor:
+        if not isLocked(card) and not card.anchor and not (card.markers[Action] and card.Type == "Enemy"):
             card.orientation &= ~Rot90
+        if card.markers[Action] and card.Type == "Enemy": # Place a marker on an enemy to enable "does not ready during the next upkeep phase"
+            card.markers[Action] = 0
+            notify("{} does not ready this upkeep phase".format(card))
     notify("{} readies all their cards.".format(me))
 
 def resetEncounterDeck(group):
@@ -849,9 +883,8 @@ def nextEncounter(group, x, y, facedown, who=me):
         return
 
     if len(group) == 0:
-        for i in range(0, len(getPlayers())):
-            remoteCall(getPlayers()[i], "notifyBar", ["#dd3737", "{} is empty and is reshuffled !".format(group.name)]) # Warns players if the encounter deck is being reshuffled
-        resetEncounterDeck(group)
+        if 1 == askChoice("Reshuffle the encounter discard pile into the encounter deck ?", ["Yes","No"],["#000000","#000000"]):
+            resetEncounterDeck(group)
     if len(group) == 0: # No cards
         return
 
@@ -875,6 +908,11 @@ def nextEncounter(group, x, y, facedown, who=me):
             card.moveToTable(x, y, True)
             notify("{} places a Hidden card on the table.".format(who))
     card.controller = who
+
+    if len(group) == 0:
+        if campaignName() == "Return to the Circle Undone" or campaignName() == "The Circle Undone" or campaignName() == "For the Greater Good" or campaignName() == "The Secret Name" or campaignName() == "The Wages of Sin" or campaignName() == "Union and Disillusion" or campaignName() == "In the Clutches of Chaos" or campaignName() == "Before the Black Throne":
+            for i in range(0, len(getPlayers())):
+                remoteCall(getPlayers()[i], "notifyBar", ["#dd3737", "{} is empty !".format(group.name)]) # Warns players if the encounter deck is empty
 
     revealEncounterSound(card)
 
@@ -1019,6 +1057,7 @@ def readyForNextRound(group=table, x=0, y=0):
         setPlayerDone()
 
 def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
+    Hank = False
     mute()
     if not getLock():
         whisper("Others players are setting up, please try manual setup again")
@@ -1030,11 +1069,12 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
         investigatorCount = countInvestigators()
         
         # Find any Permanent cards
-        permanents = filter(lambda card: "Permanent" in card.Keywords or "Permanent." in card.Text, me.deck)
+        permanents = filter(lambda card: "Permanent" in card.Keywords or "Permanent." in card.Text or "Key" in card.Subtype, me.deck)
         # Check if Stick to the Plan or Ancestral Knowledge is in the deck
         sttp = filter(lambda card: "Stick to the Plan" in card.Name, me.deck)
+        betwitching = filter(lambda card: "Bewitching" in card.Name, me.deck)
         ancestralKnowledge = filter(lambda card: "Ancestral Knowledge" in card.Name, me.deck)
-        hasUnderworldMarket = filter(lambda card: "Underworld Market" in card.Name, me.deck)
+        underworldMarket = filter(lambda card: "Underworld Market" in card.Name, me.deck)
         haveForcedLearning = filter(lambda card: "Forced Learning" in card.Name, me.deck)
         if haveForcedLearning:
             me.counters['Card Draw'].value = 2
@@ -1046,14 +1086,8 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
             if len(chaosBag()):
                 for _ in range(2):
                     addBless()
-        isSuzi = filter(lambda card: "Subject 5U-21" in card.Name, me.hand)
-        if isSuzi:
-            me.counters['Card Draw'].value = 2  
-	isHank = filter(lambda card: "Hank Samson" in card.Name, me.hand)
-        if isHank:
-            me.piles['Sideboard'].create('0b47ec14-d252-4692-9d78-90efd034ff8c')
         # Find any Start cards
-        startCard = filter(lambda card: "Sophie" == card.Name or "Gate Box" == card.Name or "Duke" == card.Name or "Dark Insight" == card.Name or "Darrell's Kodak" == card.Name or card.Name == "On the Mend" or card.Name == "Ravenous", me.deck)
+        startCard = filter(lambda card: "Sophie" == card.Name or "Gate Box" == card.Name or "Duke" == card.Name or "Dark Insight" == card.Name or "Darrell's Kodak" == card.Name or "Flux Stabilizer" == card.Name, me.deck)
         # Create Bonded Card
         listB = makeListBonded(me.deck)
         if not listB:
@@ -1061,20 +1095,30 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
         else:
             for card in listB:
                 me.piles['Sideboard'].create(card)
-		
+	
         # Move Investigators to the table
         newInvestigator = False
         investigator = filter(lambda card: card.Type == "Investigator", me.hand)
+        if len(investigator) == 2: # Hank
+            Hank = True
         mini = filter(lambda card: card.Type == "Mini", me.hand)
         miniX = 0
         miniWidth = 0
-        if investigator and mini:
+        if investigator and (mini or Hank):
+            if Hank: # Hank
+                hank2 = filter(lambda card: card.Type == "Investigator" and card.Name == "Hank Samson" and "Resolute." in card.Traits, me.hand)
+                hank2[0].delete()
             investigatorCount += 1
             newInvestigator = True
             investigatorCard = investigator[0]
             setAbilityCounters(investigatorCard)
-            miniCard = mini[0]
+            if not Hank:
+                miniCard = mini[0]
+            elif Hank:
+                miniCard = me.hand.create("4f2a5f9b-8888-43df-ba0f-380d531e7cba")
             investigatorCard.moveToTable(investigatorX(id), InvestigatorY)
+            if Hank:
+                me.piles['Sideboard'].create("0b47ec14-d252-4692-9d78-90efd034ff8c")
             miniX = cardX(investigatorCard) + investigatorCard.width + InvestigatorSpacing
             miniCard.moveToTable(miniX, cardY(investigatorCard))
             miniWidth = miniCard.width
@@ -1086,14 +1130,9 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
             card.moveToTable(permX, cardY(investigatorCard))
             permX = permX + card.width + InvestigatorSpacing
             notify("{} places the Permanent card {} on the table".format(me, card))
-
-
-	# Move startCard found to the table or Sideboard
-        DarkInsight = False
+	# Move startCard found to the table
         for card in startCard:
-            if card.Name == "On the Mend":
-                card.moveTo(me.piles['Sideboard'])
-            elif card.Name == "Dark Insight":
+            if card.Name == "Dark Insight":
                 card.moveTo(me.hand)
                 DarkInsight = True
             else:
@@ -1103,14 +1142,17 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
         
         if newInvestigator:
             if len(me.hand) == 0 or DarkInsight: 
-                if hasUnderworldMarket:
-                    whisper("Underworld Market available")
                 if sttp: 
                     whisper("Stick to the Plan available")
+                    sttp[0].highlight = WhiteColour
                 if ancestralKnowledge:
                     whisper("Ancestral Knowledge available")
-                if not (sttp or ancestralKnowledge or hasUnderworldMarket): #Only draws opening hand if no Stick to the Plan, Ancestral Knowledge, or Underworld Market available
-                    drawOpeningHand()
+                    ancestralKnowledge[0].highlight = WhiteColour
+                if betwitching:
+                    whisper("Bewitching available")
+                    betwitching[0].highlight = WhiteColour
+                if not (sttp or ancestralKnowledge or underworldMarket or betwitching): #Only draws opening hand if no Stick to the Plan or Ancestral Knowledge available
+                    drawOpeningHand(me)
                     
             # Check for starting resources modifiers
             startingResource = 5
@@ -1121,6 +1163,8 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
                 if card.Name == "Indebted":
                     startingResource -= 2
                     whisper("You start the game with 2 less resources")
+                if card.Name == "Arcane Research":
+                    addHorror(Investigator(card.owner))
             for i in repeat(None, startingResource):
                 addResource(investigatorCard)
         
@@ -1138,30 +1182,88 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
     if not clearLock():
         notify("Players performed setup at the same time causing problems, please reset and try again")
 
-def drawOpeningHand():
-    studious = 0
-    me.deck.shuffle()
+def concealCard(card, x=0, y=0):
+    conceal = re.search('.*Concealed\s(\d)(π)?.*', card.Text, re.IGNORECASE)
+    if conceal:        
+        decoy = int(conceal.group(1))
+        if conceal.group(2):
+            decoy = decoy * countInvestigators()
+    elif "Cultist" in card.Traits:
+        decoy = 1
+    else:
+        whisper("No conceal for this card")
+        return
+    x, y = card.position
+    concealed = []
+    cardList = [c for c in secondspecialDeck()
+    if c.Type == "Mini" and card.Name in c.alternateProperty("B", "Name")]
+    if cardList:
+        for c in secondspecialDeck():
+            if c in cardList and c.alternate == "":
+                c.alternate = 'B'
+
+        if len(cardList) > 1 and len(set(c.model for c in cardList)) != 1:
+            dlg = cardDlg(cardList)
+            dlg.title = "Multiple possible concealed cards"
+            dlg.text = "Select 1 card:"
+            dlg.min = 1
+            dlg.max = 1
+            cardreturned = dlg.show()
+            if cardreturned:
+                c = cardreturned[0].model
+        else:
+            c = cardList[0].model
+        if c:
+            concealed.append(c)
+            for _ in range(decoy):
+                concealed.append("7afe70d3-b76c-4d2f-9d2f-b06b6cfa2c5e")
+            for _ in range(decoy+1):
+                c = table.create(str(concealed.pop(rnd(0,len(concealed)-1))), x, y, quantity = 1, persist = True)
+
+    
+
+def tskCampaign(card, x=0, y=0):
     for c in table:
-        if c.name == "Studious" and c.controller == me:
+        if c.Type == "Scenario":
+            if c.set == "The Scarlet Keys Campaign Expansion":
+                return True
+            else: return False
+
+def campaignName():
+    mute()
+    for c in table:
+        if c.Type == "Scenario":
+            return c.set
+        
+
+def addDecoy(card, x=0, y=0):
+    x, y = card.position
+    c = table.create("7afe70d3-b76c-4d2f-9d2f-b06b6cfa2c5e", x, y, quantity = 1, persist = True)
+
+def drawOpeningHand(player):
+    studious = 0
+    player.deck.shuffle()
+    for c in table:
+        if c.name == "Studious" and c.owner == player:
             studious += 1
             if studious == 2:
                 break
-    isSefina = filter(lambda card: card.Name == "Sefina Rousseau" and card.Type == "Investigator" and card.controller == me, table)
-    isJoe = filter(lambda card: card.Name == "Joe Diamond" and card.Type == "Investigator" and card.controller == me, table)
+    isSefina = filter(lambda card: card.Name == "Sefina Rousseau" and card.Type == "Investigator" and card.owner == player, table)
+    isJoe = filter(lambda card: card.Name == "Joe Diamond" and card.Type == "Investigator" and card.owner == player, table)
     if isSefina and 1 == askChoice("Automate Sefina Drawing Hand ?", ["Yes","No"],["#000000","#000000"]):
-        SefinaOpening(me)
+        SefinaOpening(player)
     elif isJoe and 1 == askChoice("Automate Joe Hunch Deck ?", ["Yes","No"],["#000000","#000000"]):
-        JoeOpening(me)
-        drawMany(me.deck, shared.OpeningHandSize + studious)
+        JoeOpening(player)
+        drawMany(player.deck, shared.OpeningHandSize + studious)
         if studious > 0:
             whisper("You start the game with {} additional card in hand.".format(studious))
         removeWeaknessCards()
     else:
-        drawMany(me.deck, shared.OpeningHandSize + studious)
+        drawMany(player.deck, shared.OpeningHandSize + studious)
         if studious > 0:
             whisper("You start the game with {} additional card in hand.".format(studious))
         removeWeaknessCards()
-    me.deck.shuffle()
+    player.deck.shuffle()
 
 def removeWeaknessCards():
     weaknesses = []
@@ -1178,17 +1280,17 @@ def removeWeaknessCards():
     return removeWeaknessCards()
     
 def toggleLock(group, x=0, y=0):
-    if deckLocked(group.controller):
+    if deckLocked(group.player):
         unlockDeck()
-        if len(group.controller.deck) > 0:
-            if isLocked(group.controller.deck.top()):
-                lockCard(group.controller.deck.top())
-        notify("{} Unlocks his deck".format(group.controller))
+        if len(group.player.deck) > 0:
+            if isLocked(group.player.deck.top()):
+                lockCard(group.player.deck.top())
+        notify("{} Unlocks his deck".format(group.player))
     else:
         lockDeck()
-        if len(group.controller.deck) > 0:
-            lockCard(group.controller.deck.top())
-        notify("{} Locks his deck".format(group.controller))
+        if len(group.player.deck) > 0:
+            lockCard(group.player.deck.top())
+        notify("{} Locks his deck".format(group.player))
            
 def exhaust(card, x = 0, y = 0):
     mute()
@@ -1206,16 +1308,16 @@ def inspectCard(card, x = 0, y = 0):
             whisper("{}: {}".format(k, card.properties[k]))
 
 def loadClues(card):
-    if card.Type == "Location" and card.isFaceUp and card.Clues != '' and card.markers[Clue] == 0:
-        notify("{} adds {} clue(s) on '{}'".format(me, str(card.Clues),card.Name))        
-        if 'π' in card.Clues:
-            nbClue = countInvestigators() * int((card.Clues).replace('π', ''))
-        elif not card.Clues.isdigit():
-            nbClue = 0
-        else:
-            nbClue = int(card.Clues)    
-        for i in repeat(None, nbClue):
-            addToken(card, Clue)
+    if card.Type == "Location" and card.isFaceUp and card.markers[Clue] == 0:
+        clue = re.search('(\d)(π)?', card.Clues, re.IGNORECASE)
+        if clue:
+          if clue.group(2):
+            nbClue = int(clue.group(1)) * countInvestigators()
+          else:
+            nbClue = int(clue.group(1))
+          if nbClue > 0:
+            notify("{} adds {} clue(s) on '{}'".format(me, str(nbClue),card))            
+            card.markers[Clue] = nbClue
 
 def flipcard(card, x = 0, y = 0):
     mute()
@@ -1228,9 +1330,7 @@ def flipcard(card, x = 0, y = 0):
     cardx, cardy = card.position
 
     #Card Alternate Flip
-    if not card.isFaceUp:
-	card.isFaceUp = True
-    elif card.alternates is not None and "B" in card.alternates:
+    if card.alternates is not None and "B" in card.alternates:
         if card.alternate == "B":
             card.alternate = ''
         else:
@@ -1245,6 +1345,26 @@ def flipcard(card, x = 0, y = 0):
         notify("{} turns '{}' face up.".format(me, card))
     loadClues(card)
     flipCardsSound(card)
+
+    if card.Type == "Mini" and card.alternate == "B":
+        for c in table:
+            if c.owner == card.owner:
+                if c.Name == "Peter Sylvestre" and c.markers[Horror]:
+                    subHorror(c)
+                if c.Name == "Jessica Hyde" and c.markers[Damage]:
+                    subDamage(c)
+        if InvestigatorName(me) == "Monterey Jack":
+            choice_list = ["Gain 1 resource", "Draw 1 card", "Do both"]
+            color_list = ['#000000','#000000',"#000000"]
+            sets = askChoice("Monterey Jack", choice_list, color_list)
+            if sets == 0: return
+            elif sets == 1:
+                addResource(Investigator(me))
+            elif sets == 2:
+                draw(me.deck)
+            else:
+                addResource(Investigator(me))
+                draw(me.deck)
 
 def rotateRight(card, x = 0, y = 0):
     # Rot90, Rot180, etc. are just aliases for the numbers 0-3
@@ -1351,6 +1471,7 @@ def subToken(card, tokenType):
     notify("{} removes a {} from '{}'".format(me, tokenType[0], card))
 
 def markerChanged(args):
+    mute()
     card = args.card
     modifyMarkerSound(args)
     thisPhase = currentPhase()
@@ -1358,17 +1479,44 @@ def markerChanged(args):
     inMythosPhase = False
     if getGlobalVariable("phase") == "Mythos" or thisPhase[1] == 1:
         inMythosPhase = True
-    
-    if card.Type == "Agenda" and args.marker == Doom[0] and inMythosPhase == True and card.properties[Doom[0]].isnumeric():
+
+    if card.Type == "Agenda" and args.marker == Doom[0] and inMythosPhase == True and card.properties[Doom[0]].isnumeric() and card.controller == me:
+        elleRubash = filter(lambda c: c.Name == "Elle Rubash" and not isLocked(c), table)
+        brewingCatv1 = filter(lambda c: c.Name == "Brewing Catastrophe (v. I)" and not isLocked(c), table)
+        if elleRubash:
+            elle = elleRubash[0]
         maxDoom = int(card.properties[Doom[0]])
-        totalDoom = 0
-        for cardT in table:
-            if cardT.markers[Doom] is not None:
-                totalDoom = totalDoom + cardT.markers[Doom]
+        if card.markers[Action] == 0:
+            totalDoom = 0
+            for cardT in table:
+                if cardT.markers[Doom] is not None and cardT.markers[Doom] > 0 and cardT.Type != "Mini":
+                    totalDoom = totalDoom + cardT.markers[Doom]
+                    if brewingCatv1 and cardT.Type != "Agenda":
+                        totalDoom = totalDoom - (cardT.markers[Doom] *2)
+                    if elleRubash:
+                        if cardoverlaps(elle,cardT):
+                            maxDoom = maxDoom + 1 
+        else: totalDoom = int(card.markers[Doom])
         if totalDoom >= maxDoom:
             card.highlight = EliminatedColour
         else:
             card.highlight = None
+
+    elif card.Type == "Investigator" and card.Name == "Calvin Wright" and card.owner == me and (args.marker == Damage[0] or args.marker == Horror[0]) :
+        if args.marker == Damage[0]:
+            if args.value < Investigator(me).markers[Damage]:
+                me.counters["Combat"].value += 1
+                me.counters["Agility"].value += 1
+            else:
+                me.counters["Combat"].value -= 1
+                me.counters["Agility"].value -= 1
+        elif args.marker == Horror[0]:
+            if args.value < Investigator(me).markers[Horror]:
+                me.counters["Willpower"].value += 1
+                me.counters["Intellect"].value += 1
+            else:
+                me.counters["Willpower"].value -= 1
+                me.counters["Intellect"].value -= 1
 
 def lockCard(card, x=0, y=0):
     mute()
@@ -1402,10 +1550,33 @@ def discard(card, x=0, y=0):
         nextActStage()
         return
 
-    if isPath(card):
+    if isPath(card) or isConcealed(card):
         card.delete()
-        return	        
-	
+        return
+
+    if "RemoveFromGame" in card.Subtype:
+        notify("{} is removed from the game".format(card))
+        card.delete()
+        return
+    
+    if "ShuffleBack." in card.Subtype:
+        card.Subtype = card.Subtype.replace('ShuffleBack.', '')
+        notify("{} is shuffled back into {}'s deck".format(card, card.owner))
+        shuffleIntoDeck(card, x=0, y=0, player=me)
+        return
+    
+    if "ToHandAfterDiscard." in card.Subtype:
+        card.Subtype = card.Subtype.replace('ToHandAfterDiscard.', '')
+        notify("{} is moved back to {}'s hand".format(card, card.owner))
+        card.moveTo(card.owner.hand)
+        return
+
+    if "Amulet." in card.Subtype:
+        card.Subtype = card.Subtype.replace('Amulet.', '')
+        notify("{} is moved at the bottom of {}'s deck".format(card, card.owner))
+        card.moveToBottom(card.owner.deck)
+        return	
+
     if isEncounterCard(card):
         pile = encounterDiscard()   
     elif isLocationCard(card):
@@ -1417,13 +1588,16 @@ def discard(card, x=0, y=0):
         pile = encounterDiscard()
     else:
 	#Last choice is player discard
-        pile = card.controller.piles['Discard Pile']
+        pile = card.owner.piles['Discard Pile']
+
+    
+        
        
     who = pile.controller
-    notify("{} discards '{}'".format(me, card))
     discardCardsSound(card)
     if who != me:
         card.controller = who     
+        random = rnd(100, 10000)
         remoteCall(who, "doDiscard", [me, card, pile])
     else:
         doDiscard(who, card, pile)
@@ -1448,9 +1622,9 @@ def discardSpecial(card, x=0, y=0):
         pile = specialDiscard()
         
     who = pile.controller
-    notify("{} discards '{}'".format(me, card))
     if who != me:
         card.controller = who    
+        random(100,10000)
         remoteCall(who, "doDiscard", [me, card, pile])
     else:
         doDiscard(who, card, pile)
@@ -1461,11 +1635,26 @@ def doDiscard(player, card, pile):
     if pile == chaosBag():
         if ((card.Name == "Bless") or (card.Name == "Curse")) and card.Subtype != "Sealed":
             card.delete()
-            updateBlessCurse() # if Bless or Curse chaos tokens are deleted in the chaos bag
+            updateBlessCurse()
             return
-    if card.Subtype == "Sealed" or card.Subtype == "Locked": # Locked used for cards that seal tokens
-        card.Subtype = ""
+    if "Sealed" in card.Subtype: 
+        card.Subtype = card.Subtype.replace('Sealed.', '')
+    if "Locked" in card.Subtype:
+        card.Subtype = card.Subtype.replace('Locked.', '')
+    if ".Boost" in card.Subtype:
+        boost_info = boost_lookup.get(card.Name)
+        card.Subtype = card.Subtype.replace('.Boost', '')
+        for stat_info in boost_info:  # Itérer sur le tuple interne
+            stat, levels = stat_info
+            if levels is not None:
+                if card.Level:
+                    if int(card.Level) in levels:
+                        card.owner.counters[str(stat)].value -= 1
+                else: # Pas de niveau de carte
+                    card.owner.counters[str(stat)].value -= 1
     card.moveTo(pile)
+    if card.Type != "Chaos Token":
+        notify("{} discards '{}'".format(player, card))
 
 def shuffleIntoDeck(card, x=0, y=0, player=me):
     mute()
@@ -1482,7 +1671,9 @@ def shuffleIntoDeck(card, x=0, y=0, player=me):
 
 
     if isPlayerCard(card):
-        pile = card.controller.deck
+        pile = card.owner.deck
+    elif isLocationCard(card):
+        pile = locationDeck()
     else:
         pile = encounterDeck()
 
@@ -1497,62 +1688,157 @@ def shuffleIntoDeck(card, x=0, y=0, player=me):
 def shuffleIntoTop(card, x=0, y=0, player=me, group = None, count = None):
     mute()
     if count is None:
-        count = askInteger("Shuffle into top x cards ?", 3)
+        count = askInteger("Shuffle with top x cards ?", 3)
     if group is None:
         if isLocationCard(card):
             group = locationDeck()
         elif isEncounterCard(card):
             group = encounterDeck()
         else:
-            group = card.controller.deck
-    notify("{} shuffles '{}' into '{}' top '{}' cards.".format(me, card, group.name, count))
-    card.moveTo(shared.piles['Temporary Shuffle'])
-    for c in group.top(count):
-        c.moveTo(shared.piles['Temporary Shuffle'])
-    shuffle(shared.piles['Temporary Shuffle'])
-    for c in shared.piles['Temporary Shuffle']:
-        c.moveTo(group)
-
+            group = card.owner.deck
+    notify("{} shuffles {} with {} top {} cards.".format(me, card, group.name, count))
+    cards = []
+    for c in group[:count]:
+        cards.append(c)
+    cards.append(card)
+    while cards:
+        cards.pop(rnd(0,len(cards)-1)).moveTo(group)
+        
 def shuffleIntoBottom(card, x=0, y=0, player=me, group = None, count = None):
     mute()
     if count is None:
-        count = askInteger("Shuffle into bottom x cards ?", 3)
+        count = askInteger("Shuffle with bottom x cards ?", 3)
     if group is None:
         if isLocationCard(card):
             group = locationDeck()
         elif isEncounterCard(card):
             group = encounterDeck()
         else:
-            group = card.controller.deck
-    notify("{} shuffles '{}' into '{}' bottom '{}' cards.".format(me, card, group.name, count))
-    card.moveTo(shared.piles['Temporary Shuffle'])
-    for c in group.bottom(count):
-        c.moveTo(shared.piles['Temporary Shuffle'])
-    shuffle(shared.piles['Temporary Shuffle'])
-    for c in shared.piles['Temporary Shuffle']:
-        c.moveToBottom(group)          
+            group = card.owner.deck
+    notify("{} shuffles {} with {} bottom {} cards.".format(me, card, group.name, count))
+    cards = []
+    for c in  group[-count:]:
+        cards.append(c)
+    cards.append(card)
+    while cards:
+        cards.pop(rnd(0,len(cards)-1)).moveToBottom(group)
         
 def doMoveShuffle(player, card, pile):
     mute()
     card.moveTo(pile)
     shuffle(pile)
+
+def twohandedsolo(group, x=0, y=0):
+    mute()
+    whisper("Taking controll of {}...".format(Player(2)))
+    while Player(2).hand.controller != me:
+        Player(2).hand.controller = me
+        update()
+    for card in table:
+        if card.controller == Player(2):
+            while card.controller != me:
+                card.controller = me
+                update()
+    while Player(2).deck.controller != me:
+        Player(2).deck.controller = me
+        update()
+    while Player(2).piles['Discard Pile'].controller != me:
+        Player(2).piles['Discard Pile'].controller = me
+        update()
+    while Player(2).hand.visibility != "all":
+        Player(2).hand.visibility = "all"
+        update()
+    if len(Player(2).piles['Sideboard']):
+        while Player(2).piles['Sideboard'].controller != me:
+            Player(2).piles['Sideboard'].controller = me
+            update()
+        while Player(2).piles['Sideboard'].visibility != "all":
+            Player(2).piles['Sideboard'].visibility = "all"
+            update()
+        
+    whisper("...Took control of P2")
+
+def shuffleOnTable(cards, x=0, y=0):
+    positions = []
+    cardsToShuffle = []
+    for c in cards:
+        positions.append(c.position)
+        cardsToShuffle.append(c)
+
+    for c in cardsToShuffle:
+        pos = positions.pop(rnd(0,len(positions)-1))
+        c.moveToTable(pos[0],pos[1])
+
+    notify("Shuffled {} cards together".format(len(cards)))
+    clearSelection()
+
     
 def playCard(card, x=0, y=0):
-    if x == 0 and y == 0 and inGame(card.controller):
-        x, y = firstInvestigator(card.controller).position
+    if x == 0 and y == 0 and inGame(card.owner):
+        x, y = firstInvestigator(card.owner).position
         x += Spacing
         y += Spacing
+    investigator = Investigator(card.owner)
+    if card.Cost and card.Cost.isnumeric() and InvestigatorName(card.owner) != "Preston Fairmont":
+        if investigator.markers[Resource] >= int(card.Cost):
+            investigator.markers[Resource] -= int(card.Cost)
+        else:
+            whisper("Not enough resources to play {}".format(card))
+            return
     card.moveToTable(x, y)
-    card.select()
+    if card.Type == "Event" or card.Type == "Asset":
+        if not "Fast." in card.Keywords and not "Fast." in card.Text and not "Dilemma." in card.Traits:
+            addAction(InvestigatorMini(card.owner))
+        if "Double." in card.Traits:
+            addAction(InvestigatorMini(card.owner))
+        amulet = filter(lambda c: "Wendy's Amulet" in c.Name and c.owner == card.owner and not isLocked(c), table)
+        if amulet and card.Type == "Event":
+            card.Subtype = card.Subtype + "Amulet."
+    if card.Type == "Asset" and isPlayerCard(card) and card.Name in boost_lookup:
+        boost_info = boost_lookup.get(card.Name)
+        if boost_info:
+            card.Subtype += ".Boost"
+            for stat_info in boost_info:  # Itérer sur le tuple interne
+                stat, levels = stat_info
+                if levels is not None:
+                    if card.Level:
+                        if int(card.Level) in levels:
+                            card.owner.counters[str(stat)].value += 1
+                    else: # Pas de niveau de carte
+                        card.owner.counters[str(stat)].value += 1
+
+def playFromDiscard(group):
+    shuffleback = ["Winging It","Impromptu Barrier","Improvised Shield","Improvised Weapon"]
+    discardlist = [c for c in group
+    if "from your discard pile" in c.Text or c.Name in ["Moonstone", "A Glimmer of Hope"]]
+    if discardlist:
+        dlg = cardDlg(discardlist)
+        dlg.title = "Play from Discard"
+        dlg.text = "Select the card you wish to play from Discard:"
+        dlg.min = 1
+        dlg.max = 1
+        cardsSelected = dlg.show()
+        if cardsSelected is not None:
+            card = cardsSelected[0]
+            if card.Name != "A Glimmer of Hope":
+                playCard(card, 0, 0)
+                if card.name in shuffleback:
+                    card.Subtype = card.Subtype + "ShuffleBack."
+                if card.group == table:
+                    notify("{} plays {} from his/her Discard Pile".format(card.owner,card))
+            elif card.Name == "A Glimmer of Hope":
+                for c in card.owner.piles["Discard Pile"]:
+                    if c.Name == "A Glimmer of Hope":
+                        c.moveTo(c.owner.hand)
 
 def swapCard(card):
     mute()
-    if deckLocked(card.controller):
+    if deckLocked(card.owner):
         whisper("Your deck is locked and cannot be manipulated")
         return
-    draw(card.controller.deck)
-    card.moveTo(card.controller.deck)
-    notify("{} swaps {} with the top card of their deck.".format(card.controller, card))
+    draw(card.owner.deck)
+    card.moveTo(card.owner.deck)
+    
 
 def sumVictory():
     v = 0
@@ -1579,11 +1865,11 @@ def moveToVictory(card, x=0, y=0):
 def randomDiscard(group):
     mute()
     hand = [c for c in group
-    if not "Hidden." in c.Text]
+    if not "Hidden." in c.Text or "Hidden" in c.Keywords] 
     if hand:
         card = hand[rnd(0,len(hand)-1)]
-        notify("{} randomly discards '{}'.".format(group.controller, card))
-        card.moveTo(group.controller.piles['Discard Pile'])
+        notify("{} randomly discards '{}'.".format(group.player, card))
+        card.moveTo(group.player.piles['Discard Pile'])
     else:
         notify("No eligible card for random discard")
  
@@ -1591,7 +1877,6 @@ def mulligan(group, x = 0, y = 0):
     mute()
     hand = [c for c in group
     if not ("Dark Insight" in c.Name or "The Tower · XVI" in c.Name or "The Devil XV" in c.Name)]
-    hand.reverse()
     dlg = cardDlg(hand)
     dlg.title = "Mulligan!"
     dlg.text = "Select the cards you wish to replace:"
@@ -1601,11 +1886,11 @@ def mulligan(group, x = 0, y = 0):
     if cardsSelected is not None:
         notify("{} declares a Mulligan, and replaces {} card(s).".format(group.player, len(cardsSelected)))
         for card in cardsSelected:
-            deckWithoutWeakness = filter(lambda card: (card.subType != "Weakness"  and card.subType != "Basic Weakness") or (card.Name == "The Tower · XVI" or card.Name == "The Devil XV"), card.controller.deck)
+            deckWithoutWeakness = filter(lambda card: (card.Subtype != "Weakness"  and card.Subtype != "Basic Weakness") or (card.Name == "The Tower · XVI" or card.Name == "The Devil XV"), card.owner.deck)
             notify("{} replaces {}.".format(group.player, card))
-            card.moveToBottom(card.controller.deck)
-            deckWithoutWeakness[0].moveTo(card.controller.hand)
-        shuffle(card.controller.deck)
+            card.moveToBottom(card.owner.deck)
+            deckWithoutWeakness[0].moveTo(card.owner.hand)
+        shuffle(card.owner.deck)
 
 
 #------------------------------------------------------------------------------
@@ -1614,44 +1899,44 @@ def mulligan(group, x = 0, y = 0):
 
 def draw(group, x = 0, y = 0):
     mute()
-    if deckLocked(group.controller):
+    if deckLocked(group.player):
         whisper("Your deck is locked, you cannot draw a card at this time")
         return
     if len(group) == 0:
         takeHorror = True
-        for c in group.controller.piles['Discard Pile']:
-            c.moveTo(group.controller.deck)
-        notify("{}'s deck is empty.".format(group.controller))
+        for c in group.player.piles['Discard Pile']:
+            c.moveTo(group.player.deck)
+        notify("{}'s deck is empty.".format(group.player))
         shuffle(group)
     else:
         takeHorror = False
     card = group[0]
-    card.moveTo(group.controller.hand) # Not using me.hand for two-handed solo players
-    notify("{} draws '{}'".format(group.controller, card))
+    card.moveTo(group.player.hand) # Not using me.hand for two-handed solo players
+    notify("{} draws '{}'".format(group.player, card))
     if takeHorror:
-        remoteCall(group.controller, "notifyBar", ["#86aceb", "Your deck is empty ! Take 1 horror !"])
+        remoteCall(group.player, "notifyBar", ["#86aceb", "Your deck is empty ! Take 1 horror !"])
     serumDoubleCheck(card)
 
 def serumDoubleCheck(card):
-    if haveSerum(card.controller):
+    if haveSerum(card.owner):
         inHands = []
-        for c in card.controller.hand:
+        for c in card.owner.hand:
             inHands.append(c.name)
         if inHands.count(card.name) > 1:
-            for _ in range(haveSerum(card.controller)):
+            for _ in range(haveSerum(card.owner)):
                 for c in table:
-                    if c.name == "Dream-Enhancing Serum" and c.controller == card.controller and c.orientation & Rot90 != Rot90:
+                    if c.name == "Dream-Enhancing Serum" and c.owner == card.owner and c.orientation & Rot90 != Rot90:
                         c.highlight = WhiteColour
                         if 1 == askChoice("Trigger Dream-Enhancing Serum ?", ["Yes","No"],["#000000","#000000"]):
-                            notify("{} uses {} to draw an additional card".format(card.controller, c))
+                            notify("{} uses {} to draw an additional card".format(card.owner, c))
                             exhaust(c, x=0,y=0)
-                            draw(card.controller.deck)
+                            draw(card.owner.deck)
                         c.highlight = None
 
 def haveSerum(player):
     serum = 0
     for c in table:
-        if c.name == "Dream-Enhancing Serum" and c.controller == player and c.orientation & Rot90 != Rot90:
+        if c.name == "Dream-Enhancing Serum" and c.owner == player and c.orientation & Rot90 != Rot90:
             serum += 1
     return serum
 
@@ -1661,14 +1946,14 @@ def shuffle(group):
         update()
         group.shuffle()
         notify("{} shuffles {}".format(me, group.name))
-        if group != encounterDeck() and group != chaosBag():
-            if InvestigatorName(group.controller) == "Norman Withers" and group == group.controller.deck and not group.top().isFaceUp:
+        if group != encounterDeck():
+            if InvestigatorName(group.player) == "Norman Withers" and group == group.player.deck and not group.top().isFaceUp:
                 flipcard(group.top())
 
 def drawMany(group, count = None):
     mute()
     if len(group) == 0: return
-    if deckLocked(group.controller):
+    if deckLocked(group.player):
         whisper("Your deck is locked, you cannot draw cards at this time")
         return
     if count is None:
@@ -1732,8 +2017,8 @@ def discardMany(group, count = None):
         count = askInteger("Discard how many cards?", 1)
         if count is None or count <= 0: return
         
-    if group == me.deck:
-        pile = me.piles['Discard Pile']
+    if group != encounterDeck():
+        pile = group.player.piles['Discard Pile']
         fr = "his deck"
     else:
         pile = encounterDiscard()
@@ -1775,10 +2060,13 @@ def moveAllToSpecial(group):
 
 def moveAllToPlayer(group):
     mute()
+    if len(group) == 1 and len(group.player.deck) == 0:
+        whisper("You cannot shuffle back 1 card into an empty deck")
+        return
     if confirm("Shuffle all cards from {} to Player Deck?".format(group.name)):
         for c in group:
             if len(c.Setup) == 0:
-                c.moveTo(c.controller.piles['Deck'])
+                c.moveTo(c.owner.piles['Deck'])
         notify("{} moves all cards from {} to the Player Deck".format(me, group.name))
         shuffle(me.piles['Deck'])
 
@@ -1787,8 +2075,8 @@ def shuffleCardsIntoDeck(group):
     owners = set()
     for card in group:
         if len(card.Setup) == 0:
-            card.moveTo(card.controller.deck)
-            owners.add(card.controller)
+            card.moveTo(card.owner.deck)
+            owners.add(card.owner)
     for owner in owners:
         owner.deck.shuffle()
 
@@ -1821,7 +2109,7 @@ def drawPileToTable(player, group, x, y):
     return card
     
 def drawChaosToken(group, x = 0, y = 0):
-    drawChaosTokenForPlayer(me, group, x, y)
+    drawChaosTokenForPlayer(me, group, x, y)  
 
 
 def drawChaosTokenForPlayer(player, group, x = 0, y = 0, replace = True, xMod = 0, yMod = 0):
@@ -1871,25 +2159,6 @@ def drawAddChaosToken(group, x = 0, y = 0):
     else:
         remoteCall(chaosBag().controller, "drawChaosTokenForPlayer", [me,  chaosBag(), x, y, False, num*10, num*10])
 
-def removeChaosTokenFromBag(card):
-    if chaosBag().controller == me:
-        for cT in chaosBag():
-            if cT.Name != card:
-                continue
-            cT.delete()
-            break
-    else:
-        remoteCall(chaosBag().controller, "removeChaosTokenFromBag", [card])
-
-def deleteChaosToken(card):
-    card.delete()
-
-def createChaosTokenInBag(id):
-    if chaosBag().controller == me:
-        chaosBag().create(id, quantity = 1)
-    else:
-        remoteCall(chaosBag().controller, "createChaosTokenInBag", [id])
-
 def sealTokenCard(card, x = 0, y = 0, player = None):
     if card.controller != me:
         remoteCall(card.controller, "sealTokenCard", [card, x, y, me])
@@ -1936,23 +2205,25 @@ def sealToken(group, x = 0, y = 0, player = None):
     updateBlessCurse()
     notify("{} seals {}.".format(player, card.name))
 
-def sealTokenToTable(card, x = 0, y = 0, player = None):
-    mute()
+def removeChaosTokenFromBag(card):
+    if chaosBag().controller == me:
+        for cT in chaosBag():
+            if cT.Name != card:
+                continue
+            cT.delete()
+            break
+    else:
+        remoteCall(chaosBag().controller, "removeChaosTokenFromBag", [card])
 
-    if chaosBag().controller != me:
-        remoteCall(chaosBag().controller, "sealTokenToTable", [card, x, y, me])
-        return
+def deleteChaosToken(card):
+    card.delete()
 
-    if player == None:
-        player = me
-    
-    card.moveToTable(x,y)
-    card.Subtype = 'Sealed'
-    card.filter = "#99999999"
-    card.controller = player
-    updateBlessCurse()
-    notify("{} seals {}.".format(player, card.name))
-    
+def createChaosTokenInBag(id):
+    if chaosBag().controller == me:
+        chaosBag().create(id, quantity = 1)
+    else:
+        remoteCall(chaosBag().controller, "createChaosTokenInBag", [id])
+
 ####### Tarot Deck #######
 def drawTarot(group, x = 0, y = 0, random = False):
     global TarotDeck
@@ -1963,7 +2234,7 @@ def drawTarot(group, x = 0, y = 0, random = False):
     c = TarotDeck.pop(cr)
     c = table.create(c, x, y)
     if random and co:
-        c.orientation = Rot180
+        flipcard(c)
 
     return c
 
@@ -1975,7 +2246,7 @@ def drawTarotBalance(group, x = 0, y = 0):
     x2 = x + (TarotWidth/2 + InvestigatorSpacing/2)
     drawTarot(group, x1, y)
     c = drawTarot(group, x2, y)
-    c.orientation = Rot180
+    flipcard(c)
 
 def drawTarotChoice(group, x = 0, y = 0):
     x1 = x - (TarotWidth + InvestigatorSpacing)
@@ -1998,8 +2269,32 @@ def drawBasicWeakness(group, x = 0, y = 0):
         return
 
     card = bw_cards.top()
-
     return card
+
+def clearScenario(group, x = 0, y = 0):
+    if 1 == askChoice("Clear the scenario without resetting the player cards ?", ["Yes","No"],["#000000","#000000"]):
+        for c in table:
+            if c.Type == "Agenda" or c.Type == "Act" or c.Type == "Scenario" or c.Type == "Location" or c.Type == "Path":
+                c.delete()
+            if isEncounterCard(c):
+                c.delete()
+        for c in actDeck():
+            c.delete()
+        for c in agendaDeck():
+            c.delete()
+        for c in agendaDiscard():
+            c.delete()
+        for c in actDiscard():
+            c.delete()
+        for c in specialDeck():
+            c.delete()
+        for c in secondspecialDeck():
+            c.delete()
+        for c in encounterDeck():
+            c.delete()
+        for c in encounterDiscard():
+            c.delete()
+        notify("{} cleared the scenario".format(me))
 
 def drawBasicWeaknessToDeck(group, x = 0, y = 0):
     mute()
@@ -2013,8 +2308,8 @@ def drawBasicWeaknessToDeck(group, x = 0, y = 0):
 
 def drawBasicWeaknessToHand(group, x = 0, y = 0):
     card = drawBasicWeakness(group, x, y)
-    card.moveTo(me.hand)
-    notify("{} draws the Basic Weakness '{}' into their hand.".format(me, card))
+    card.moveTo(group.player.hand)
+    notify("{} draws the Basic Weakness '{}' into their hand.".format(group.player, card))
     
 
 def createCard(group=None, x=0, y=0):
@@ -2039,7 +2334,7 @@ def drawUnrevealed(group=None, x=0, y=0):
 
     card = group[0]
     card.moveToTable(EncounterX, EncounterY, True)
-    notify("{} draws an unrevealed card from the {}.".format(me, group.name))
+    notify("{} draws an unrevealed card from the {}.".format(me, card.name, group.name))
     return card
     
 

@@ -81,17 +81,23 @@ class BasicWeakness:
             "f30eb071-0b6d-4ab2-bc77-ad6bd8866f72", # Stupor
         ],
         "the_scarlet_keys_investigator_expansion": [
-            "6ec455fb-7189-4031-a8de-dfec4ef449ad", # Lurker in the Dark
-            "6f20a97f-1d46-45f0-8c6f-f936ba6ce4f1", # Quantum Paradox
-            "d8cb5ca7-a153-4752-a401-229960159312", # Pay Your Due
-            "c79109e5-563d-4af3-90bf-656dc59fd07f", # Ectoplasmic Horror
-            "90ca0cee-4c23-451a-9cec-302fabea4a7a", # Underprepared
+            "2a2f8911-ed5c-4e9e-9728-2a43f3895e46", # Lurker in the Dark
+            "e038070f-474e-48c5-9c17-ff419e2a9ab8", # Ectoplasmic Horror
+            "43fe2723-fb5b-42f8-bd6a-4135796c7a44", # Quantum Paradox
+            "272da557-46d1-4626-b674-c2a700b62bff", # Underprepared
+            "36880cea-03b4-4340-87a6-f5b790ab6815", # Pay Your Due
         ],
         "the_feast_of_hemlock_vale_investigator_expansion": [
             "84ded66d-b9fd-4061-9697-cc0bb6b666ca", # Maimed Hand
             "eb5b0c06-cefa-4cc4-b710-420e0fd32245", # Back Injury
             "fc2e4265-2df2-4932-bb2f-b7a0e01c6827", # The Silver Moth
             "31d5c1cd-e2ff-45fa-bf31-be3b34d39dcc", # Vow of Drzytelech
+        ],
+        "the_drowned_city_investigator_expansion": [
+            "2d67463b-7bb8-429a-9cac-bc2b17e37e1f", # Down and Out
+            "1bdedac9-18a9-4f5f-afb1-12713b28684e", # Morbid Curiosity
+            "12ebeaed-8ec3-41bd-9dd9-484ac6e12996", # Disruptive Poltergeist
+            "863b02e1-2284-4ce0-b433-a7e215735f1a", # Frenzied
         ]
     }
     PILE_NAME = 'Basic Weaknesses'

@@ -7,12 +7,6 @@ def addBless(group=None, x=0, y=0):
 def addCurse(group=None, x=0, y=0):
     addBlessCurse(group, False)
 
-def removeBless(group=None, x=0, y=0):
-    removeBlessCurse(group, True)
-
-def removeCurse(group=None, x=0, y=0):
-    removeBlessCurse(group, False)
-
 def updateBlessCurse():
     c = 0
     b = 0
@@ -34,7 +28,7 @@ def updateBlessCurse():
 def sealXBless(card, max = None):
     mute()
     if blessInCB() > 0 and card.markers[Bless] == 0: 
-        count = askInteger("Seal how many Bless tokens from the chaos bag?", 5)
+        count = askInteger("Seal how many Bless tokens from the chaos bag?", blessInCB())
         if count is None or count <= 0 or count > blessInCB():
             whisper("Invalid Count")
             return
@@ -61,7 +55,7 @@ def sealXBless(card, max = None):
 def sealXCurse(card, max = None):
     mute()
     if curseInCB() > 0 and card.markers[Curse] == 0: 
-        count = askInteger("Seal how many Curse tokens from the chaos bag?", 5)
+        count = askInteger("Seal how many Curse tokens from the chaos bag?", curseInCB())
         if count is None or count <= 0 or count > curseInCB():
             whisper("Invalid Count")
             return
@@ -165,46 +159,5 @@ def addBlessCurse(group, isBless, who=me):
 
     token.Subtype = "Blurse"
     token.moveTo(chaosBag())
-    chaosBag().shuffle()
-    updateBlessCurse()
-
-
-
-def removeBlessCurse(group, isBless, who=me):
-    mute()
-    if chaosBag().controller != me:
-        remoteCall(chaosBag().controller, "removeBlessCurse", [group, isBless, me])
-        return
-
-    #Find ChaosBag
-    cb = None
-    for card in table:
-        if card.name != "ChaosBag":
-            continue
-        cb = card
-        break
-
-    if cb == None:
-        notify("You need a Chaos Bag first.")
-        return
-
-    #check current Tokens in Bag
-    if (countBless() == 0 and isBless) or ((countCurse() == 0) and not isBless):
-        notify("There must be a Bless or Curse token in the chaos bag before it can be removed.")
-        return
-
-    if isBless:
-        subToken(cb, Bless)
-        for t in chaosBag():
-            if t.Name == "Bless":
-                t.delete()
-                break
-    else:
-        subToken(cb, Curse)
-        for t in chaosBag():
-            if t.Name == "Curse":
-                t.delete()
-                break
-
     chaosBag().shuffle()
     updateBlessCurse()

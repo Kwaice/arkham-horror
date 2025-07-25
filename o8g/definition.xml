@@ -5,7 +5,7 @@
 	id="a6d114c7-2e2a-4896-ad8c-0330605c90bf" 
 	octgnVersion="3.4.286.0"
 	scriptVersion ="3.1.0.2"
-	version="1.11.0.2"
+	version="1.90.0.2"
 	markersize="16"
 	tags="AH LCG cooperative"
 	description="Arkham Horror: The Card Game is a cooperative Living Card Game® set amid a backdrop of Lovecraftian horror. As the Ancient Ones seek entry to our world, one to four investigators work to unravel arcane mysteries and conspiracies.&#10;&#10;Their efforts determine not only the course of your game, but carry forward throughout whole campaigns, challenging them to overcome their personal demons even as Arkham Horror: The Card Game blurs the distinction between the card game and roleplaying experiences."
@@ -151,6 +151,7 @@
 		<groupaction menu="Hidden Encounter Card" default="False" shortcut="ctrl+H" execute="addHidden" />
 		<groupaction menu="Hidden Encounter Card (Special Deck)" default="False" shortcut="ctrl+shift+H" execute="addHiddenSpecial" />
 		<groupaction menu="Shuffle Tekeli-li into deck" default="False" shortcut="ctrl+4" execute="shuffleTekelili" />
+		<groupaction menu="Two Handed Solo" default="False" shortcut="" execute="twohandedsolo" />
 		<groupactions menu="Tokens">
 			<groupaction menu="Draw Token from ChaosBag" default="False" shortcut="ctrl+S" execute="drawChaosToken" />
 			<groupaction menu="Draw X Tokens from ChaosBag" default="False" shortcut="ctrl+X" execute="drawXChaosTokens" />
@@ -215,6 +216,8 @@
 		<cardaction menu="Flip Card" default="False" shortcut="ctrl+F" execute="flipcard" />
 		<cardaction menu="Discard" default="False" shortcut="Del" execute="discard" />
 		<cardaction menu="Discard to Special Discard" default="False" shortcut="shift+Del" execute="discardSpecial" />
+		<cardaction menu="Conceal Card" default="False" execute="concealCard" />
+		<cardaction menu="Shuffle together" default="False" batchExecute="shuffleOnTable" />
 		<cardactions menu="Shuffle Into">
 				<cardaction menu="Shuffle into Deck" default="False" execute="shuffleIntoDeck" />
 				<cardaction menu="Shuffle into Top" default="False" execute="shuffleIntoTop" />
@@ -233,6 +236,7 @@
 			<cardaction menu="White Highlight" default="False" shortcut="numpad7" execute="whiteHighlight" />
 			<cardaction menu="Clear Highlight" default="False" shortcut="numpad0" execute="clearHighlight" />
 		</cardactions>
+		<cardaction menu="Save card" default="False" execute="saveCard" />
 		<groupactions menu="Path Markers">
 			<groupaction menu="Orthagonal on front side. Flip for diagonal." default="False" execute="" />
 			<groupseparator />
@@ -288,7 +292,8 @@
 			<groupaction menu="Draw Basic Weakness" default="False" execute="drawBasicWeaknessToDeck" />
 		</group>
 		<group name="Discard Pile" visibility="all" ordered="True" icon="groups/discard.png" collapsed="False">
-			<groupaction menu="Shuffle All into Deck" default="True" execute="moveAllToPlayer" />
+			<groupaction menu="Shuffle All into Deck" default="False" execute="moveAllToPlayer" />
+			<groupaction menu="Play from Discard" default="True" execute="playFromDiscard" />
 		</group>
 		<group name="Secondary Deck" visibility="none" ordered="True" icon="groups/player2.png" collapsed="True">
 			<groupaction menu="Shuffle" default="False" execute="shuffle" />

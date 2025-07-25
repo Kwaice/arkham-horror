@@ -63,6 +63,8 @@ def deserizlizeCard(cardData):
 		card.alternate = cardData['alternate']
 	if 'anchor' in cardData:
 	    card.anchor = cardData['anchor']
+	if 'Highlight' in cardData:
+	    card.highlight = cardData['Highlight']
 	if 'Subtype' in cardData and cardData['Subtype'] != "":
 		card.Subtype = cardData['Subtype']
 		if card.SubType == "Sealed":
@@ -79,6 +81,7 @@ def serializeCard(card):
 	cardData['alternate'] = card.alternate
 	cardData['anchor'] = card.anchor
 	cardData['Subtype'] = card.Subtype
+	cardData['Highlight'] = card.highlight
 	#notify("cardData {}".format(str(cardData)))
 	return cardData
 
