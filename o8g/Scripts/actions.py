@@ -1554,7 +1554,7 @@ def discard(card, x=0, y=0):
         card.delete()
         return
 
-    if "RemoveFromGame" in card.Subtype:
+    if "RemoveFromGame." in card.Subtype:
         notify("{} is removed from the game".format(card))
         card.delete()
         return
@@ -1637,13 +1637,13 @@ def doDiscard(player, card, pile):
             card.delete()
             updateBlessCurse()
             return
-    if "Sealed" in card.Subtype: 
+    if "Sealed." in card.Subtype: 
         card.Subtype = card.Subtype.replace('Sealed.', '')
-    if "Locked" in card.Subtype:
+    if "Locked." in card.Subtype:
         card.Subtype = card.Subtype.replace('Locked.', '')
-    if ".Boost" in card.Subtype:
+    if "Boost." in card.Subtype:
         boost_info = boost_lookup.get(card.Name)
-        card.Subtype = card.Subtype.replace('.Boost', '')
+        card.Subtype = card.Subtype.replace('Boost.', '')
         for stat_info in boost_info:  # Itérer sur le tuple interne
             stat, levels = stat_info
             if levels is not None:
@@ -1655,6 +1655,32 @@ def doDiscard(player, card, pile):
     card.moveTo(pile)
     if card.Type != "Chaos Token":
         notify("{} discards '{}'".format(player, card))
+        if card.Type == "Asset": # Bonded card discard
+            bonded_info = next((info for info in Bonded if info["sourceCard"] == card.Name), None)
+            if bonded_info:
+                removeBondedCards(card, bonded_info)
+
+def removeBondedCards(sourceCard, bonded_info):
+    bonded_codes = bonded_info["bondedCode"]
+    codes_to_find = {code: bonded_codes.count(code) for code in set(bonded_codes)}
+    groups_to_search = [sourceCard.owner.deck, sourceCard.owner.hand, table]
+    for code in codes_to_find:
+        for _ in range(codes_to_find[code]):
+            found_card = findFirstCardInGroups(groups_to_search, code)
+            if found_card:
+                found_card.moveTo(sourceCard.owner.piles['Sideboard'])
+                notify('{} is set aside'.format(found_card))
+            else:
+                break
+
+def findFirstCardInGroups(groups, model_code):
+    for group in groups:
+        card = next((c for c in group if c.model == model_code), None)
+        if card:
+            return card
+    return None
+
+
 
 def shuffleIntoDeck(card, x=0, y=0, player=me):
     mute()
@@ -1774,14 +1800,17 @@ def shuffleOnTable(cards, x=0, y=0):
 
     
 def playCard(card, x=0, y=0):
+    global reduceCost
     if x == 0 and y == 0 and inGame(card.owner):
         x, y = firstInvestigator(card.owner).position
         x += Spacing
         y += Spacing
     investigator = Investigator(card.owner)
     if card.Cost and card.Cost.isnumeric() and InvestigatorName(card.owner) != "Preston Fairmont":
-        if investigator.markers[Resource] >= int(card.Cost):
-            investigator.markers[Resource] -= int(card.Cost)
+        if investigator.markers[Resource] + reduceCost >= int(card.Cost): # 0 + reduCost (2) >= 2
+            if reduceCost:
+                investigator.markers[Resource] -= int(card.Cost) - reduceCost
+                reduceCost = 0 
         else:
             whisper("Not enough resources to play {}".format(card))
             return
@@ -1797,7 +1826,7 @@ def playCard(card, x=0, y=0):
     if card.Type == "Asset" and isPlayerCard(card) and card.Name in boost_lookup:
         boost_info = boost_lookup.get(card.Name)
         if boost_info:
-            card.Subtype += ".Boost"
+            card.Subtype += "Boost."
             for stat_info in boost_info:  # Itérer sur le tuple interne
                 stat, levels = stat_info
                 if levels is not None:

@@ -6,9 +6,26 @@ cardToAttachTo =  None
 cardsFound = []
 Premonition = []
 attached = {}
+reduceCost = 0
 
 cardScripts={
-	'Eureka!': {'onDoubleClick': [lambda card: eureka(card)]},
+	#Guardian Cards 
+    'Crisis of Faith': {'onDoubleClick': [lambda card: crisisOfFaith(card)]},
+    'Prepared for the Worst': {'onDoubleClick': [lambda card: preparedForTheWorst(card)]},
+    "Rite of Sanctification": {'onDoubleClick': [lambda card: riteOfSanctification(card)]},
+    "Tetsuo Mori": {'onDoubleClick': [lambda card: tetsuoMori(card)]},
+    "Nephthys": {'onDoubleClick': [lambda card: nephtys(card)]},
+    "Holy Spear": {'onDoubleClick': [lambda card: holySpear(card)]},
+    "Hallowed Mirror": {'onDoubleClick': [lambda card: hallowedMirror(card)]},
+    "Boxing Gloves": {'onDoubleClick': [lambda card: boxingGloves(card)]},
+    "Stick to the Plan": {'onDoubleClick': [lambda card: stickToThePlan(card)]},
+    "On the Hunt": {'onDoubleClick': [lambda card: onTheHunt(card)]},
+    'Radiant Smite': {'onDoubleClick': [lambda card: radianSmite(card)]},
+    'Shield of Faith': {'onDoubleClick': [lambda card: shieldOfFaith(card)]},
+    "Nathaniel Cho": {'onDoubleClick': [lambda card: nathanielCho(card)]},
+    "Leo Anderson":{'onDoubleClick': [lambda card: leoAnderson(card)]},
+    #Seeker Cards
+    'Eureka!': {'onDoubleClick': [lambda card: eureka(card)]},
     'Mr. “Rook”' : {'onDoubleClick': [lambda card: mrRook(card)]},
     'Ancestral Knowledge' : {'onDoubleClick': [lambda card: ancestralKnowledge(card)]},
     'Occult Lexicon' : {'onDoubleClick': [lambda card: occultLexicon(card)]},
@@ -133,6 +150,267 @@ def search(group, target, count = None, TypeFilter="ALL", TraitsFilter="ALL", fi
         notify("No Cards Found")    
     if group.name != "Discard Pile":
         shuffle(group)
+
+#############################################
+#                                           #
+#           Guardian Cards                  #
+#                                           #
+#############################################        
+def crisisOfFaith(card):
+    if blessInCB():
+        if 1 == askChoice('Replace X Bless with X Curse ?', ['Yes', 'No'], ['#dd3737', '#d0d0d0']):
+            count = askInteger("Replace how many tokens ?", 1)
+            if count > blessInCB():
+                whisper("Must be inferior to the number of bless tokens in the CB")
+                return
+            else:
+                notify("{} uses {} to replace {} Bless tokens with {} Curse tokens".format(card.owner,card, count, count))
+                for _ in range(count):
+                    removeChaosTokenFromBag("Bless")
+                    addCurse()
+                updateBlessCurse()
+
+def preparedForTheWorst(card):
+    if card.Level == "0":
+        notify("{} uses {} to search their deck for a Weapon card to draw.".format(card.owner, card))
+        search(card.owner.deck, card.owner.hand, 9, TraitsFilter="Weapon")
+        if cardsFound:
+            notify("{} draws a weapon to his/her hand.".format(card.owner))
+    else:
+        choice_list, color_list = InvestigatorList()
+        sets = askChoice("Choose a player:", choice_list, color_list)
+        if sets == 0:
+            return
+        else:
+            chosenPlayer = getPlayers()[sets - 1]
+            notify("{} uses {} to let {} search the top 9 cards of their deck for a Weapon card to draw or play.".format(card.owner, card, chosenPlayer))
+            remoteCall(chosenPlayer, "search", [card.owner.deck, card.owner.hand, 9, "ALL", "Weapon","True"])
+
+def riteOfSanctification(card):
+    global reduceCost
+    notify("Subtype = {}".format(card.Subtype))
+    if not "Locked." in card.Subtype:
+        sealXBless(card, 5)
+    elif card.markers[Bless]:
+        if 1 == askChoice('Release a sealed bless token ?', ['Yes', 'Not now'], ['#dd3737', '#d0d0d0']):
+            exhaust (card)
+            card.markers[Bless] -= 1
+            addBless()
+            notify("{} uses {} to reduce the cost of next card played by 2")
+            reduceCost = 2
+            notify("ReduceCost = {}".format(reduceCost))
+            if not card.markers[Bless]:
+                notify("{} has no sealed Bless tokens left and is discarded".format(card))
+                discard(card)
+
+def tetsuoMori(card):
+    choice_list = []
+    color_list = []
+    for i in range(0, len(getPlayers())): 
+        # Add player names to the list
+        choice_list.append(str(InvestigatorName(getPlayers()[i])))
+        # Add players investigator color to the list
+        color_list.append(InvestigatorColor(getPlayers()[i]))
+    sets = askChoice("Choose a player at your location:", choice_list, color_list)
+    if sets == 0:
+        return
+    else:
+        chosenPlayer = getPlayers()[sets - 1]
+        choice_list = ['Search the discard pile','Search the top 9 cards of the deck']
+        color_list = ['#46453E','#46453E']
+        sets = askChoice("Tetsuo Mori", choice_list, color_list)
+        if sets == 0:
+            return
+        elif sets == 1: # Discard Pile
+            remoteCall(chosenPlayer, "search", [chosenPlayer.piles['Discard Pile'], chosenPlayer.hand, None, "ALL", 'Item', 'True'])
+        elif sets == 2: # Top 9
+            remoteCall(chosenPlayer, "search", [chosenPlayer.deck, chosenPlayer.hand, 9, "ALL", 'Item', 'True'])
+
+def nephtys(card):
+    choice_list = ['Seal a Bless token on Nephthys']
+    color_list = ['#000000']
+    if card.markers[Bless] >= 3:
+        choice_list.append('Release 3 Bless Tokens')
+        choice_list.append('Return 3 Bless Tokens to deal 2 damage')
+        color_list.append('#000000')
+        color_list.append('#000000')
+    if len(choice_list) == 1:
+        if blessOnTable() > 0:
+            card.markers[Bless] += 1
+            for t in table:
+                if t.name != "Bless":
+                    continue
+                if t.SubType != "Sealed":
+                    if t.controller == me:
+                        doDiscard(me, t, chaosBag())
+                    else:
+                        remoteCall(t.controller, "doDiscard", [me, t, chaosBag()])
+                    break
+            notify("{} uses {} to seal a Bless token".format(card.owner, card))
+    else:
+        sets = askChoice("Nephthys", choice_list, color_list)
+        if sets == 0:
+            return
+        if sets == 1: 
+            if blessOnTable() > 0:
+                card.markers[Bless] += 1
+                for t in table:
+                    if t.name != "Bless":
+                        continue
+                    if t.SubType != "Sealed":
+                        if t.controller == me:
+                            doDiscard(me, t, chaosBag())
+                        else:
+                            remoteCall(t.controller, "doDiscard", [me, t, chaosBag()])
+                    break
+                notify("{} uses {} to seal a Bless token".format(card.owner, card))
+        if sets == 2:
+            exhaust (card)
+            card.markers[Bless] -= 3
+            notify("{} uses {} to release 3 Bless Tokens".format(card.owner, card))
+            for i in range(0, 3):
+                addBless()
+        if sets == 3:
+            exhaust (card)
+            card.markers[Bless] -= 3
+            notify("{} uses {} to return 3 Bless tokens to the token pool and deal 2 damage to an enemy".format(card.owner, card))
+
+def holySpear(card):
+    choice_list = ["Release a token sealed here"]
+    color_list = ['#000000']
+    if blessInCB() >= 2:
+        choice_list.append("Seal 2 Bless tokens here")
+        color_list.append('#000000')
+    sets = askChoice("Holy Spear", choice_list, color_list)
+    if sets == 0:
+        return
+    if sets == 1: 
+        if card.markers[Bless] == 0:
+            return
+        else:
+            card.markers[Bless] -= 1
+            notify("{} uses {} to release 1 Bless token".format(card.owner, card))
+            addBless()
+    if sets == 2: # Seal 2 Bless Tokens from CB
+        BlessTokensRemoved = 0
+        for t in shared.piles["Chaos Bag"]:
+            if t.name == "Bless":
+                if t.controller == me:
+                    doDiscard(me, t, chaosBag())
+                else:
+                    remoteCall(t.controller, "doDiscard", [me, t, chaosBag()])
+                BlessTokensRemoved += 1
+                if BlessTokensRemoved == 2:
+                    break
+        card.markers[Bless] += 2
+        notify("{} uses {} to seal 2 Bless tokens".format(card.owner, card))
+        updateBlessCurse()
+
+def hallowedMirror(card):
+    if not isLocked(card):
+        stop = False
+        for c in card.owner.piles['Sideboard']:
+            if stop is not True and c.Name == "Soothing Melody":
+                c.moveTo(c.owner.hand)
+                stop = True
+            else:
+                if c.Name == "Soothing Melody":
+                    c.moveTo(c.owner.deck)
+        notify("{} uses {} to draw {} and shuffle 2 other copies in their deck.".format(card.owner, card, c))
+        shuffle(card.owner.deck)
+
+def boxingGloves(card): 
+    exhaust(card)
+    if card.Level == "0":
+        top = 6
+    else: top = 9
+    notify("{} uses {} to search the top {} of their deck for a Spirit card to draw.".format(card.owner, card, top))
+    search(card.owner.deck, card.owner.hand, top, TraitsFilter="Spirit")
+
+def stickToThePlan(card):
+    global cardToAttachTo
+    if not isLocked(card) and not "Locked." in card.Subtype: # Locking to prevent an additional trigger
+        attachTo(card)
+        unfilteredEvents = [c for c in card.owner.deck
+                if c.Type == "Event" and ("Tactic" in c.Traits or "Supply" in c.Traits)]
+        filteredEvents = []
+        duplicate = []
+        if len(unfilteredEvents) > 2:
+            for c in unfilteredEvents:
+                if c.name not in duplicate:
+                    duplicate.append(c.name)
+                    filteredEvents.append(c)
+            dlg = cardDlg(filteredEvents)
+            dlg.title = "Stick to the Plan"
+            dlg.text = "Select up to 3 Tactic/Supply:"
+            dlg.min = 0
+            dlg.max = 3
+            cardsSelected = dlg.show()
+            if cardsSelected:
+                inc = 0
+                for c in cardsSelected:
+                    c.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
+                    c.sendToBack()
+                    if len(cardsSelected) == 1:
+                        cardToAttachTo = None
+                    else:
+                        attachTo(c)
+                        inc += 1
+                        if inc == len(cardsSelected): # Resets cardToAttachTo
+                            cardToAttachTo = None
+                card.Subtype += 'Locked.'
+                cardToAttachTo = None
+                notify("{} uses {} to attach {} Supply or Tactic events to it.".format(card.owner, card, len(cardsSelected)))
+        else:
+            whisper("Not enough cards")
+        shuffle(card.owner.deck)
+        if 1 == askChoice('Draw opening hand ?'
+			, ['Yes', 'Not now'], ['#dd3737', '#d0d0d0']):
+            drawOpeningHand(card.owner)
+
+def onTheHunt(card):
+    if card.Level == "0":
+        notify("{} uses {} to search the top 9 cards of the encounter deck for an Enemy to draw.".format(card.owner, card))
+        search(encounterDeck(), table, 9, TypeFilter="Enemy")
+    elif card.Level == "3":
+        notify("{} uses {} to search the encounter deck for an Enemy to draw.".format(card.owner, card))
+        search(encounterDeck(), table, TypeFilter="Enemy")
+
+def radianSmite(card):
+    if not card.markers[Bless]:
+        sealXBless(card, 3)
+    else:
+        if 1 == askChoice("Radiant Smite Bless Tokens", ["Return to Token Pool","Release in Chaos Bag"],["#000000","#000000"]):
+            card.markers[Bless] = 0
+        else: 
+            b = card.markers[Bless]
+            card.markers[Bless] = 0
+            for _ in range(b):
+                addBless()
+
+def shieldOfFaith(card):
+    if not card.markers[Bless]:
+        sealXBless(card, 5)
+    else:
+        if 1 == askChoice("Release a Bless token ?", ["Yes","No"],["#000000","#000000"]):
+            if card.markers[Bless]:
+                exhaust(card)
+                card.markers[Bless] -= 1
+                addBless()
+                if not card.markers[Bless]:
+                    notify("{} has no Bless tokens left and is discarded.".format(card))
+                    discard(card)
+            else: whisper("No Bless Tokens sealed")
+
+def nathanielCho(card):
+    if card.Type == "Investigator":
+        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
+            search(card.owner.piles['Discard Pile'],card.owner.hand,TypeFilter="Event")
+
+def leoAnderson(card):
+    if card.Type == "Investigator":
+        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
+            search(card.owner.deck, card.owner.hand, 3, TraitsFilter="Ally")
 
 #############################################
 #                                           #
@@ -780,7 +1058,7 @@ def defaultAction(card, x = 0, y = 0):
                     rot = dlg.show()
                     rot = rot[0]
                     rot.moveToTable(x, y)
-            notify("{} uses {} to attach {} to an enemy".format(card.owner, card, rot))
+                notify("{} uses {} to attach {} to an enemy".format(card.owner, card, rot))
     elif card.Name == "Shards of the Void":
         if card.Subtype != "Locked":
             if len(chaosBag()):
@@ -1003,237 +1281,7 @@ def defaultAction(card, x = 0, y = 0):
             whisper("Not enough Bless/Curse tokens in the Chaos Bag")
 
 
-#############################################
-#                                           #
-#           Guardian Cards                  #
-#                                           #
-#############################################        
-    elif card.Name == "Crisis of Faith":
-        if blessInCB():
-            if 1 == askChoice('Replace X Bless with X Curse ?', ['Yes', 'No'], ['#dd3737', '#d0d0d0']):
-                count = askInteger("Replace how many tokens ?", 1)
-                if count > blessInCB():
-                    whisper("Must be inferior to the number of bless tokens in the CB")
-                    return
-                else:
-                    notify("{} uses {} to replace {} Bless tokens with {} Curse tokens".format(card.owner,card, count, count))
-                    for _ in range(count):
-                        removeChaosTokenFromBag("Bless")
-                        addCurse()
-                    updateBlessCurse()
-    elif card.Name == "Prepared for the Worst":
-        notify("{} uses {} to search their deck for a Weapon card to draw.".format(card.owner, card))
-        searchTopDeck(card.owner.deck, card.owner.hand, 9, traits="Weapon")
-    elif card.Name == "Rite of Sanctification":
-        if card.Subtype != "Locked":
-            sealXBless(card, 5)
-        elif card.markers[Bless]:
-            if 1 == askChoice('Release a sealed bless token ?', ['Yes', 'Not now'], ['#dd3737', '#d0d0d0']):
-                exhaust (card, x, y)
-                card.markers[Bless] -= 1
-                addBless()
-                if not card.markers[Bless]:
-                    notify("{} has no sealed Bless tokens left and is discarded".format(card))
-                    discard(card)
-    elif card.Name == "Tetsuo Mori":
-        choice_list = []
-        color_list = []
-        for i in range(0, len(getPlayers())): 
-            # Add player names to the list
-            choice_list.append(str(InvestigatorName(getPlayers()[i])))
-            # Add players investigator color to the list
-            color_list.append(InvestigatorColor(getPlayers()[i]))
-        sets = askChoice("Choose a player at your location:", choice_list, color_list)
-        if sets == 0:
-            return
-        else:
-            chosenPlayer = getPlayers()[sets - 1]
-            choice_list = ['Search the discard pile','Search the top 9 cards of the deck']
-            color_list = ['#46453E','#46453E']
-            sets = askChoice("Tetsuo Mori", choice_list, color_list)
-            if sets == 0:
-                return
-            if sets == 1: # Discard Pile
-                remoteCall(chosenPlayer,"searchTopDeck",[chosenPlayer.piles['Discard Pile'],chosenPlayer.hand])
-            if sets == 2: # Top 9
-                remoteCall(chosenPlayer,"searchTopDeck",[chosenPlayer.deck,chosenPlayer.hand,9])
-    elif card.Name == "Nephthys":
-        choice_list = ['Seal a Bless token on Nephthys']
-        color_list = ['#000000']
-        if card.markers[Bless] >= 3:
-            choice_list.append('Release 3 Bless Tokens')
-            choice_list.append('Return 3 Bless Tokens to deal 2 damage')
-            color_list.append('#000000')
-            color_list.append('#000000')
-        if len(choice_list) == 1:
-            if blessOnTable() > 0:
-                card.markers[Bless] += 1
-                for t in table:
-                    if t.name != "Bless":
-                        continue
-                    if t.SubType != "Sealed":
-                        if t.controller == me:
-                            doDiscard(me, t, chaosBag())
-                        else:
-                            remoteCall(t.controller, "doDiscard", [me, t, chaosBag()])
-                        break
-                notify("{} uses {} to seal a Bless token".format(card.owner, card))
-        else:
-            sets = askChoice("Nephthys", choice_list, color_list)
-            if sets == 0:
-                return
-            if sets == 1: 
-                if blessOnTable() > 0:
-                    card.markers[Bless] += 1
-                    for t in table:
-                        if t.name != "Bless":
-                            continue
-                        if t.SubType != "Sealed":
-                            if t.controller == me:
-                                doDiscard(me, t, chaosBag())
-                            else:
-                                remoteCall(t.controller, "doDiscard", [me, t, chaosBag()])
-                        break
-                    notify("{} uses {} to seal a Bless token".format(card.owner, card))
-            if sets == 2:
-                exhaust (card, x, y)
-                card.markers[Bless] -= 3
-                notify("{} uses {} to release 3 Bless Tokens".format(card.owner, card))
-                for i in range(0, 3):
-                    addBless()
-            if sets == 3:
-                exhaust (card, x, y)
-                card.markers[Bless] -= 3
-                notify("{} uses {} to return 3 Bless tokens to the token pool and deal 2 damage to an enemy".format(card.owner, card))
-    elif card.Name == "Holy Spear":
-        choice_list = ["Release a token sealed here"]
-        color_list = ['#000000']
-        if blessInCB() >= 2:
-            choice_list.append("Seal 2 Bless tokens here")
-            color_list.append('#000000')
-        sets = askChoice("Holy Spear", choice_list, color_list)
-        if sets == 0:
-            return
-        if sets == 1: 
-            if card.markers[Bless] == 0:
-                return
-            else:
-                card.markers[Bless] -= 1
-                notify("{} uses {} to release 1 Bless token".format(card.owner, card))
-                addBless()
-        if sets == 2: # Seal 2 Bless Tokens from CB
-            BlessTokensRemoved = 0
-            for t in shared.piles["Chaos Bag"]:
-                if t.name == "Bless":
-                    if t.controller == me:
-                        doDiscard(me, t, chaosBag())
-                    else:
-                        remoteCall(t.controller, "doDiscard", [me, t, chaosBag()])
-                    BlessTokensRemoved += 1
-                    if BlessTokensRemoved == 2:
-                        break
-            card.markers[Bless] += 2
-            notify("{} uses {} to seal 2 Bless tokens".format(card.owner, card))
-            updateBlessCurse()
-    elif card.Name == "Hallowed Mirror" and not isLocked(card):
-        stop = False
-        for c in card.owner.piles['Sideboard']:
-            if stop is not True and c.Name == "Soothing Melody":
-                c.moveTo(c.owner.hand)
-                stop = True
-            else:
-                if c.Name == "Soothing Melody":
-                    c.moveTo(c.owner.deck)
-        notify("{} uses {} to draw {} and shuffle 2 other copies in their deck.".format(card.owner, card, c))
-        shuffle(card.owner.deck)
-    elif card.Name == "Boxing Gloves" and card.Level == "0":
-        exhaust (card, x, y)
-        notify("{} uses {} to search their deck for a Spirit card to draw.".format(card.owner, card))
-        searchTopDeck(card.owner.deck, card.owner.hand, 6, traits="Spirit")
-    elif card.Name == "Boxing Gloves" and card.Level == "3":
-        exhaust (card, x, y)
-        notify("{} uses {} to search their deck for a Spirit card to draw.".format(card.owner, card))
-        searchTopDeck(card.owner.deck, card.owner.hand, 9, traits="Spirit")
-    elif card.Name == "Stick to the Plan" and not isLocked(card) and not card.Subtype == "Locked": # Locking to prevent an additional trigger
-        attachTo(card)
-        unfilteredEvents = [c for c in card.owner.deck
-                if c.Type == "Event" and ("Tactic" in c.Traits or "Supply" in c.Traits)]
-        filteredEvents = []
-        duplicate = []
-        for c in unfilteredEvents:
-            if c.name not in duplicate:
-                duplicate.append(c.name)
-                filteredEvents.append(c)
-        dlg = cardDlg(filteredEvents)
-        dlg.title = "Stick to the Plan"
-        dlg.text = "Select up to 3 Tactic/Supply:"
-        dlg.min = 0
-        dlg.max = 3
-        cardsSelected = dlg.show()
-        if cardsSelected != None:
-            inc = 0
-            for c in cardsSelected:
-                c.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-                c.sendToBack()
-                if len(cardsSelected) == 1:
-                    cardToAttachTo = None
-                else:
-                    attachTo(c)
-                    inc += 1
-                    if inc == len(cardsSelected): # Resets cardToAttachTo
-                        cardToAttachTo = None
-            card.Subtype = 'Locked'
-            cardToAttachTo = None
-            notify("{} uses {} to attach {} Supply or Tactic events to it.".format(card.owner, card, len(cardsSelected)))
-        shuffle(card.owner.deck)
-        if 1 == askChoice('Draw opening hand ?'
-			, ['Yes', 'Not now'], ['#dd3737', '#d0d0d0']):
-            drawOpeningHand(card.owner)
-    elif card.Name == "On the Hunt" and card.Level == "0":
-        notify("{} uses {} to search the encounter deck for an Enemy to draw.".format(card.owner, card))
-        searchTopDeck(encounterDeck(), table, 9, traits="Enemy")
-    elif card.Name == "On the Hunt" and card.Level == "3":
-        notify("{} uses {} to search the encounter deck for an Enemy to draw.".format(card.owner, card))
-        searchTopDeck(encounterDeck(), table, traits="Enemy")
-    elif card.Name == "Radiant Smite":
-        if card.Subtype != "Locked":
-            sealXBless(card, 3)
-        elif card.Subtype == "Locked":
-            if 1 == askChoice("Radiant Smite Bless Tokens", ["Return to Token Pool","Release in Chaos Bag"],["#000000","#000000"]):
-                card.markers[Bless] = 0
-            else: 
-                b = card.markers[Bless]
-                card.markers[Bless] = 0
-                for _ in range(b):
-                    addBless()
-    elif card.Name == "Shield of Faith":
-        if card.Subtype != "Locked":
-            sealXBless(card, 5)
-        else:
-            if 1 == askChoice("Release a Bless token ?", ["Yes","No"],["#000000","#000000"]):
-                if card.markers[Bless]:
-                    exhaust(card, x=0,y=0)
-                    card.markers[Bless] -= 1
-                    addBless()
-                    if not card.markers[Bless]:
-                        notify("{} has no Bless tokens left and is discarded.".format(card))
-                        discard(card)
-                else: whisper("No Bless Tokens sealed")
-    elif card.Name == "Nathaniel Cho" and card.Type == "Investigator":
-        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
-            Events = [c for c in card.owner.piles['Discard Pile']
-                if c.Type == "Event"]
-            dlg = cardDlg(Events)
-            dlg.title = "Nathaniel Cho"
-            dlg.text = "Select 1 card:"
-            dlg.min = 1
-            dlg.max = 1
-            cardsSelected = dlg.show()
-            if cardsSelected != None:
-                cardsSelected[0].moveTo(card.owner.hand)
-    elif card.Name == "Leo Anderson" and card.Type == "Investigator":
-        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
-            searchTopDeck(card.owner.deck, card.owner.hand, 3, traits="Ally")
+
   
 
 

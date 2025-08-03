@@ -65,36 +65,34 @@ def doInvestigationPhase():
             c.highlight = RedColour
     global AmandaCard
     global HunchCard
-    isAmanda = filter(lambda card: (card.Name == "Amanda Sharpe" and card.Type == "Investigator" and card.owner == me and not isLocked(card) and inGame(card.owner)), table)
     isJoe = filter(lambda card: (card.Name == "Joe Diamond" and card.Type == "Investigator" and card.owner == me and not isLocked(card) and inGame(card.owner)) , table)
     familyInheritance = filter(lambda card: card.Name == "Family Inheritance" and card.owner == me, table)
     if familyInheritance:
         familyInheritance[0].markers[Resource] += 4
-    if isAmanda:
-        for c in table: #Find Amanda on table
-            if c.name == "Amanda Sharpe" and c.type == "Investigator":
-                amanda = c
-                x, y = c.position
-                break
+    if next((c for c in table if c.Name == "Amanda Sharpe" and c.Type == "Investigator"), None):
+        amanda = c
+        notify("Amanda found")
+        x, y = c.position
         if inGame(amanda.owner):
+            notify("Amanda In Game")
             draw(amanda.owner.deck)
             if AmandaCard: # Discard card under Amanda
                 discard(AmandaCard)
-            WftD = filter(lambda card: (card.Name == "Whispers from the Deep"), amanda.owner.hand)
-            if not WftD:
+            if not next((c for c in amanda.owner.hand if c.Name == "Whispers from the Deep"), None):
                 dlg = cardDlg(amanda.owner.hand)
                 dlg.title = "Amanda Sharpe"
                 dlg.text = "Select 1 card to put beneath Amanda:"
                 dlg.min = 1
                 dlg.max = 1
                 cardsSelected = dlg.show()
+                cardSelected = cardsSelected[0]
             else:
-                cardsSelected = WftD
-            if cardsSelected is not None:
-                c = cardsSelected[0]
-                c.moveToTable(x + 15, y - 50)
-                c.sendToBack()
-                AmandaCard = c
+                cardSelected = c # Whispers from the Deep
+            notify("Card Selected: {}".format(cardSelected))
+            if cardSelected is not None:
+                cardSelected.moveToTable(x + 15, y - 50)
+                cardSelected.sendToBack()
+                AmandaCard = cardSelected
                 notify("{} places {} under {}".format(c.owner,AmandaCard,amanda))
     if isJoe:
         if len(me.piles['Secondary Deck']) > 0:

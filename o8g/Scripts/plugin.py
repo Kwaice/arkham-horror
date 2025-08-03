@@ -271,7 +271,6 @@ def restoreSave(group, x=0, y=0):
     loadTable(phase)
 
 def loadTable(phase):
-
     if not getLock():
         whisper("Others players are locking the table, please try again")
         return
@@ -295,7 +294,7 @@ def loadTable(phase):
                 if me._id == 1: # Host
                     filename = dir + "\\GameDatabase\\a6d114c7-2e2a-4896-ad8c-0330605c90bf\\" + "AutoSaveHost.json"
                     n = open(dir + "\\GameDatabase\\a6d114c7-2e2a-4896-ad8c-0330605c90bf\\" + "phase.txt", 'r')
-                else:
+                else: # Other players
                     filename = dir + "\\GameDatabase\\a6d114c7-2e2a-4896-ad8c-0330605c90bf\\" + "AutoSavePlayer" + str(me._id) +".json"
                 n = open(dir + "\\GameDatabase\\a6d114c7-2e2a-4896-ad8c-0330605c90bf\\" + "phase.txt", 'r')
                 phase = n.readline()
@@ -310,7 +309,8 @@ def loadTable(phase):
 
         if tab['counters'] is not None and len(tab['counters']) > 0:
             deserializeCounters(tab['counters'], shared)
-        
+            
+       
         if tab['shared'] is not None and len(tab['shared']) > 0:
             for k in tab['shared'].Keys:
                 if k not in shared.piles:

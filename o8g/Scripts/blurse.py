@@ -28,7 +28,7 @@ def updateBlessCurse():
 def sealXBless(card, max = None):
     mute()
     if blessInCB() > 0 and card.markers[Bless] == 0: 
-        count = askInteger("Seal how many Bless tokens from the chaos bag?", blessInCB())
+        count = askInteger("Seal how many Bless tokens from the chaos bag?", max)
         if count is None or count <= 0 or count > blessInCB():
             whisper("Invalid Count")
             return
@@ -49,7 +49,7 @@ def sealXBless(card, max = None):
             if inc == count:
                 break
         updateBlessCurse()
-        card.Subtype = "Locked"
+        card.Subtype += "Locked."
     else: whisper("Not enough Bless tokens")
         
 def sealXCurse(card, max = None):
@@ -76,7 +76,7 @@ def sealXCurse(card, max = None):
             if inc == count:
                 break
         updateBlessCurse()
-        card.Subtype = "Locked"
+        card.Subtype += "Locked."
     else: whisper("Not enough Curse tokens")
 
 def countBless():
