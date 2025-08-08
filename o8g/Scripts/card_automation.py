@@ -66,6 +66,14 @@ cardScripts={
     "Word of Weal": {'onDoubleClick': [lambda card: wordOfWeal(card)]},
     "Kōhaku Narukami": {'onDoubleClick': [lambda card: kohakuNarukami(card)]},
     "Book of Living Myths": {'onDoubleClick': [lambda card: bookOfLivingMyths(card)]},
+    #Rogue cards    
+    "Lucky Cigarette Case": {'onDoubleClick': [lambda card: luckyCigaretteCase(card)]},
+    "Pickpocketing": {'onDoubleClick': [lambda card: pickpocketing(card)]},
+    "Dark Ritual": {'onDoubleClick': [lambda card: darkRitual(card)]},
+    "Underworld Market": {'onDoubleClick': [lambda card: underworldMarket(card)]},
+    "Kicking the Hornet's Nest": {'onDoubleClick': [lambda card: kickingTheHornetNest(card)]},
+    "Stylish Coat": {'onDoubleClick': [lambda card: stylishCoat(card)]},
+    "Bewitching": {'onDoubleClick': [lambda card: bewitching(card)]},
 }
 
 def search(group, target, count = None, TypeFilter="ALL", TraitsFilter="ALL", filterFunction='True', addWeakness='False'):
@@ -1232,6 +1240,130 @@ def bookOfLivingMyths(card):
     else:
         whisper("Not enough Bless/Curse tokens in the Chaos Bag")
 
+#############################################
+#                                           #
+#           Rogue Cards                     #
+#                                           #
+############################################# 
+
+def luckyCigaretteCase(card):
+    exhaust(card)
+    if card.Level == "0":
+        draw(card.owner.deck)
+    else:
+        count = askInteger("Succeeded by how much ?", 2)
+        if count is None or count <= 0:
+            whisper("Lucky Cigarette Case: invalid card count")
+            return
+        else:
+            notify("{} uses {} to search the top {} cards of their deck for a card to draw.".format(card.owner, card, count))
+            search(card.owner.deck, card.owner.hand, count)
+
+def pickpocketing(card):
+    exhaust(card)
+    if card.Level == "0":
+        draw(card.owner.deck)
+    else:
+        sets = askChoice("Pickpocketing", ["Draw 1 card","Gain 1 resource","Do both"],["#000000","#000000","#000000"])
+        if sets == 0: return
+        elif sets == 1:
+            draw(card.owner.deck)
+        elif sets == 2:
+            Investigator(card.owner).markers[Resource] += 1
+        elif sets == 3:
+            draw(card.owner.deck)
+            Investigator(card.owner).markers[Resource] += 1
+
+def darkRitual(card):
+    if curseInCB() > 0 and card.markers[Curse] == 0: 
+        count = askInteger("Seal how many Curse tokens from the chaos bag?", curseInCB())
+        if count is None or count <= 0 or count > 5 or count > curseInCB():
+            whisper("Invalid Count")
+            return
+        notify("{} uses {} to seal {} Curse tokens.".format(card.owner, card, count))
+        card.markers[Curse] = count
+        curse_tokens_to_delete = [t for t in shared.piles['Chaos Bag'] if t.Name == "Curse"]
+        for i in range(min(count, len(curse_tokens_to_delete))):
+            curse_tokens_to_delete[i].delete()
+        updateBlessCurse()
+
+def underworldMarket(card):
+    market = card.owner.piles['Secondary Deck']
+    if len(market) > 1: #2nd option
+        marketTop2 = [c for c in market[:2]]
+        dlg = cardDlg(marketTop2)
+        dlg.title = "Underworld Market"
+        dlg.text = "Select a card"
+        dlg.min = 1
+        dlg.max = 1
+        cardsSelected = dlg.show()
+        if cardsSelected:
+            c = cardsSelected[0]
+            if Investigator(c.owner).markers[Resource] > 0:
+                notify("{} uses {} and pays 1 resource to draw a card".format(card.owner, card))
+                subResource(Investigator(card.owner))
+                c.moveTo(card.owner.hand)
+                marketTop2.remove(c)
+        for c in marketTop2:
+            c.moveToBottom(card.owner.piles['Secondary Deck'])
+    else: #setup
+        if 1 == askChoice("Use Underworld Market Setup ?", ["Yes","No"],["#000000","#000000"]):
+            illicit = [card for card in card.owner.deck if
+                "Illicit." in card.Traits]
+            if len(illicit) > 9:
+                dlg = cardDlg(illicit)
+                dlg.title = "Underworld Market"
+                dlg.text = "Select 10 cards:"
+                dlg.min = 10
+                dlg.max = 10
+                cardsSelected = dlg.show()
+                if cardsSelected is not None:
+                    for c in cardsSelected:
+                        c.moveTo(market)
+                    shuffle(market)
+                    market.viewState = "pile"
+            else: 
+                whisper("Not enough Illicit cards in your deck!")
+        shuffle(card.owner.deck)
+        if 1 == askChoice('Draw opening hand ?', ['Yes', 'Not now'], ['#dd3737', '#d0d0d0']):
+            drawOpeningHand(card.owner)
+
+def kickingTheHornetNest(card):
+    search(encounterDeck(), table, 9, TypeFilter="Enemy")
+def stylishCoat(card):
+    exhaust(card)
+    addResource(Investigator(card.owner))
+
+def bewitching(card):
+    global cardToAttachTo
+    if card.highlight == "#ffffff":
+        tricks = [c for c in card.owner.deck if "Trick" in c.Traits]
+        if tricks:
+            dlg = cardDlg(tricks)
+            dlg.title = "Bewitching"
+            dlg.text = "Select up to 3 tricks:"
+            dlg.min = 0
+            dlg.max = 3
+            cardsSelected = dlg.show()
+        if cardsSelected:
+            attachTo(card)
+            for c in cardsSelected:
+                c.moveToTable(cardToAttachTo[0], cardToAttachTo[1], True)
+                c.sendToBack()
+                c.peek()
+                attachTo(c)
+        cardToAttachTo = None
+        card.highlight = None
+        drawOpeningHand(card.owner)
+    else:
+        exhaust(card)
+        sets = askChoice("Bewitching", ["Draw 1 card","Search top 9 cards"],["#000000","#000000"])
+        if sets == 0: return
+        elif sets == 1:
+            whisper("Manual Draw")
+            return
+        elif sets == 2:
+            search(card.owner.deck, card.owner.hand, 9)
 
 
 def attachCard(host, card):
@@ -1388,115 +1520,8 @@ def defaultAction(card, x = 0, y = 0):
   
 
 
-#############################################
-#                                           #
-#           Rogue Cards                     #
-#                                           #
-############################################# 
-    elif card.Name == "Lucky Cigarette Case" and card.Level == "0":
-        exhaust (card, x, y)
-        draw(card.owner.deck)
-    elif card.Name == "Pickpocketing" and card.Level == "0":
-        exhaust (card, x, y)
-        draw(card.owner.deck)
-    elif card.Name == "Pickpocketing" and card.Level == "2":
-        exhaust (card, x, y)
-        sets = askChoice("Pickpocketing", ["Draw 1 card","Gain 1 resource","Do both"],["#000000","#000000","#000000"])
-        if sets == 0: return
-        elif sets == 1:
-            draw(card.owner.deck)
-        elif sets == 2:
-            Investigator(card.owner).markers[Resource] += 1
-        elif sets == 3:
-            draw(card.owner.deck)
-            Investigator(card.owner).markers[Resource] += 1
-    elif card.Name == "Lucky Cigarette Case" and card.Level == "3":
-        exhaust (card, x, y)
-        count = askInteger("Succeeded by how much ?", 2)
-        if count is None or count <= 0:
-            whisper("Lucky Cigarette Case: invalid card count")
-            return
-        else:
-            notify("{} uses {} to search the top {} cards of their deck for a card to draw.".format(card.owner, card, count))
-            searchTopDeck(card.owner.deck, card.owner.hand, count)
 
-    elif card.Name == "Dark Ritual":
-        if curseInCB() > 0 and card.markers[Curse] == 0: 
-            count = askInteger("Seal how many Curse tokens from the chaos bag?", 5)
-            if count is None or count <= 0 or count > 5 or count > curseInCB():
-                whisper("Invalid Count")
-                return
-            inc = 0
-            notify("{} uses {} to seal {} Curse tokens.".format(card.owner, card, count))
-            card.markers[Curse] = count
-            for t in shared.piles['Chaos Bag']:
-                if t.Name != "Curse":
-                    continue
-                t.delete()
-                inc += 1
-                if inc == count:
-                    break
-            updateBlessCurse()
-    elif card.Name == "Underworld Market":
-        market = card.owner.piles['Secondary Deck']
-        if len(market) > 1: #2nd option
-            marketTop2 = [c for c in market[:2]]
-            dlg = cardDlg(marketTop2)
-            dlg.title = "Underworld Market"
-            dlg.text = "Select a card:"
-            dlg.min = 1
-            dlg.max = 1
-            cardsSelected = dlg.show()
-            if cardsSelected is not None:
-                c = cardsSelected[0]
-                if Investigator(c.owner).markers[Resource] > 0:
-                    notify("{} uses {} and pays 1 resource to draw a card".format(card.owner, card))
-                    subResource(Investigator(card.owner))
-                    c.moveTo(card.owner.hand)
-                    marketTop2.remove(c)
-            for c in marketTop2:
-                c.moveToBottom(card.owner.piles['Secondary Deck'])
-        else: #setup
-            if 1 == askChoice("Use Underworld Market Setup ?", ["Yes","No"],["#000000","#000000"]):
-                illicit = [card for card in card.owner.deck if
-                    "Illicit." in card.Traits]
-                if len(illicit) > 9:
-                    dlg = cardDlg(illicit)
-                    dlg.title = "Underworld Market"
-                    dlg.text = "Select 10 cards:"
-                    dlg.min = 10
-                    dlg.max = 10
-                    cardsSelected = dlg.show()
-                    if cardsSelected is not None:
-                        for c in cardsSelected:
-                            c.moveTo(market)
-                        shuffle(market)
-                        market.viewState = "pile"
-                else: 
-                    whisper("Not enough Illicit cards in your deck!")
-            shuffle(card.owner.deck)
-            if 1 == askChoice('Draw opening hand ?', ['Yes', 'Not now'], ['#dd3737', '#d0d0d0']):
-                drawOpeningHand(player)
-    elif card.Name == "Kicking the Hornet's Nest":
-        searchTopDeck(encounterDeck(), table, 9, traits="Enemy")
-    elif card.Name == "Stylish Coat":
-        exhaust(card, x, y)
-        addResource(Investigator(card.owner))
-    elif card.Name == "Bewitching":
-        if card.highlight == "#ffffff":
-            attachTo(card)
-            searchTopDeck(card.owner.deck, table, traits="Trick")
-            card.highlight = None
-            drawOpeningHand(card.owner)
-        else:
-            exhaust(card, x, y)
-            sets = askChoice("Pickpocketing", ["Draw 1 card","Search top 9 cards"],["#000000","#000000"])
-            if sets == 0: return
-            elif sets == 1:
-                whisper("Manual Draw")
-                return
-            elif sets == 2:
-                searchTopDeck(card.owner.deck, card.owner.hand, 9)
+    
 #############################################
 #                                           #
 #           Survivor Cards                  #

@@ -1073,7 +1073,7 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
         permanents = filter(lambda card: "Permanent" in card.Keywords or "Permanent." in card.Text or "Key" in card.Subtype, me.deck)
         # Check if Stick to the Plan or Ancestral Knowledge is in the deck
         sttp = filter(lambda card: "Stick to the Plan" in card.Name, me.deck)
-        betwitching = filter(lambda card: "Bewitching" in card.Name, me.deck)
+        bewitching = filter(lambda card: "Bewitching" in card.Name, me.deck)
         ancestralKnowledge = filter(lambda card: "Ancestral Knowledge" in card.Name, me.deck)
         underworldMarket = filter(lambda card: "Underworld Market" in card.Name, me.deck)
         haveForcedLearning = filter(lambda card: "Forced Learning" in card.Name, me.deck)
@@ -1149,10 +1149,10 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
                 if ancestralKnowledge:
                     whisper("Ancestral Knowledge available")
                     ancestralKnowledge[0].highlight = WhiteColour
-                if betwitching:
+                if bewitching:
                     whisper("Bewitching available")
                     betwitching[0].highlight = WhiteColour
-                if not (sttp or ancestralKnowledge or underworldMarket or betwitching): #Only draws opening hand if no Stick to the Plan or Ancestral Knowledge available
+                if not (sttp or ancestralKnowledge or underworldMarket or bewitching): #Only draws opening hand if no Stick to the Plan or Ancestral Knowledge available
                     drawOpeningHand(me)
                     
             # Check for starting resources modifiers
