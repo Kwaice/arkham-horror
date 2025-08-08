@@ -4,7 +4,6 @@ import re
 
 cardToAttachTo =  None
 cardsFound = []
-Premonition = []
 attached = {}
 reduceCost = 0
 
@@ -43,7 +42,30 @@ cardScripts={
     'Professor William Webb': {'onDoubleClick': [lambda card: prWilliamWebb(card)]},
     'Mandy Thompson': {'onDoubleClick': [lambda card: mandyThompson(card)]},
     'Joe Diamond' : {'onDoubleClick': [lambda card: joeDiamond(card)]},
-    "Livre d'Eibon" : {'onDoubleClick': [lambda card: livredEibon(card)]}
+    "Livre d'Eibon" : {'onDoubleClick': [lambda card: livredEibon(card)]},
+    #Mystic cards
+    "De Vermis Mysteriis": {'onDoubleClick': [lambda card: deVermisMysteriis(card)]},
+    "Arcane Initiate": {'onDoubleClick': [lambda card: arcaneInitiate(card)]},
+    "Stargazing": {'onDoubleClick': [lambda card: stargazing(card)]},
+    "Word of Command": {'onDoubleClick': [lambda card: wordOfCommand(card)]},
+    "Prescient": {'onDoubleClick': [lambda card: prescient(card)]},
+    "Olive McBride": {'onDoubleClick': [lambda card: oliveMcBride(card)]},
+    "Alyssa Graham": {'onDoubleClick': [lambda card: alyssaGraham(card)]},
+    "Scroll of Secrets": {'onDoubleClick': [lambda card: scrollOfSecrets(card)]},
+    "Crystalline Elder Sign": {'onDoubleClick': [lambda card: crystallineElderSign(card)]},
+    "Astronomical Atlas": {'onDoubleClick': [lambda card: astronomicalAtlas(card)]},
+    "Rod of Carnamagos": {'onDoubleClick': [lambda card: rodOfCarnamagos(card)]},
+    "Shards of the Void": {'onDoubleClick': [lambda card: shardsOfTheVoid(card)]},
+    "Premonition" : {'onDoubleClick': [lambda card: premonition(card)]},
+    "Flute of the Outer Gods": {'onDoubleClick': [lambda card: fluteOfTheOuterGods(card)]},
+    "Protective Incantation": {'onDoubleClick': [lambda card: protectiveIncantation(card)]},
+    "Seal of the Seventh Sign": {'onDoubleClick': [lambda card: sealOfTheSeventhSign(card)]},
+    "The Chthonian Stone": {'onDoubleClick': [lambda card: theChtonianStone(card)]},
+    "The Codex of Ages": {'onDoubleClick': [lambda card: theCodexOfAges(card)]},
+    "Word of Woe": {'onDoubleClick': [lambda card: wordOfWoe(card)]},
+    "Word of Weal": {'onDoubleClick': [lambda card: wordOfWeal(card)]},
+    "Kōhaku Narukami": {'onDoubleClick': [lambda card: kohakuNarukami(card)]},
+    "Book of Living Myths": {'onDoubleClick': [lambda card: bookOfLivingMyths(card)]},
 }
 
 def search(group, target, count = None, TypeFilter="ALL", TraitsFilter="ALL", filterFunction='True', addWeakness='False'):
@@ -700,6 +722,517 @@ def guidedByTheUnseen(card):
             notify("{} uses {} to make {} search their deck for a card commit to the test.".format(card.owner, card, chosenPlayer))
             remoteCall(chosenPlayer,"search",[chosenPlayer.deck, table, 3])
 
+#############################################
+#                                           #
+#           Mystic Cards                    #
+#                                           #
+#############################################
+def deVermisMysteriis(card):
+    global reduceCost
+    discardCards = [c for c in card.owner.piles['Discard Pile'] if "Insight" in c.Traits or "Spell" in c.Traits]
+    if discardCards:
+        reduceCost = 1
+        exhaust(card)
+        dlg = cardDlg(discardCards)
+        dlg.title = "De Vermis Mysteriis"
+        dlg.text = "Select 1 card"
+        dlg.min = 1
+        dlg.max = 1
+        cardsSelected = dlg.show()
+        if cardsSelected != None:
+            c = cardsSelected[0]
+            playCard(c)
+            if c.group == table:
+                addDoom(card)
+                c.Subtype += "RemoveFromGame."
+                notify("{} uses {} to play {} from their discard pile, reducing its cost by 1.".format(card.owner, card, c))       
+        reduceCost = 0
+    else:
+        whisper("No Insight or Spell cards to play from discard")
+
+def arcaneInitiate(card):
+    exhaust(card)
+    notify("{} uses {} to search the top 3 cards of their deck for a Spell card to draw.".format(card.owner, card))
+    search(card.owner.deck, card.owner.hand, 3, TraitsFilter="Spell")
+    
+def stargazing(card):
+    if len(encounterDeck()) > 9:
+        stop = False
+        for c in card.owner.piles['Sideboard']:
+            if c.Name == "The Stars Are Right" and not stop:
+                shuffleIntoTop(c, 0, 0, me, encounterDeck(),10)
+                stop = True
+    else: 
+        whisper("There are not enough cards in the encounter Deck")
+
+def wordOfCommand(card):
+    notify("{} uses {} to search their deck for a Spell card to draw.".format(card.owner, card))
+    search(card.owner.deck, card.owner.hand, TraitsFilter="Spell")
+
+def prescient(card):
+    notify("{} uses {} to move back a Spell from the discard pile to their hand.".format(card.owner, card))
+    search(card.owner.piles['Discard Pile'], card.owner.hand, TraitsFilter="Spell")
+
+def oliveMcBride(card):
+    exhaust(card)
+    if card.Level == "0":
+        count = 3
+    else:
+        count = 4
+    notify("{} uses {} to reveal {} chaos tokens and choose 2 of them to resolve.".format(card.owner, card, count))
+    for _ in range(count):
+        drawAddChaosToken(table, x = 0, y = 0)
+    
+def alyssaGraham(card):
+    exhaust(card)
+    choice_list = ['Encounter Deck']
+    color_list = ['#46453E']
+    for i in range(0, len(getPlayers())):
+        # Add player names to the list
+        choice_list.append(str(InvestigatorName(getPlayers()[i])))
+        # Add players investigator color to the list
+        color_list.append(InvestigatorColor(getPlayers()[i]))
+    sets = askChoice("Choose a deck to look at:", choice_list, color_list)
+    if sets == 0:
+        return
+    #Encounter Deck
+    elif sets == 1:
+        notify("{} uses {} to look at the top card of the encounter deck".format(card.owner, card))
+        lookToBottom(encounterDeck(), 1)
+    else:
+        chosenPlayer = getPlayers()[sets - 2]
+        if deckLocked(chosenPlayer):
+            notify("{}'s deck is locked and cannot be looked at".format(chosenPlayer))
+            return
+        notify("{} uses {} to look at the top card of {}'s deck".format(card.owner, card, chosenPlayer))
+        #Two-Handed solo option
+        if chosenPlayer.deck.controller == me:
+                lookToBottom(chosenPlayer.deck, 1)
+        else:
+            chosenPlayer.deck.controller = card.owner
+            update()
+            lookToBottom(chosenPlayer.deck, 1)
+            update()
+            chosenPlayer.deck.controller = chosenPlayer
+            update()
+    if len(cardsFound) == 1: #if a card was moved to the bottom, add a Doom to Alyssa
+        addDoom(card)
+
+def scrollOfSecrets(card):
+    exhaust(card)
+    subResource(card)
+    choice_list = ['Encounter Deck']
+    color_list = ['#46453E']
+    for i in range(0, len(getPlayers())):
+        # Add player names to the list
+        choice_list.append(str(InvestigatorName(getPlayers()[i])))
+        # Add players investigator color to the list
+        color_list.append(InvestigatorColor(getPlayers()[i]))
+    sets = askChoice("Choose a deck to look at:", choice_list, color_list)
+    if sets == 0:
+        return
+    #Encounter Deck
+    elif sets == 1:
+        deckToCheck = encounterDeck()
+        deck = "the encounter deck"
+    else:
+        chosenPlayer = getPlayers()[sets - 2]
+        deckToCheck = chosenPlayer.deck
+        deck = chosenPlayer
+        if deckLocked(chosenPlayer):
+            notify("{}'s deck is locked and cannot be looked at".format(chosenPlayer))
+            return
+    lookAt = []
+    if card.Class == "Mystic":
+        choice_list = ['Look at the top card','Look at the bottom card']
+        color_list = ['#46453E','#46453E']
+        sets = askChoice("Choose the card to look at", choice_list, color_list)
+        if sets == 0: return
+        elif sets == 1: #Top card
+            lookAt.append(deckToCheck.top())
+            note = "top"
+        elif sets == 2: #Bottom
+            lookAt.append(deckToCheck.bottom())
+            note = "bottom"
+    elif card.Level == "0":
+        lookAt.append(deckToCheck.bottom())
+        note = "bottom"
+    elif card.Class == "Seeker":
+        lookAt.extend(deckToCheck.bottom(3))
+        note = "bottom 3"
+    notify("{} uses {} to look at the {} card(s) of {}".format(card.owner, card, note, deck))
+    if card.Class != "Seeker":
+        choice_list = ['Discard the card',"Place it at the bottom of the deck","Place it on top of the deck"]
+        color_list = ['#46453E','#46453E','#46453E',]
+        if deckToCheck != encounterDeck():
+            choice_list.append("Add the card to its owner's hand")
+            color_list.append('#46453E')
+        dlg = cardDlg(lookAt)
+        dlg.title = "Scroll of Secrets"
+        dlg.text = "Choose a card"
+        dlg.min = 1
+        dlg.max = 1
+        cardsSelected = dlg.show()
+        if cardsSelected:
+            sets = askChoice("Choose an option:", choice_list, color_list)
+            if sets == 0:
+                return
+            elif sets == 1: # Discard
+                if deckToCheck == encounterDeck():
+                    discard(cardsSelected[0])
+                else:
+                    remoteCall(chosenPlayer,"discard",[cardsSelected[0]])
+            elif sets == 2: # Place on bottom
+                notify("{} places the card at the bottom of the deck.".format(card.owner))
+                if deckToCheck == encounterDeck():
+                    cardsSelected[0].moveToBottom(encounterDeck())
+                else:
+                    remoteCall(chosenPlayer,"toBottomMove",[cardsSelected[0],deckToCheck])
+            elif sets == 3: # Move to top
+                if deckToCheck == encounterDeck():
+                    cardsSelected[0].moveTo(encounterDeck()) 
+                else:
+                    remoteCall(chosenPlayer,"moveToRemote",[cardsSelected[0],deckToCheck])
+            elif sets == 4: # Add to hand
+                remoteCall(chosenPlayer,"moveToRemote",[cardsSelected[0],chosenPlayer.hand])
+    else: #Seeker scroll
+        choice_list = ['Stop','Rearrange on top or bottom','Discard the card',]
+        color_list = ['#46453E','#46453E','#46453E']
+        if deckToCheck != encounterDeck():
+            choice_list.append("Add the card to its owner's hand")
+            color_list.append('#46453E')
+        Done = False
+        while len(lookAt) > 0:
+            dlg = cardDlg(lookAt)
+            dlg.title = "Scroll of Secrets"
+            dlg.text = "Choose a card"
+            dlg.min = 1
+            dlg.max = 1
+            cardsSelected = dlg.show()
+            sets = askChoice("Choose an option:", choice_list, color_list)
+            if sets == 0: return
+            if sets == 1: #Stop
+                return
+            if sets == 2: #Rearrange
+                rearrangeList = ['Top','Bottom']
+                rearrangeColor = ['#46453E','#46453E']
+                sets = askChoice("Choose an option:", rearrangeList, rearrangeColor)
+                if sets == 0: return
+                elif sets == 1: #Top
+                    if deckToCheck == encounterDeck():
+                        cardsSelected[0].moveTo(encounterDeck()) 
+                    elif chosenPlayer != me:
+                        remoteCall(chosenPlayer,"moveToRemote",[cardsSelected[0],deckToCheck])
+                    else: cardsSelected[0].moveTo(me.deck)
+                elif sets == 2: #Bottom
+                    if deckToCheck == encounterDeck():
+                        cardsSelected[0].moveToBottom(encounterDeck())
+                    elif chosenPlayer != me:
+                        remoteCall(chosenPlayer,"toBottomMove",[cardsSelected[0],deckToCheck])
+                    else: cardsSelected[0].moveToBottom(me.deck)
+                lookAt.remove(cardsSelected[0])
+            if sets == 3: #Discard
+                if deckToCheck == encounterDeck():
+                    discard(cardsSelected[0])
+                elif chosenPlayer != me:
+                    remoteCall(chosenPlayer,"discard",[cardsSelected[0]])
+                else:
+                    discard(cardsSelected[0])
+                lookAt.remove(cardsSelected[0])
+            if sets == 4: #Add to hand
+                if chosenPlayer != me:
+                    remoteCall(chosenPlayer,"moveToRemote",[cardsSelected[0],chosenPlayer.hand])
+                else:
+                    cardsSelected[0].moveTo(me.hand)
+                lookAt.remove(cardsSelected[0])
+
+def crystallineElderSign(card):
+    if not chaosBag():
+        notify("No Chaos Bag")
+        return
+    card.sendToBack()
+    list = [c for c in table
+                if (c.Type == 'Chaos Token') and (c.Subtype != 'Sealed')]
+    for cT in chaosBag():
+        if cT.name == "+1" or cT.name == "Elder Sign":
+            list.append(cT)
+    dlg = cardDlg(list)
+    dlg.title = "Seal Chaos Token"
+    dlg.text = "Select a chaos token to seal"
+    dlg.min = 1
+    dlg.max = 1
+    tokensSelected = dlg.show()
+    if tokensSelected == None:
+        return
+    else:
+        sealTokenOnCard(tokensSelected[0],card)
+        notify("{} seals {} on {}.".format(card.owner, tokensSelected[0], card))
+
+def astronomicalAtlas(card):
+    global attached
+    if card.owner.deck:
+        if 1 == askChoice("Look at the top card and attach a non-weakness ?", ["Yes","No"],["#000000","#000000"]):
+            if card._id in attached and len(attached[card._id]) == 5:
+                whisper("5 cards already attached to {}".format(card))
+                return
+            if deckLocked(card.owner):
+                whisper("Your deck is locked and cannot be looked at")
+                return
+            exhaust(card)
+            topCard = card.owner.deck.top()
+            if topCard.Subtype != "Weakness" and topCard.subType != "Basic Weakness":
+                attachCard(card, topCard) # attaches to Atlas
+                notify("{} uses {} to attach the top card of their deck".format(card.owner, card))
+                inc = 1
+                topCard.moveToTable(card.position[0], card.position[1], True)
+                for c in table:
+                    if c._id in attached[card._id]: # if card is attached to Atlas
+                        c.moveToTable(card.position[0] + (inc * 5), card.position[1] + (inc * 5), True)
+                        c.sendToBack()
+                        c.peek()
+                        inc += 1
+                        if inc - 1 == len(attached[card._id]):
+                            break
+            else:
+                topCard.peek()
+                notify("{} sees a forecoming weakness!".format(card.owner))
+    else: whisper("Your deck is empty.")
+
+def rodOfCarnamagos(card):
+    rots = filter(lambda c: (" Rot" in c.Name), card.owner.piles['Sideboard'])
+    if rots:
+        exhaust(card)
+        drawXChaosTokens(chaosBag(), 5, x = 0, y = 0)
+        if 1 == askChoice("Was a Curse revealed ?", ["Yes","No"],["#000000","#000000"]):
+            if card.Level == "0":
+                rot = rots[rnd(0,len(rots)-1)]
+                rot.moveToTable(-200,-100)
+                whiteHighlight(rot)
+            else:
+                dlg = cardDlg(rots)
+                dlg.title = "Rod of Carnamagos"
+                dlg.text = "Select a card"
+                dlg.min = 1
+                dlg.max = 1
+                rot = dlg.show()
+                rot = rot[0]
+                rot.moveToTable(-200,-100)
+                whiteHighlight(rot)
+            notify("{} uses {} to attach {} to an enemy".format(card.owner, card, rot))
+
+def shardsOfTheVoid(card):
+    if not "Locked." in card.Subtype:
+        if len(chaosBag()):
+            zero = next(c for c in chaosBag() if c.Name == "0"), None
+            if zero:
+                card.markers[Zero] = 1
+                removeChaosTokenFromBag("0")
+                notify("{} uses {} to seal a 0 token".format(card.owner, card))
+                card.Subtype += "Locked."
+            else:
+                whisper("No 0 tokens in the Chaos Bag")
+                return
+    else:
+        sets = askChoice("Shards of the Void", ["Release a 0 token","Seal revealed 0 tokens here"],["#000000","#000000"])
+        if sets == 0: return
+        elif sets == 1: # Release a 0 token
+            if card.markers[Zero]:
+                card.markers[Zero] -= 1
+                createChaosTokenInBag('35137ccc-db2b-4fdd-b0a8-a5d91f453a43')
+                notify("{} uses {} to release a 0 token".format(card.owner, card))
+            else: whisper("No Zero tokens sealed on {}".format(card))
+        elif sets == 2: # Seal 0 tokens
+            inc = 0
+            for cT in table:
+                if cT.name == "0" and cT.Subtype != "Sealed":
+                    if cT.controller == me:
+                        cT.delete()
+                    else:
+                        remoteCall(cT.controller, "deleteChaosToken", [cT])
+                    card.markers[Zero] += 1
+                    inc += 1
+            if inc:
+                notify("{} uses {} to seal {} revealed 0 tokens and deal {} additional damage.".format(card.owner, card, inc, inc))
+            else: whisper("No revealed 0 to seal")
+
+def premonition(card):
+    global cardToAttachTo
+    if not "Locked." in card.Subtype:
+        if chaosBag().controller != card.controller:
+            chaosBag().controller = card.controller
+            update()
+        attachTo(card)
+        chaosBag().shuffle()
+        for cT in chaosBag():
+            cT.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
+            cT.Subtype = 'Sealed'
+            cT.filter = "#99999999"
+            notify("{} randomly seals {} on {}.".format(card.owner, cT, card))
+            break
+        card.Subtype += "Locked."
+        updateBlessCurse()
+        cardToAttachTo = None
+
+def fluteOfTheOuterGods(card):
+    if not card.markers[Curse]:
+        sealXCurse(card)
+    elif 1 == askChoice("Trigger Flute of the Outer Gods ?", ["Yes","No"],["#000000","#000000"]) and card.markers[Curse] > 0:
+        exhaust(card)
+        card.markers[Curse] -= 1
+        addCurse()
+
+def protectiveIncantation(card):
+    global cardToAttachTo
+    if chaosBag().controller != card.controller:
+        chaosBag().controller = card.controller
+    if not "Locked." in card.Subtype:
+        attachTo(card)
+        list = [cT for cT in chaosBag()
+    if not ("Auto Fail" in cT.Name)]
+        dlg = cardDlg(list)
+        dlg.title = "Protective Incantation"
+        dlg.text = "Select a Chaos Token to seal:"
+        dlg.min = 1
+        dlg.max = 1
+        cT = dlg.show()
+        if cT is not None:
+            cT[0].moveToTable(cardToAttachTo[0], cardToAttachTo[1])
+            cT[0].Subtype = 'Sealed'
+            cT[0].filter = "#99999999"
+            notify("{} seals {} on {}.".format(card.owner, cT[0], card))
+        card.Subtype += "Locked."
+    cardToAttachTo = None
+
+def sealOfTheSeventhSign(card):
+    global cardToAttachTo
+    if not "Locked." in card.Subtype:
+        attachTo(card)
+        autofail = next((c for c in chaosBag() if c.Name == "Auto Fail"), None)
+        if autofail:
+            autofail.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
+            autofail.Subtype = 'Sealed'
+            autofail.filter = "#99999999"
+            notify("{} seals {} on {}.".format(card.owner, autofail, card))
+        card.Subtype += "Locked"
+    cardToAttachTo = None
+
+def theChtonianStone(card):
+    global cardToAttachTo
+    if chaosBag().controller != card.controller:
+        chaosBag().controller = card.controller
+        update()
+    if not "Locked." in card.Subtype:
+        attachTo(card)
+        list = [cT for cT in chaosBag()
+    if "Elder One" in cT.Name or "Skull" in cT.Name or "Cultist" in cT.Name or "Tablet" in cT.Name]
+        if list:
+            dlg = cardDlg(list)
+            dlg.title = "The Chthonian Stone"
+            dlg.text = "Select a Chaos Token to seal:"
+            dlg.min = 1
+            dlg.max = 1
+            cT = dlg.show()
+            if cT:
+                cT[0].moveToTable(cardToAttachTo[0], cardToAttachTo[1])
+                cT[0].Subtype = 'Sealed'
+                cT[0].filter = "#99999999"
+                notify("{} seals {} on {}.".format(card.owner, cT[0], card))
+                card.Subtype += "Locked."
+    cardToAttachTo = None
+
+def theCodexOfAges(card):
+    global cardToAttachTo
+    if chaosBag().controller != card.controller:
+        chaosBag().controller = card.controller
+        update()
+    if not "Locked." in card.Subtype:
+        attachTo(card)
+        elderSign = next((c for c in chaosBag() if c.Name == "Elder Sign"), None)
+        if elderSign:
+            elderSign.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
+            elderSign.Subtype = 'Sealed'
+            elderSign.filter = "#99999999"
+            notify("{} seals {} on {}.".format(card.owner, elderSign, card))
+            card.Subtype += "Locked."
+    cardToAttachTo = None
+    
+def wordOfWoe(card):
+    weal = next((c for c in card.owner.piles['Discard Pile'] if c.Name == "Word of Weal"), None)
+    if weal:
+        if confirm("Shuffle Word of Weal into your deck?"):
+            shuffleIntoDeck(weal)
+
+def wordOfWeal(card):
+    woe = next((c for c in card.owner.piles['Discard Pile'] if c.Name == "Word of Woe"), None)
+    if woe:
+        if confirm("Shuffle Word of Woe into your deck?"):
+            shuffleIntoDeck(woe)
+
+def kohakuNarukami(card):
+    if card.Type == "Investigator":        
+        choice_list = ["Add 1 Bless or 1 Curse to the Chaos Bag"]
+        color_list = ["#000000"]
+        if blessInCB() >= 2 and curseInCB() >= 2:
+            choice_list.append("Remove 2 Bless and Curse tokens to take an additional action")
+            color_list.append("#000000")
+        sets = askChoice("Kôhaku Narukami", choice_list, color_list)
+        if sets == 0:
+            return
+        elif sets == 2: # Remove 2 Bless and 2 Curse
+            if blessInCB() >= 2 and curseInCB() >= 2:
+                for _ in range(2):
+                    removeChaosTokenFromBag("Bless")
+                    removeChaosTokenFromBag("Curse")
+                updateBlessCurse()
+                notify("{} uses {} to remove 2 bless and 2 curse tokens from the chaos bag to take an additional action".format(card.owner, card))
+            else:
+                whisper("Not enough bless and curse tokens in the chaos bag.")
+        elif sets == 1:
+            if curseInCB() > blessInCB():
+                addBless()
+            elif curseInCB() < blessInCB():
+                addCurse()
+            elif curseInCB() == blessInCB():
+                choice_list = ["Add Bless","Add Curse"]
+                color_list = ["#000000","#000000"]
+                sets = askChoice("Kôhaku Narukami", choice_list, color_list)
+                if sets == 0:
+                    return
+                elif sets == 1: 
+                    addBless()
+                elif sets == 2:
+                    addCurse()
+                    
+def bookOfLivingMyths(card):
+    if blessInCB() or curseInCB():
+        exhaust(card)
+        if blessInCB() > curseInCB():
+            removeChaosTokenFromBag("Bless")
+            table.create('360db0ee-c362-4bbe-9554-b1fbf101d9ab', ChaosTokenX, ChaosTokenY, quantity = 1, persist = False)
+            notify("{} uses {} to reveal a Bless token".format(card.owner, card))
+        elif blessInCB() < curseInCB():
+            removeChaosTokenFromBag("Curse")
+            table.create('81df3f18-e341-401d-a6bb-528940a9c39e', ChaosTokenX, ChaosTokenY, quantity = 1, persist = True)
+            notify("{} uses {} to reveal a Curse token".format(card.owner, card))
+        elif blessInCB() == curseInCB():
+            choice_list = ["Resolve A Bless Token","Resolve a Curse Token"]
+            color_list = ["#000000","#000000"]
+            sets = askChoice("Book of Living Myths", choice_list, color_list)
+            if sets == 0:
+                return
+            elif sets == 1: 
+                removeChaosTokenFromBag("Bless")
+                table.create('360db0ee-c362-4bbe-9554-b1fbf101d9ab', ChaosTokenX, ChaosTokenY, quantity = 1, persist = False)
+                notify("{} uses {} to reveal a Bless token".format(card.owner, card))
+            elif sets == 2:
+                removeChaosTokenFromBag("Curse")
+                table.create('81df3f18-e341-401d-a6bb-528940a9c39e', ChaosTokenX, ChaosTokenY, quantity = 1, persist = True)
+                notify("{} uses {} to reveal a Curse token".format(card.owner, card))
+        updateBlessCurse()
+    else:
+        whisper("Not enough Bless/Curse tokens in the Chaos Bag")
+
+
 
 def attachCard(host, card):
     mute()
@@ -769,6 +1302,7 @@ def InvestigatorList():
 
 def lookToBottom(group, count = None): # Alyssa Graham automation
     global cardsFound
+    cardsFound = []
     mute()
     if len(group) == 0: return
     if deckLocked(group.player):
@@ -781,18 +1315,17 @@ def lookToBottom(group, count = None): # Alyssa Graham automation
         return
     dlg = cardDlg(group.top(count))
     dlg.title = "Looking at cards"
-    dlg.text = "Select a card:"
+    dlg.text = "Select a card to move to the bottom of the deck:"
     cardsSelected = dlg.show()
-    if cardsSelected != None:
-        for c in cardsSelected:
-            c.moveToBottom(group)
-            cardsFound.append(c)
-        notify("{} is moved at the bottom of {}".format(c, group.name))
+    if cardsSelected:
+        if group.controller == me:
+            cardsSelected[0].moveToBottom(group)
+        else:
+            remotecall(group.controller,"toBottomMove",[cardsSelected[0],group])
+        cardsFound.append(cardsSelected[0])
+        notify("{} is moved at the bottom of {}".format(cardsSelected[0], group.name))
 
-def toBottomMove(card, group):
-    if card.controller != me:
-        card.controller = me
-        update()
+def toBottomMove(card, group): # for remote calls
     card.moveToBottom(group)
 
 def attachTo(card):
@@ -849,436 +1382,6 @@ def defaultAction(card, x = 0, y = 0):
             if functions_list and callable(functions_list[0]): # <--- MODIFICATION ICI
                 # Appeler le PREMIER élément de la liste, qui est la fonction lambda
                 functions_list[0](card) # <--- MODIFICATION ICI
-#############################################
-#                                           #
-#           Mystic Cards                    #
-#                                           #
-#############################################
-    elif card.Name == "De Vermis Mysteriis":
-        discardCards = [c for c in card.owner.piles['Discard Pile'] if "Insight" in c.Traits or "Spell" in c.Traits]
-        if discardCards:
-            exhaust(card, x, y)
-            dlg = cardDlg(discardCards)
-            dlg.title = "De Vermis Mysteriis"
-            dlg.text = "Select 1 card"
-            dlg.min = 1
-            dlg.max = 1
-            cardsSelected = dlg.show()
-            if cardsSelected != None:
-                c = cardsSelected[0]
-                playCard(c)
-                if c.group == table:
-                    addDoom(card)
-                    c.Subtype += "RemoveFromGame"
-                    notify("{} uses {} to play {} from their discard pile".format(card.owner, card, c))               
-        else:
-            whisper("No Insight or Spell cards to play from discard")
-    elif card.Name == "Arcane Initiate":
-        exhaust(card, x, y)
-        notify("{} uses {} to search their deck for a Spell card to draw.".format(card.owner, card))
-        searchTopDeck(card.owner.deck, card.owner.hand, 3, traits="Spell")
-    elif card.Name == "Stargazing":
-        if len(encounterDeck()) > 9:
-            stop = False
-            for c in card.owner.piles['Sideboard']:
-                if c.Name == "The Stars Are Right" and stop is not True:
-                    shuffleIntoTop(c, 0, 0, me, encounterDeck(),10)
-                    stop = True
-            notify("{} uses {} to shuffle {} in the encounter deck top 10 cards.".format(card.owner, card, c))
-        else: 
-            whisper("There are not enough cards in the encounter Deck")
-    elif card.Name == "Word of Command":
-        notify("{} uses {} to search their deck for a Spell card to draw.".format(card.owner, card))
-        searchTopDeck(card.owner.deck, card.owner.hand, traits="Spell")
-    elif card.Name == "Prescient":
-        notify("{} uses {} to move back a Spell from the discard pile to their hand.".format(card.owner, card))
-        searchTopDeck(card.owner.piles['Discard Pile'], card.owner.hand, traits="Spell")
-    elif card.Name == "Olive McBride":
-        exhaust (card, x, y)
-        drawXChaosTokens(chaosBag(), x = 0, y = 0)
-        notify("{} uses {} to reveal 3 chaos tokens and choose 2 of them to resolve.".format(card.owner, card))
-    elif card.Name == "Alyssa Graham":
-        exhaust (card, x, y)
-        choice_list = ['Encounter Deck']
-        color_list = ['#46453E']
-        for i in range(0, len(getPlayers())):
-            # Add player names to the list
-            choice_list.append(str(InvestigatorName(getPlayers()[i])))
-            # Add players investigator color to the list
-            color_list.append(InvestigatorColor(getPlayers()[i]))
-        sets = askChoice("Choose a deck to look at:", choice_list, color_list)
-        if sets == 0:
-            return
-        #Encounter Deck
-        elif sets == 1:
-            notify("{} uses {} to look at the top card of the encounter deck".format(card.owner, card))
-            lookToBottom(encounterDeck(), 1)
-        else:
-            chosenPlayer = getPlayers()[sets - 2]
-            if deckLocked(chosenPlayer):
-                notify("{}'s deck is locked and cannot be looked at".format(chosenPlayer))
-                return
-            notify("{} uses {} to look at the top card of {}'s deck".format(card.owner, card, chosenPlayer))
-            #Two-Handed solo option
-            if chosenPlayer.deck.controller == me:
-                    lookToBottom(chosenPlayer.deck, 1)
-            else:
-                chosenPlayer.deck.controller = card.owner
-                lookToBottom(chosenPlayer.deck, 1)
-                chosenPlayer.deck.controller = chosenPlayer
-        if len(cardsFound) == 2: #if a card was moved to the bottom, add a Doom to Alyssa
-            addDoom(card)
-    elif card.Name == "Scroll of Secrets" and card.Level == "0":
-        exhaust (card, x, y)
-        subResource(card)
-        choice_list = ['Encounter Deck']
-        color_list = ['#46453E']
-        for i in range(0, len(getPlayers())):
-            # Add player names to the list
-            choice_list.append(str(InvestigatorName(getPlayers()[i])))
-            # Add players investigator color to the list
-            color_list.append(InvestigatorColor(getPlayers()[i]))
-        sets = askChoice("Choose a deck to look at:", choice_list, color_list)
-        if sets == 0:
-            return
-        #Encounter Deck
-        elif sets == 1:
-            notify("{} uses {} to look at the bottom card of the encounter deck".format(card.owner, card))
-            deckToCheck = encounterDeck()
-        else:
-            chosenPlayer = getPlayers()[sets - 2]
-            deckToCheck = chosenPlayer.deck
-            if deckLocked(chosenPlayer):
-                notify("{}'s deck is locked and cannot be looked at".format(chosenPlayer))
-                return
-            notify("{} uses {} to look at the bottom card of {}'s deck".format(card.owner, card, chosenPlayer))
-            if deckToCheck.controller != me and deckToCheck != encounterDeck():
-                for p in chosenPlayer.piles:
-                    chosenPlayer.piles[p].controller = me
-        dlg = cardDlg(deckToCheck.bottom(1))
-        dlg.title = "Scroll of Secrets"
-        dlg.text = "Choose a card"
-        dlg.min = 1
-        dlg.max = 1
-        cardsSelected = dlg.show()
-        choice_list = ['Discard the card',"Leave it at the bottom","Place it on top of its owner's deck"]
-        color_list = ['#46453E','#46453E','#46453E',]
-        if deckToCheck != encounterDeck():
-            choice_list.append("Add the card to its owner's hand")
-            color_list.append('#46453E')
-        sets = askChoice("Choose an option:", choice_list, color_list)
-        if sets == 0:
-            return
-        elif sets == 1:
-            if deckToCheck == encounterDeck():
-                cardsSelected[0].moveTo(encounterDiscard())
-            else:
-                cardsSelected[0].moveTo(chosenPlayer.piles['Discard Pile'])
-            notify("{} discards {}.".format(card.owner, cardsSelected[0]))
-        elif sets == 2:
-            notify("{} leaves the card at the bottom of the deck.".format(card.owner))
-            return
-        elif sets == 3:
-            cardsSelected[0].moveTo(deckToCheck)
-            notify("{} moves the card at the top of the deck.".format(card.owner))
-        elif sets == 4:
-            cardsSelected[0].moveTo(deckToCheck.player.hand)
-            notify("{} adds the card to {}'s hand".format(card.owner,chosenPlayer))
-        if deckToCheck.player != me and deckToCheck != encounterDeck():
-            for p in chosenPlayer.piles:
-                chosenPlayer.piles[p].controller = chosenPlayer
-    elif card.Name == "Crystalline Elder Sign":
-        attachTo(card)
-        card.sendToBack()
-        if chaosBag().controller != card.owner:
-            chaosBag().controller == card.owner
-        list = [card for card in table
-                    if (card.Type == 'Chaos Token') and (card.Subtype != 'Sealed')]
-        for card in chaosBag():
-            if card.name == "+1" or card.name == "Elder Sign":
-                list.append(card)
-        dlg = cardDlg(list)
-        dlg.title = "Seal Chaos Token"
-        dlg.text = "Select a chaos token to seal"
-        dlg.min = 1
-        dlg.max = 1
-        tokensSelected = dlg.show()
-        if tokensSelected == None:
-            return
-        else:
-            cT = tokensSelected[0]
-            cT.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-            cT.Subtype = 'Sealed'
-            cT.filter = "#99999999"
-            notify("{} seals {}.".format(card.owner, cT))
-        cardToAttachTo = None
-    elif card.Name == "Astronomical Atlas":
-            if card.owner.deck:
-                if 1 == askChoice("Look at the top card and attach a non-weakness ?", ["Yes","No"],["#000000","#000000"]):
-                    if card._id in attached and len(attached[card._id]) == 5:
-                        whisper("5 cards already attached to {}".format(card))
-                        return
-                    if deckLocked(card.owner):
-                        whisper("Your deck is locked and cannot be looked at")
-                        return
-                    exhaust(card, x, y)
-                    topCard = card.owner.deck.top()
-                    if topCard.Subtype != "Weakness" and topCard.subType != "Basic Weakness":
-                        attachCard(card, topCard) # attaches to Atlas
-                        notify("{} uses {} to attach the top card of their deck".format(card.owner, card))
-                        inc = 1
-                        topCard.moveToTable(card.position[0], card.position[1], True)
-                        for c in table:
-                            if c._id in attached[card._id]: # if card is attached to Atlas
-                                c.moveToTable(card.position[0] + (inc * 5), card.position[1] + (inc * 5), True)
-                                c.sendToBack()
-                                c.peek()
-                                inc += 1
-                                if inc - 1 == len(attached[card._id]):
-                                    break
-                    else:
-                        topCard.peek()
-                        notify("{} sees a forecoming weakness!".format(card.owner))
-            else: whisper("Your deck is empty.")
-    elif card.Name == "Rod of Carnamagos":
-        rots = filter(lambda c: (" Rot" in c.Name), card.owner.piles['Sideboard'])
-        if rots:
-            exhaust(card, x=0,y=0)
-            drawXChaosTokens(chaosBag(), x = 0, y = 0)
-            if 1 == askChoice("Curse revealed ?", ["Yes","No"],["#000000","#000000"]):
-                if card.Level == "0":
-                    rot = rots[rnd(0,len(rots)-1)]
-                    rot.moveToTable(x, y)
-                else:
-                    dlg = cardDlg(rots)
-                    dlg.title = "Rod of Carnamagos"
-                    dlg.text = "Select a card"
-                    dlg.min = 1
-                    dlg.max = 1
-                    rot = dlg.show()
-                    rot = rot[0]
-                    rot.moveToTable(x, y)
-                notify("{} uses {} to attach {} to an enemy".format(card.owner, card, rot))
-    elif card.Name == "Shards of the Void":
-        if card.Subtype != "Locked":
-            if len(chaosBag()):
-                for cT in chaosBag():
-                    if cT.Name != "0":
-                        continue
-                    zero = cT
-                    break
-                if zero:
-                    card.markers[Zero] = 1
-                    removeChaosTokenFromBag("Zero")
-                    notify("{} uses {} to seal a 0 token".format(card.owner, card))
-                    card.Subtype = "Locked"
-                else:
-                    whisper("No 0 tokens in the Chaos Bag")
-                    return
-        else:
-            sets = askChoice("Shards of the Void", ["Release a 0 token","Seal revealed 0 tokens here"],["#000000","#000000"])
-            if sets == 0: return
-            elif sets == 1:
-                if card.markers[Zero]:
-                    card.markers[Zero] -= 1
-                    createChaosTokenInBag('35137ccc-db2b-4fdd-b0a8-a5d91f453a43')
-                    notify("{} uses {} to release a 0 token".format(card.owner, card))
-                else: whisper("No Zero tokens sealed on {}".format(card))
-            elif sets == 2:
-                inc = 0
-                for cT in table:
-                    if cT.name == "0" and cT.Subtype != "Sealed":
-                        cT.delete()
-                        if cT.controller == me:
-                            cT.delete()
-                        else:
-                            remoteCall(cT.controller, "deleteChaosToken", [cT])
-                        card.markers[Zero] += 1
-                        inc += 1
-                if inc:
-                    notify("{} uses {} to seal {} revealed 0 tokens".format(card.owner, card, inc))
-                else: whisper("No revealed 0 to seal")
-
-    elif card.Name == "Premonition":
-        if card.Subtype != "Locked":
-            if chaosBag().controller != card.controller:
-                chaosBag().controller = card.controller
-            update()
-            attachTo(card)
-            chaosBag().shuffle()
-            for cT in chaosBag():
-                cT.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-                cT.Subtype = 'Sealed'
-                cT.filter = "#99999999"
-                notify("{} randomly seals {} on {}.".format(card.owner, cT, card))
-                Premonition.append(cT)
-                break
-            card.Subtype = "Locked"
-            updateBlessCurse()
-            cardToAttachTo = None
-        elif 1 == askChoice("Trigger Premonition ?", ["Yes","No"],["#000000","#000000"]):
-            Premonition[0].SubType = ""
-            Premonition[0].filter = None
-            Premonition[0].moveToTable(ChaosTokenX, ChaosTokenY)
-            Premonition = []
-            discard(card)
-    elif card.Name == "Flute of the Outer Gods":
-        if card.Subtype != "Locked":
-            sealXCurse(card)
-        elif 1 == askChoice("Trigger Flute of the Outer Gods ?", ["Yes","No"],["#000000","#000000"]) and card.markers[Curse] > 0:
-            exhaust(card, x=0,y=0)
-            card.markers[Curse] -= 1
-            addCurse()
-    elif card.Name == "Protective Incantation":
-        if chaosBag().controller != card.controller:
-            chaosBag().controller = card.controller
-        if card.Subtype != "Locked":
-            attachTo(card)
-            list = [cT for cT in chaosBag()
-        if not ("Auto Fail" in cT.Name)]
-            dlg = cardDlg(list)
-            dlg.title = "Protective Incantation"
-            dlg.text = "Select a Chaos Token to seal:"
-            dlg.min = 1
-            dlg.max = 1
-            cT = dlg.show()
-            if cT is not None:
-                cT[0].moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-                cT[0].Subtype = 'Sealed'
-                cT[0].filter = "#99999999"
-                notify("{} seals {} on {}.".format(card.owner, cT[0], card))
-            card.Subtype = "Locked"
-            cardToAttachTo = None
-
-    elif card.Name == "Seal of the Seventh Sign":
-        if chaosBag().controller != card.controller:
-            chaosBag().controller = card.controller
-        if card.Subtype != "Locked":
-            attachTo(card)
-            autoFail = [cT for cT in chaosBag()
-        if "Auto Fail" in cT.Name]
-            token = autoFail[0]
-            token.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-            token.Subtype = 'Sealed'
-            token.filter = "#99999999"
-            notify("{} seals {} on {}.".format(card.owner, token, card))
-            card.Subtype = "Locked"
-            cardToAttachTo = None
-
-    elif card.Name == "The Chthonian Stone":
-        if chaosBag().controller != card.controller:
-            chaosBag().controller = card.controller
-        if card.Subtype != "Locked":
-            attachTo(card)
-            list = [cT for cT in chaosBag()
-        if "Elder One" in cT.Name or "Skull" in cT.Name or "Cultist" in cT.Name or "Tablet" in cT.Name]
-            if list:
-                dlg = cardDlg(list)
-                dlg.title = "The Chthonian Stone"
-                dlg.text = "Select a Chaos Token to seal:"
-                dlg.min = 1
-                dlg.max = 1
-                cT = dlg.show()
-                if cT is not None:
-                    cT[0].moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-                    cT[0].Subtype = 'Sealed'
-                    cT[0].filter = "#99999999"
-                    notify("{} seals {} on {}.".format(card.owner, cT[0], card))
-                card.Subtype = "Locked"
-                cardToAttachTo = None
-
-    elif card.Name == "The Codex of Ages":
-        if chaosBag().controller != card.controller:
-            chaosBag().controller = card.controller
-        if card.Subtype != "Locked":
-            attachTo(card)
-            elderSign = [cT for cT in chaosBag()
-        if "Elder Sign" in cT.Name]
-            if elderSign:
-                eS = elderSign[0]
-                eS.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-                eS.Subtype = 'Sealed'
-                eS.filter = "#99999999"
-                notify("{} seals {} on {}.".format(card.owner, eS, card))
-                card.Subtype = "Locked"
-                cardToAttachTo = None
-    elif card.Name == "Word of Woe":
-        weal = None
-        for c in card.owner.piles['Discard Pile']:
-            if c.Name == "Word of Weal":
-                weal = c
-                break
-        if weal:
-            if confirm("Shuffle Word of Weal into your deck?"):
-                shuffleIntoDeck(c)
-
-    elif card.Name == "Word of Weal":
-        woe = None
-        for c in card.owner.piles['Discard Pile']:
-            if c.Name == "Word of Woe":
-                woe = c
-                break
-        if woe:
-            if confirm("Shuffle Word of Woe into your deck?"):
-                shuffleIntoDeck(c)
-    elif card.Name == "Kōhaku Narukami" and card.Type == "Investigator":
-        choice_list = ["Remove 2 Bless and 2 Curse for an action","Add 1 Bless or 1 Curse to the Chaos Bag"]
-        color_list = ["#000000","#000000"]
-        sets = askChoice("Kôhaku Narukami", choice_list, color_list)
-        if sets == 0:
-            return
-        elif sets == 1: # Remove 2 Bless and 2 Curse
-            if blessInCB() >= 2 and curseInCB() >= 2:
-                for _ in range(2):
-                    removeChaosTokenFromBag("Bless")
-                    removeChaosTokenFromBag("Curse")
-                updateBlessCurse()
-                notify("{} uses {} to remove 2 bless and 2 curse tokens from the chaos bag to take an additional action".format(card.owner, card))
-            else:
-                whisper("Not enough bless and curse tokens in the chaos bag.")
-        elif sets == 2:
-            if curseInCB() > blessInCB():
-                addBless()
-            elif curseInCB() < blessInCB():
-                addCurse()
-            elif curseInCB() == blessInCB():
-                choice_list = ["Add Bless","Add Curse"]
-                color_list = ["#000000","#000000"]
-                sets = askChoice("Kôhaku Narukami", choice_list, color_list)
-                if sets == 0:
-                    return
-                elif sets == 1: 
-                    addBless()
-                elif sets == 2:
-                    addCurse()
-    elif card.Name == "Book of Living Myths":
-        if blessInCB() or curseInCB():
-            exhaust (card, x, y)
-            if blessInCB() > curseInCB():
-                removeChaosTokenFromBag("Bless")
-                table.create('360db0ee-c362-4bbe-9554-b1fbf101d9ab', ChaosTokenX, ChaosTokenY, quantity = 1, persist = False)
-                notify("{} uses {} to reveal a Bless token".format(card.owner, card))
-            elif blessInCB() < curseInCB():
-                removeChaosTokenFromBag("Curse")
-                table.create('81df3f18-e341-401d-a6bb-528940a9c39e', ChaosTokenX, ChaosTokenY, quantity = 1, persist = True)
-                notify("{} uses {} to reveal a Curse token".format(card.owner, card))
-            elif blessInCB() == curseInCB():
-                choice_list = ["Resolve A Bless Token","Resolve a Curse Token"]
-                color_list = ["#000000","#000000"]
-                sets = askChoice("Book of Living Myths", choice_list, color_list)
-                if sets == 0:
-                    return
-                elif sets == 1: 
-                    removeChaosTokenFromBag("Bless")
-                    table.create('360db0ee-c362-4bbe-9554-b1fbf101d9ab', ChaosTokenX, ChaosTokenY, quantity = 1, persist = False)
-                    notify("{} uses {} to reveal a Bless token".format(card.owner, card))
-                elif sets == 2:
-                    removeChaosTokenFromBag("Curse")
-                    table.create('81df3f18-e341-401d-a6bb-528940a9c39e', ChaosTokenX, ChaosTokenY, quantity = 1, persist = True)
-                    notify("{} uses {} to reveal a Curse token".format(card.owner, card))
-            updateBlessCurse()
-        else:
-            whisper("Not enough Bless/Curse tokens in the Chaos Bag")
 
 
 

@@ -3,6 +3,7 @@
 import time
 import re
 from itertools import repeat
+from _random import Random
 
 Resource = ("Resource", "6eb6d990-007a-4f4d-b76c-b35685922b22")
 Damage = ("Damage", "3abb22bb-b259-4857-ae8f-f2cdf93de5e0")
@@ -1711,10 +1712,13 @@ def shuffleIntoDeck(card, x=0, y=0, player=me):
     else:
         doMoveShuffle(me, card, pile)
         
-def shuffleIntoTop(card, x=0, y=0, player=me, group = None, count = None):
+def shuffleIntoTop(card, x=0, y=0, player=me, group=None, count=None):
     mute()
     if count is None:
         count = askInteger("Shuffle with top x cards ?", 3)
+    if count == 0:
+        return
+    
     if group is None:
         if isLocationCard(card):
             group = locationDeck()
@@ -1722,13 +1726,13 @@ def shuffleIntoTop(card, x=0, y=0, player=me, group = None, count = None):
             group = encounterDeck()
         else:
             group = card.owner.deck
-    notify("{} shuffles {} with {} top {} cards.".format(me, card, group.name, count))
-    cards = []
-    for c in group[:count]:
-        cards.append(c)
-    cards.append(card)
-    while cards:
-        cards.pop(rnd(0,len(cards)-1)).moveTo(group)
+
+    cards_to_shuffle = list(group[:min(count, len(group))])
+    cards_to_shuffle.append(card)
+    notify("{} shuffles {} with {} top {} cards.".format(me, card, group.name, len(cards_to_shuffle) - 1))
+    while cards_to_shuffle:
+        index = rnd(0, len(cards_to_shuffle) - 1)
+        cards_to_shuffle.pop(index).moveTo(group)
         
 def shuffleIntoBottom(card, x=0, y=0, player=me, group = None, count = None):
     mute()
@@ -2160,13 +2164,15 @@ def drawChaosTokenForPlayer(player, group, x = 0, y = 0, replace = True, xMod = 
     else:
         remoteCall(chaosBag().controller, "drawChaosTokenForPlayer", [me, chaosBag(), x, y, replace])
     
-def moveToRemote (token, pile):
+def moveToRemote (token, pile): # for remote calls
    token.moveTo(pile)	
 
-def drawXChaosTokens(group, x = 0, y = 0):
+def drawXChaosTokens(group, count = None, x = 0, y = 0):
     mute()
-    xChaosTokens = askInteger("Draw how many Chaos Tokens?", 3)
-    if xChaosTokens == None: return
+    if not count:
+        xChaosTokens = askInteger("Draw how many Chaos Tokens?", 3)
+        if xChaosTokens == None: return
+    else: xChaosTokens = count
     
     for xTokens in range(0, xChaosTokens):
         replace = False
@@ -2187,6 +2193,20 @@ def drawAddChaosToken(group, x = 0, y = 0):
         drawChaosTokenForPlayer(me, chaosBag(), x, y, False, num*10, num*10)
     else:
         remoteCall(chaosBag().controller, "drawChaosTokenForPlayer", [me,  chaosBag(), x, y, False, num*10, num*10])
+
+def sealTokenOnCard(chaosToken, card):
+    if card.controller != me:
+        remoteCall(card.controller, "sealTokenOnCard", [chaosToken, card])
+        return
+    
+    x,y = card.position
+    x = x + card.width / 4
+    y = y + card.height / 4
+    chaosToken.moveToTable(x,y)
+    chaosToken.Subtype = 'Sealed'
+    chaosToken.filter = "#99999999"
+    chaosToken.controller = card.controller
+    updateBlessCurse()
 
 def sealTokenCard(card, x = 0, y = 0, player = None):
     if card.controller != me:
@@ -2236,11 +2256,9 @@ def sealToken(group, x = 0, y = 0, player = None):
 
 def removeChaosTokenFromBag(card):
     if chaosBag().controller == me:
-        for cT in chaosBag():
-            if cT.Name != card:
-                continue
+        cT = next((c for c in chaosBag() if c.Name == card),None)
+        if cT:
             cT.delete()
-            break
     else:
         remoteCall(chaosBag().controller, "removeChaosTokenFromBag", [card])
 
