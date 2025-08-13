@@ -1809,17 +1809,16 @@ def shuffleOnTable(cards, x=0, y=0):
 
     
 def playCard(card, x=0, y=0):
-    global reduceCost
+    reducedCost = int(getGlobalVariable("reduceCost"))
     if x == 0 and y == 0 and inGame(card.owner):
         x, y = firstInvestigator(card.owner).position
         x += Spacing
         y += Spacing
     investigator = Investigator(card.owner)
     if card.Cost and card.Cost.isnumeric() and InvestigatorName(card.owner) != "Preston Fairmont":
-        if investigator.markers[Resource] + reduceCost >= int(card.Cost): # 0 + reduCost (2) >= 2
-            if reduceCost:
-                investigator.markers[Resource] -= int(card.Cost) - reduceCost
-                reduceCost = 0 
+        if investigator.markers[Resource] + reducedCost >= int(card.Cost):
+            investigator.markers[Resource] -= int(card.Cost) - reducedCost
+            reduceCost(0)
         else:
             whisper("Not enough resources to play {}".format(card))
             return
@@ -1861,7 +1860,7 @@ def playFromDiscard(group):
             if card.Name != "A Glimmer of Hope":
                 playCard(card, 0, 0)
                 if card.name in shuffleback:
-                    card.Subtype = card.Subtype + "ShuffleBack."
+                    card.Subtype += "ShuffleBack."
                 if card.group == table:
                     notify("{} plays {} from his/her Discard Pile".format(card.owner,card))
             elif card.Name == "A Glimmer of Hope":

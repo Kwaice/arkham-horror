@@ -5,7 +5,6 @@ import re
 cardToAttachTo =  None
 cardsFound = []
 attached = {}
-reduceCost = 0
 
 cardScripts={
 	#Guardian Cards 
@@ -91,6 +90,9 @@ cardScripts={
     "Salvage":{'onDoubleClick': [lambda card: salvage(card)]},
 }
 
+def reduceCost(cost):
+    setGlobalVariable("reduceCost", str(cost))
+
 def search(group, target, count = None, TypeFilter="ALL", TraitsFilter="ALL", filterFunction='True', addWeakness='False'):
     mute()
     global cardsFound
@@ -125,7 +127,7 @@ def search(group, target, count = None, TypeFilter="ALL", TraitsFilter="ALL", fi
                     count = option2
     shockingDiscoveryCard = next((c for c in group.top(count) if c.Name == "Shocking Discovery"), None)
     if shockingDiscoveryCard:
-        shockingDiscoveryCard.moveToTable(table)
+        shockingDiscoveryCard.moveToTable(100,100)
         shockingDiscoveryCard.highlight = RedColour
         notify("{} found ! Search cancelled !".format(shockingDiscoveryCard))
         cardToAttachTo = None
@@ -232,18 +234,15 @@ def preparedForTheWorst(card):
             remoteCall(chosenPlayer, "search", [card.owner.deck, card.owner.hand, 9, "ALL", "Weapon","True"])
 
 def riteOfSanctification(card):
-    global reduceCost
-    notify("Subtype = {}".format(card.Subtype))
     if not "Locked." in card.Subtype:
-        sealXBless(card, 5)
+        sealXBless(card, blessInCB())
     elif card.markers[Bless]:
         if 1 == askChoice('Release a sealed bless token ?', ['Yes', 'Not now'], ['#dd3737', '#d0d0d0']):
             exhaust (card)
             card.markers[Bless] -= 1
             addBless()
             notify("{} uses {} to reduce the cost of next card played by 2")
-            reduceCost = 2
-            notify("ReduceCost = {}".format(reduceCost))
+            reduceCost(2)
             if not card.markers[Bless]:
                 notify("{} has no sealed Bless tokens left and is discarded".format(card))
                 discard(card)
@@ -751,10 +750,9 @@ def guidedByTheUnseen(card):
 #                                           #
 #############################################
 def deVermisMysteriis(card):
-    global reduceCost
     discardCards = [c for c in card.owner.piles['Discard Pile'] if "Insight" in c.Traits or "Spell" in c.Traits]
     if discardCards:
-        reduceCost = 1
+        reduceCost(1)
         exhaust(card)
         dlg = cardDlg(discardCards)
         dlg.title = "De Vermis Mysteriis"
@@ -769,7 +767,6 @@ def deVermisMysteriis(card):
                 addDoom(card)
                 c.Subtype += "RemoveFromGame."
                 notify("{} uses {} to play {} from their discard pile, reducing its cost by 1.".format(card.owner, card, c))       
-        reduceCost = 0
     else:
         whisper("No Insight or Spell cards to play from discard")
 
@@ -1496,10 +1493,11 @@ def trueSurvivor(card):
     if len(card.owner.piles['Discard Pile']):
         search(card.owner.piles['Discard Pile'], card.owner.hand, TraitsFilter="Innate")
 def shortSupply(card):
-    if 1 == askChoice("Discard the top 10 cards of your deck ?", ["Yes","No"],["#000000","#000000"]):
-        for _ in range(10):
-            discard(card.owner.deck.top())
-        card.highlight = None
+    if card.highlight == WhiteColour:
+        if 1 == askChoice("Discard the top 10 cards of your deck ?", ["Yes","No"],["#000000","#000000"]):
+            for _ in range(10):
+                discard(card.owner.deck.top())
+            card.highlight = None
 def scroungeForSupplies(card):
     list = [c for c in card.owner.piles['Discard Pile']
                 if c.Level == "0"]
@@ -1565,7 +1563,6 @@ def williamYorick(card):
                     playCard(cardToPlay[0])
                     if cardToPlay[0].group == table:
                         notify("{} uses {} to play {} from their discard pile".format(card.owner, card, cardToPlay[0]))
-                        checkBoosts(card.owner)
             else:
                 whisper("No assets in your discard")
 def patriceHathaway(card):
