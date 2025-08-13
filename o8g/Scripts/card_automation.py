@@ -1429,6 +1429,8 @@ def resourceful(card):
 def scavenging(card):
     exhaust(card)
     search(card.owner.piles['Discard Pile'], card.owner.hand, TraitsFilter="Item")
+    if cardsFound:
+        notify("{} uses {} to get {} back to their hand".format(card.owner, card, cardsFound[0]))
     if card.Level == "2":
         if 1 == askChoice("Play the card ?", ["Yes","No"],["#000000","#000000"]):
             playCard(cardsFound[0])
@@ -1454,18 +1456,20 @@ def aChanceEncounter(card):
             notify("{} uses {} to search {}'s discard pile for an Ally to put in play.".format(card.owner, card, chosenPlayer.name))
             search(chosenPlayer.piles['Discard Pile'], table, TraitsFilter="Ally")
             if cardsFound and card.Level == "0":
-                endoftherounddiscard.extend(cardsFound[0])
                 cardsFound[0].Subtype += "EotRDiscard."
+
 def unrelenting(card):
     global cardToAttachTo
     attachTo(card)
     card.sendToBack()
     if chaosBag().controller != card.owner:
-        chaosBag().controller == card.owner
+        chaosBag().controller = card.owner
+        update()
     list = [card for card in table
-                if (card.Type == 'Chaos Token') and (card.Subtype != 'Sealed')]
+                if (card.Type == 'Chaos Token') and (card.Subtype != 'Sealed') and card.Name != "Auto Fail"]
     for card in chaosBag():
-        list.append(card)
+        if card.Name != "Auto Fail":
+            list.append(card)
     dlg = cardDlg(list)
     dlg.title = "Seal Chaos Token"
     dlg.text = "Select up to 3 Chaos Token to seal"
@@ -1489,15 +1493,30 @@ def unrelenting(card):
                 if inc == len(tokensSelected):
                     cardToAttachTo = None
         updateBlessCurse()
+
 def trueSurvivor(card):
     if len(card.owner.piles['Discard Pile']):
-        search(card.owner.piles['Discard Pile'], card.owner.hand, TraitsFilter="Innate")
+        innates = [c for c in card.owner.piles['Discard Pile']
+                if "Innate" in c.Traits]
+        if innates:
+            dlg = cardDlg(innates)
+            dlg.title = "True Survivor"
+            dlg.text = "Select 3 cards"
+            dlg.min = 1
+            dlg.max = 3
+            innate = dlg.show()
+            if innate:
+                notify("{} uses {} to return {} cards to their hand".format(card.owner,card,len(innate)))
+                for c in innate:
+                    c.moveTo(card.owner.hand)
+
 def shortSupply(card):
     if card.highlight == WhiteColour:
         if 1 == askChoice("Discard the top 10 cards of your deck ?", ["Yes","No"],["#000000","#000000"]):
             for _ in range(10):
                 discard(card.owner.deck.top())
             card.highlight = None
+
 def scroungeForSupplies(card):
     list = [c for c in card.owner.piles['Discard Pile']
                 if c.Level == "0"]
@@ -1509,14 +1528,16 @@ def scroungeForSupplies(card):
         dlg.max = 1
         c = dlg.show()
         if c:
+            notify("{} uses {} to get back {} to their hand".format(card.owner,card, c[0]))
             c[0].moveTo(card.owner.hand)
+            
+
 def wendysAmulet(card):
     Events = [e for e in card.owner.piles['Discard Pile']
     if e.Type == "Event"]
     if Events:
         if not "Advanced." in card.Text:
             topMostEvent = str(Events[0].name)
-            whisper("Topmost event is {}.".format(Events[0]))
             if 1 == askChoice("Play the topmost event of your discard pile ?", ["Yes","No"],["#000000","#000000"], customButtons = [topMostEvent]):
                 playCard(Events[0])
         elif 1 == askChoice("Play an event from your discard pile ?", ["Yes","No"],["#000000","#000000"]):
@@ -1530,6 +1551,7 @@ def wendysAmulet(card):
                 notify("{} uses {} to play an event from their discard pile".format(card.owner, card))
                 playCard(Events[0])
     else: whisper("No events in the Discard Pile")
+
 def williamYorick(card):
     if card.Type == "Investigator":
         choice_list = ['Trigger Elder Sign','Play an asset from discard']
@@ -1565,6 +1587,7 @@ def williamYorick(card):
                         notify("{} uses {} to play {} from their discard pile".format(card.owner, card, cardToPlay[0]))
             else:
                 whisper("No assets in your discard")
+
 def patriceHathaway(card):
     if card.Type == "Investigator":
         if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
@@ -1579,6 +1602,7 @@ def patriceHathaway(card):
                     if c != leave[0]:
                         c.moveTo(card.owner.deck)
                 card.owner.deck.shuffle()
+
 def silasMarsh(card):
     if card.Type == "Investigator":
         if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
@@ -1593,6 +1617,7 @@ def silasMarsh(card):
             if skill:
                 skill[0].moveToTable(card.position[0], card.position[1] - 100)
                 skill[0].select()
+
 def salvage(card):
     items = [c for c in card.owner.piles['Discard Pile'] if
         "Item." in c.Traits]

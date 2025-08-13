@@ -1808,16 +1808,22 @@ def shuffleOnTable(cards, x=0, y=0):
     clearSelection()
 
     
-def playCard(card, x=0, y=0):
+def playCard(card, cost=None,x=0, y=0):
     reducedCost = int(getGlobalVariable("reduceCost"))
     if x == 0 and y == 0 and inGame(card.owner):
         x, y = firstInvestigator(card.owner).position
         x += Spacing
         y += Spacing
     investigator = Investigator(card.owner)
-    if card.Cost and card.Cost.isnumeric() and InvestigatorName(card.owner) != "Preston Fairmont":
-        if investigator.markers[Resource] + reducedCost >= int(card.Cost):
-            investigator.markers[Resource] -= int(card.Cost) - reducedCost
+    if card.Cost and card.Cost.isnumeric():
+        cardCost = int(card.Cost)
+    elif cost:
+        cardCost = cost
+    else:
+        cardCost = 0
+    if InvestigatorName(card.owner) != "Preston Fairmont":
+        if investigator.markers[Resource] + reducedCost >= cardCost:
+            investigator.markers[Resource] -= cardCost - reducedCost
             reduceCost(0)
         else:
             whisper("Not enough resources to play {}".format(card))
@@ -1843,6 +1849,8 @@ def playCard(card, x=0, y=0):
                             card.owner.counters[str(stat)].value += 1
                     else: # Pas de niveau de carte
                         card.owner.counters[str(stat)].value += 1
+    if card.group == table:
+        notify("{} plays {}".format(card.owner, card))
 
 def playFromDiscard(group):
     shuffleback = ["Winging It","Impromptu Barrier","Improvised Shield","Improvised Weapon"]

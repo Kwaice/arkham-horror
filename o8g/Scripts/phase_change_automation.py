@@ -26,7 +26,7 @@ def doMythosPhase(setPhaseVar = True):
     
     if setPhaseVar:
         setGlobalVariable("phase", "Mythos")
-
+    notify("Beginnig of the round effects")
     for card in table:
         if card.Name == "Sister Mary" and card.Type == "Investigator" and card.controller == me and countBless() < 10:
             if 1 == askChoice('Add a Bless Token in the Chaos Bag ?', ['Yes', 'No'], ['#dd3737', '#d0d0d0']):
@@ -225,6 +225,8 @@ def doUpkeepPhase(setPhaseVar = True):
             card.highlight = RedColour
         elif card.Name in eotrdiscard1 and card.Name not in discarded and card.controller == me and card.isFaceUp:
             discarded.append(card.Name)
+            discard(card)
+        if "EotRDiscard." in card.Subtype:
             discard(card)
         
         
