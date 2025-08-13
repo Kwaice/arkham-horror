@@ -1072,17 +1072,18 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
         # Find any Permanent cards
         permanents = filter(lambda card: "Permanent" in card.Keywords or "Permanent." in card.Text or "Key" in card.Subtype, me.deck)
         # Check if Stick to the Plan or Ancestral Knowledge is in the deck
-        sttp = filter(lambda card: "Stick to the Plan" in card.Name, me.deck)
-        bewitching = filter(lambda card: "Bewitching" in card.Name, me.deck)
-        ancestralKnowledge = filter(lambda card: "Ancestral Knowledge" in card.Name, me.deck)
-        underworldMarket = filter(lambda card: "Underworld Market" in card.Name, me.deck)
-        haveForcedLearning = filter(lambda card: "Forced Learning" in card.Name, me.deck)
+        sttp = next((c for c in me.deck if c.Name == "Stick to the Plan"), None)
+        bewitching = next((c for c in me.deck if c.Name == "Bewitching"), None)
+        shortSupply = next((c for c in me.deck if c.Name == "Short Supply"), None)
+        ancestralKnowledge = next((c for c in me.deck if c.Name == "Ancestral Knowledge"), None)
+        underworldMarket = next((c for c in me.deck if c.Name == "Underworld Market"), None)
+        haveForcedLearning = next((c for c in me.deck if c.Name == "Forced Learning"), None)
         if haveForcedLearning:
             me.counters['Card Draw'].value = 2
-        isJenny = filter(lambda card: "Jenny Barnes" in card.Name, me.hand)
+        isJenny = next((c for c in me.hand if c.Name == "Jenny Barnes"), None)
         if isJenny:
             me.counters['Ressource per upkeep'].value = 2
-        isMary = filter(lambda card: "Sister Mary" in card.Name, me.hand)
+        isMary = next((c for c in me.hand if c.Name == "Sister Mary"), None)
         if isMary:
             if len(chaosBag()):
                 for _ in range(2):
@@ -1145,13 +1146,15 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
             if len(me.hand) == 0 or DarkInsight: 
                 if sttp: 
                     whisper("Stick to the Plan available")
-                    sttp[0].highlight = WhiteColour
+                    sttp.highlight = WhiteColour
                 if ancestralKnowledge:
                     whisper("Ancestral Knowledge available")
-                    ancestralKnowledge[0].highlight = WhiteColour
+                    ancestralKnowledge.highlight = WhiteColour
                 if bewitching:
                     whisper("Bewitching available")
-                    betwitching[0].highlight = WhiteColour
+                    betwitching.highlight = WhiteColour
+                if shortSupply:
+                    shortSupply.highlight = WhiteColour
                 if not (sttp or ancestralKnowledge or underworldMarket or bewitching): #Only draws opening hand if no Stick to the Plan or Ancestral Knowledge available
                     drawOpeningHand(me)
                     
@@ -1640,6 +1643,8 @@ def doDiscard(player, card, pile):
             return
     if "Sealed." in card.Subtype: 
         card.Subtype = card.Subtype.replace('Sealed.', '')
+    if "EotRDiscard." in card.Subtype: 
+        card.Subtype = card.Subtype.replace('EotRDiscard.', '')
     if "Locked." in card.Subtype:
         card.Subtype = card.Subtype.replace('Locked.', '')
     if "Boost." in card.Subtype:

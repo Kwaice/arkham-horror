@@ -74,6 +74,21 @@ cardScripts={
     "Kicking the Hornet's Nest": {'onDoubleClick': [lambda card: kickingTheHornetNest(card)]},
     "Stylish Coat": {'onDoubleClick': [lambda card: stylishCoat(card)]},
     "Bewitching": {'onDoubleClick': [lambda card: bewitching(card)]},
+    #Survivor cards
+    "Pushed to the Limit": {'onDoubleClick': [lambda card: pushedToTheLimit(card)]},
+    "Rabbit's Foot": {'onDoubleClick': [lambda card: rabbitsFoot(card)]},
+    "Resourceful":{'onDoubleClick': [lambda card: resourceful(card)]},
+    "Scavenging": {'onDoubleClick': [lambda card: scavenging(card)]},
+    "A Chance Encounter": {'onDoubleClick': [lambda card: aChanceEncounter(card)]},
+    "Unrelenting":{'onDoubleClick': [lambda card: unrelenting(card)]},
+    "True Survivor": {'onDoubleClick': [lambda card: trueSurvivor(card)]},
+    "Short Supply": {'onDoubleClick': [lambda card: shortSupply(card)]},
+    "Scrounge for Supplies": {'onDoubleClick': [lambda card: scroungeForSupplies(card)]},
+    "Wendy's Amulet": {'onDoubleClick': [lambda card: wendysAmulet(card)]},
+    "William Yorick":{'onDoubleClick': [lambda card: williamYorick(card)]},
+    "Patrice Hathaway": {'onDoubleClick': [lambda card: patriceHathaway(card)]},
+    "Silas Marsh":{'onDoubleClick': [lambda card: silasMarsh(card)]},
+    "Salvage":{'onDoubleClick': [lambda card: salvage(card)]},
 }
 
 def search(group, target, count = None, TypeFilter="ALL", TraitsFilter="ALL", filterFunction='True', addWeakness='False'):
@@ -1365,6 +1380,248 @@ def bewitching(card):
         elif sets == 2:
             search(card.owner.deck, card.owner.hand, 9)
 
+#############################################
+#                                           #
+#           Survivor Cards                  #
+#                                           #
+############################################# 
+def pushedToTheLimit(card):
+    list = [c for c in card.owner.piles['Discard Pile']
+                if any(trait in c.Traits for trait in ["Weapon.", "Tool."])]
+    if list:
+        dlg = cardDlg(list)
+        dlg.title = "Pushed to the Limit"
+        dlg.text = "Select a card"
+        dlg.min = 1
+        dlg.max = 1
+        c = dlg.show()
+        if c:
+            c[0].moveToTable(100,100)
+            c[0].Subtype += "ShuffleBack."
+    else:
+        whisper("No cards available.")
+    
+def rabbitsFoot(card):
+    exhaust (card)
+    if card.Level == "0":
+        draw(card.owner.deck)
+    else:
+        count = askInteger("Failed by how much ?", 2)
+        if count is None or count <= 0:
+            whisper("Rabbit's Foot: invalid card count")
+            return
+        else:
+            notify("{} uses {} to search the top {} cards of their deck for a card to draw.".format(card.owner, card, count))
+            search(card.owner.deck, card.owner.hand, count)
+
+def resourceful(card):
+    list = [c for c in card.owner.piles['Discard Pile']
+                if "Survivor" in c.Class and c.Name != "Resourceful"]
+    if list:
+        dlg = cardDlg(list)
+        dlg.title = "Resourceful"
+        dlg.text = "Select a card to return to your hand"
+        dlg.min = 1
+        dlg.max = 1
+        c = dlg.show()
+        if c:
+            c[0].moveTo(card.owner.hand)
+            notify("{} uses {} to return a card to their hand".format(card.owner, card))
+    else: whisper("No relevant cards in the discard pile")
+
+def scavenging(card):
+    exhaust(card)
+    search(card.owner.piles['Discard Pile'], card.owner.hand, TraitsFilter="Item")
+    if card.Level == "2":
+        if 1 == askChoice("Play the card ?", ["Yes","No"],["#000000","#000000"]):
+            playCard(cardsFound[0])
+
+def aChanceEncounter(card):
+    if len(getPlayers()) == 1:
+        search(card.owner.piles['Discard Pile'], table, TraitsFilter="Ally")
+        if len(cardsFound) > 0:
+            notify("{} puts {} into play".format(card.owner, cardsFound[0]))
+    else:
+        choice_list = []
+        color_list = []
+        for i in range(0, len(getPlayers())): 
+            # Add player names to the list
+            choice_list.append(str(InvestigatorName(getPlayers()[i])))
+            # Add players investigator color to the list
+            color_list.append(InvestigatorColor(getPlayers()[i]))
+        sets = askChoice("Choose a player:", choice_list, color_list)
+        if sets == 0:
+            return
+        else:
+            chosenPlayer = getPlayers()[sets - 1]
+            notify("{} uses {} to search {}'s discard pile for an Ally to put in play.".format(card.owner, card, chosenPlayer.name))
+            search(chosenPlayer.piles['Discard Pile'], table, TraitsFilter="Ally")
+            if cardsFound and card.Level == "0":
+                endoftherounddiscard.extend(cardsFound[0])
+                cardsFound[0].Subtype += "EotRDiscard."
+def unrelenting(card):
+    global cardToAttachTo
+    attachTo(card)
+    card.sendToBack()
+    if chaosBag().controller != card.owner:
+        chaosBag().controller == card.owner
+    list = [card for card in table
+                if (card.Type == 'Chaos Token') and (card.Subtype != 'Sealed')]
+    for card in chaosBag():
+        list.append(card)
+    dlg = cardDlg(list)
+    dlg.title = "Seal Chaos Token"
+    dlg.text = "Select up to 3 Chaos Token to seal"
+    dlg.min = 0
+    dlg.max = 3
+    tokensSelected = dlg.show()
+    if tokensSelected == None:
+        return
+    else:
+        inc = 0
+        for cT in tokensSelected:
+            cT.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
+            cT.Subtype = 'Sealed'
+            cT.filter = "#99999999"
+            notify("{} seals {}.".format(card.owner, cT))
+            if len(tokensSelected) == 1:
+                cardToAttachTo = None
+            else:
+                attachTo(cT)
+                inc += 1
+                if inc == len(tokensSelected):
+                    cardToAttachTo = None
+        updateBlessCurse()
+def trueSurvivor(card):
+    if len(card.owner.piles['Discard Pile']):
+        search(card.owner.piles['Discard Pile'], card.owner.hand, TraitsFilter="Innate")
+def shortSupply(card):
+    if 1 == askChoice("Discard the top 10 cards of your deck ?", ["Yes","No"],["#000000","#000000"]):
+        for _ in range(10):
+            discard(card.owner.deck.top())
+        card.highlight = None
+def scroungeForSupplies(card):
+    list = [c for c in card.owner.piles['Discard Pile']
+                if c.Level == "0"]
+    if list:
+        dlg = cardDlg(list)
+        dlg.title = "Scrounge for Supplies"
+        dlg.text = "Select a card to return to your hand"
+        dlg.min = 1
+        dlg.max = 1
+        c = dlg.show()
+        if c:
+            c[0].moveTo(card.owner.hand)
+def wendysAmulet(card):
+    Events = [e for e in card.owner.piles['Discard Pile']
+    if e.Type == "Event"]
+    if Events:
+        if not "Advanced." in card.Text:
+            topMostEvent = str(Events[0].name)
+            whisper("Topmost event is {}.".format(Events[0]))
+            if 1 == askChoice("Play the topmost event of your discard pile ?", ["Yes","No"],["#000000","#000000"], customButtons = [topMostEvent]):
+                playCard(Events[0])
+        elif 1 == askChoice("Play an event from your discard pile ?", ["Yes","No"],["#000000","#000000"]):
+            dlg = cardDlg(Events)
+            dlg.title = "Wendy's Amulet"
+            dlg.text = "Select an Event:"
+            dlg.min = 1
+            dlg.max = 1
+            event = dlg.show()
+            if event is not None:
+                notify("{} uses {} to play an event from their discard pile".format(card.owner, card))
+                playCard(Events[0])
+    else: whisper("No events in the Discard Pile")
+def williamYorick(card):
+    if card.Type == "Investigator":
+        choice_list = ['Trigger Elder Sign','Play an asset from discard']
+        color_list = ['#46453E','#46453E']
+        sets = askChoice("William Yorick", choice_list, color_list)
+        if sets == 0:
+            return
+        if sets == 1:
+            list = [c for c in card.owner.piles['Discard Pile']]
+            if list:
+                dlg = cardDlg(list)
+                dlg.title = "William Yorick"
+                dlg.text = "Choose 1 card to return to your hand:"
+                dlg.min = 1
+                dlg.max = 1
+                cardToPlay = dlg.show()
+                if cardToPlay:
+                    cardToPlay[0].moveTo(card.owner.hand)
+                    notify("{} uses {} elder sign to return {} to their hand".format(card.owner, card, cardToPlay[0]))
+        if sets == 2:
+            list = [c for c in card.owner.piles['Discard Pile']
+                if c.Type == "Asset"]
+            if list:
+                dlg = cardDlg(list)
+                dlg.title = "William Yorick"
+                dlg.text = "Choose 1 asset to play from your discard:"
+                dlg.min = 1
+                dlg.max = 1
+                cardToPlay = dlg.show()
+                if cardToPlay:
+                    playCard(cardToPlay[0])
+                    if cardToPlay[0].group == table:
+                        notify("{} uses {} to play {} from their discard pile".format(card.owner, card, cardToPlay[0]))
+                        checkBoosts(card.owner)
+            else:
+                whisper("No assets in your discard")
+def patriceHathaway(card):
+    if card.Type == "Investigator":
+        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
+            dlg = cardDlg(card.owner.piles['Discard Pile'])
+            dlg.title = "Patrice Hathaway"
+            dlg.text = "Choose 1 card to leave in the discard:"
+            dlg.min = 1
+            dlg.max = 1
+            leave = dlg.show()
+            if leave:
+                for c in card.owner.piles['Discard Pile']:
+                    if c != leave[0]:
+                        c.moveTo(card.owner.deck)
+                card.owner.deck.shuffle()
+def silasMarsh(card):
+    if card.Type == "Investigator":
+        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
+            skills = [c for c in card.owner.piles['Discard Pile']
+            if c.Type == "Skill"]
+            dlg = cardDlg(skills)
+            dlg.title = "Silas Marsh"
+            dlg.text = "Choose 1 skill card to commit:"
+            dlg.min = 1
+            dlg.max = 1
+            skill = dlg.show()
+            if skill:
+                skill[0].moveToTable(card.position[0], card.position[1] - 100)
+                skill[0].select()
+def salvage(card):
+    items = [c for c in card.owner.piles['Discard Pile'] if
+        "Item." in c.Traits]
+    if items:
+        dlg = cardDlg(items)
+        dlg.title = "Salvage"
+        dlg.text = "Select a card to play or remove from the game:"
+        dlg.min = 1
+        dlg.max = 1
+        cardsSelected = dlg.show()
+        if cardsSelected:
+            c = cardsSelected[0]
+            choice_list = ['Remove from the game','Play']
+            color_list = ['#000000','#000000']
+            sets = askChoice("Choose an option:", choice_list, color_list)
+            if sets == 0:
+                return
+            if sets == 1: #Remove for resources
+                Investigator(card.owner).markers[Resource] += int(c.Cost)
+                notify("{} uses {} to remove {} from the game and gain {} resources.".format(card.owner, card, c, c.Cost))
+                c.delete()
+            if sets == 2: #Play
+                playCard(c)
+                if c.group == table:
+                    notify("{} uses {} to play {} from their discard pile.".format(card.owner, card, c))
+
 
 def attachCard(host, card):
     mute()
@@ -1522,243 +1779,7 @@ def defaultAction(card, x = 0, y = 0):
 
 
     
-#############################################
-#                                           #
-#           Survivor Cards                  #
-#                                           #
-############################################# 
-    elif card.Name == "Pushed to the Limit":
-        list = [c for c in card.owner.piles['Discard Pile']
-                    if any(trait in c.Traits for trait in ["Weapon.", "Tool."])]
-        if list:
-            dlg = cardDlg(list)
-            dlg.title = "Pushed to the Limit"
-            dlg.text = "Select a card"
-            dlg.min = 1
-            dlg.max = 1
-            c = dlg.show()
-            if c:
-                c[0].moveTo(table)
-                c[0].Subtype = c[0].Subtype + "ShuffleBack."
-    elif card.Name == "Rabbit's Foot" and card.Level == "0":
-        exhaust (card, x, y)
-        draw(card.owner.deck)
-    elif card.Name == "Resourceful":
-        list = [c for c in card.owner.piles['Discard Pile']
-                    if "Survivor" in c.Class and c.Name != "Resourceful"]
-        if list:
-            dlg = cardDlg(list)
-            dlg.title = "Resourceful"
-            dlg.text = "Select a card to return to your hand"
-            dlg.min = 1
-            dlg.max = 1
-            c = dlg.show()
-            if c:
-                c[0].moveTo(card.owner.hand)
-                notify("{} uses {} to return a card to their hand".format(card.owner, card))
-        else: whisper("No relevant cards in the discard pile")
-    elif card.Name == "Rabbit's Foot" and card.Level == "3":
-        exhaust (card, x, y)
-        count = askInteger("Failed by how much ?", 2)
-        if count is None or count <= 0:
-            whisper("Rabbit's Foot: invalid card count")
-            return
-        else:
-            notify("{} uses {} to search the top {} cards of their deck for a card to draw.".format(card.owner, card, count))
-            searchTopDeck(card.owner.deck, card.owner.hand, count)        
-    elif card.Name == "Scavenging":
-        exhaust (card, x, y)
-        searchTopDeck(card.owner.piles['Discard Pile'], card.owner.hand, traits="Item")
-    elif card.Name == "A Chance Encounter":
-        # Solo
-        if len(getPlayers()) == 1:
-            searchTopDeck(card.owner.piles['Discard Pile'], table, traits="Ally")
-            if len(cardsFound) > 0:
-                notify("{} puts {} into play".format(card.owner, cardsFound[0]))
-        else:
-            choice_list = []
-            color_list = []
-            for i in range(0, len(getPlayers())): 
-                # Add player names to the list
-                choice_list.append(str(InvestigatorName(getPlayers()[i])))
-                # Add players investigator color to the list
-                color_list.append(InvestigatorColor(getPlayers()[i]))
-            sets = askChoice("Choose a player:", choice_list, color_list)
-            if sets == 0:
-                return
-            else:
-                chosenPlayer = getPlayers()[sets - 1]
-                notify("{} uses {} to search {}'s discard pile for an Ally to put in play.".format(card.owner, card, chosenPlayer.name))
-                #Two-Handed solo option
-                if chosenPlayer.piles['Discard Pile'].controller == me:
-                    searchTopDeck(chosenPlayer.piles['Discard Pile'], table, traits="Ally")
-                    if len(cardsFound) > 0:
-                        notify("{} puts {} into play".format(card.owner, cardsFound[0]))
-                else:
-                    chosenPlayer.piles['Discard Pile'].controller = me
-                    searchTopDeck(chosenPlayer.piles['Discard Pile'], table, traits="Ally")
-                    notify("{}".format(len(cardsFound)))
-                    if len(cardsFound) > 0:
-                        notify("{} puts {} into play".format(card.owner, cardsFound[0]))
-                    chosenPlayer.piles['Discard Pile'].controller = chosenPlayer
-    elif card.Name == "Unrelenting":
-        attachTo(card)
-        card.sendToBack()
-        if chaosBag().controller != card.owner:
-            chaosBag().controller == card.owner
-        list = [card for card in table
-                    if (card.Type == 'Chaos Token') and (card.Subtype != 'Sealed')]
-        for card in chaosBag():
-            list.append(card)
-        dlg = cardDlg(list)
-        dlg.title = "Seal Chaos Token"
-        dlg.text = "Select up to 3 Chaos Token to seal"
-        dlg.min = 0
-        dlg.max = 3
-        tokensSelected = dlg.show()
-        if tokensSelected == None:
-            return
-        else:
-            inc = 0
-            for cT in tokensSelected:
-                cT.moveToTable(cardToAttachTo[0], cardToAttachTo[1])
-                cT.Subtype = 'Sealed'
-                cT.filter = "#99999999"
-                notify("{} seals {}.".format(card.owner, cT))
-                if len(tokensSelected) == 1:
-                    cardToAttachTo = None
-                else:
-                    attachTo(cT)
-                    inc += 1
-                    if inc == len(tokensSelected):
-                        cardToAttachTo = None
-            updateBlessCurse()
-    elif card.Name == "True Survivor":
-        if len(card.owner.piles['Discard Pile']):
-            searchTopDeck(card.owner.piles['Discard Pile'], card.owner.hand, traits="Innate")
-    elif card.Name == "Short Supply":
-        if 1 == askChoice("Discard the top 10 cards of your deck ?", ["Yes","No"],["#000000","#000000"]):
-            for _ in range(10):
-                discard(card.owner.deck.top())
-    elif card.Name == "Scrounge for Supplies":
-        list = [c for c in card.owner.piles['Discard Pile']
-                    if c.Level == "0"]
-        if list:
-            dlg = cardDlg(list)
-            dlg.title = "Scrounge for Supplies"
-            dlg.text = "Select a card to return to your hand"
-            dlg.min = 1
-            dlg.max = 1
-            c = dlg.show()
-            if c:
-                c[0].moveTo(card.owner.hand)
-    elif card.Name == "Wendy's Amulet":
-        Events = [e for e in card.owner.piles['Discard Pile']
-        if e.Type == "Event"]
-        if Events:
-            if not "Advanced." in card.Text:
-                topMostEvent = str(Events[0].name)
-                whisper("Topmost event is {}.".format(Events[0]))
-                if 1 == askChoice("Play the topmost event of your discard pile ?", ["Yes","No"],["#000000","#000000"], customButtons = [topMostEvent]):
-                    playCard(Events[0])
-            elif 1 == askChoice("Play an event from your discard pile ?", ["Yes","No"],["#000000","#000000"]):
-                dlg = cardDlg(Events)
-                dlg.title = "Wendy's Amulet"
-                dlg.text = "Select an Event:"
-                dlg.min = 1
-                dlg.max = 1
-                event = dlg.show()
-                if event is not None:
-                    notify("{} uses {} to play an event from their discard pile".format(card.owner, card))
-                    playCard(Events[0])
-        else: whisper("No events in the Discard Pile")
-    elif card.Name == "William Yorick" and card.Type == "Investigator":
-        choice_list = ['Trigger Elder Sign','Play an asset from discard']
-        color_list = ['#46453E','#46453E']
-        sets = askChoice("William Yorick", choice_list, color_list)
-        if sets == 0:
-            return
-        if sets == 1:
-            list = [c for c in card.owner.piles['Discard Pile']]
-            if list:
-                dlg = cardDlg(list)
-                dlg.title = "William Yorick"
-                dlg.text = "Choose 1 card to return to your hand:"
-                dlg.min = 1
-                dlg.max = 1
-                cardToPlay = dlg.show()
-                if cardToPlay:
-                    cardToPlay[0].moveTo(card.owner.hand)
-                    notify("{} uses {} elder sign to return {} to their hand".format(card.owner, card, cardToPlay[0]))
-        if sets == 2:
-            list = [c for c in card.owner.piles['Discard Pile']
-                if c.Type == "Asset"]
-            if list:
-                dlg = cardDlg(list)
-                dlg.title = "William Yorick"
-                dlg.text = "Choose 1 asset to play from your discard:"
-                dlg.min = 1
-                dlg.max = 1
-                cardToPlay = dlg.show()
-                if cardToPlay:
-                    x, y = firstInvestigator(card.owner).position
-                    x += Spacing
-                    y += Spacing
-                    notify("{} uses {} to play {} from their discard pile".format(card.owner, card, cardToPlay[0]))
-                    cardToPlay[0].moveToTable(x, y)
-                    checkBoosts(card.owner)
-            else:
-                whisper("No assets in your discard")
-    elif card.Name == "Patrice Hathaway" and card.Type == "Investigator":
-        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
-            dlg = cardDlg(card.owner.piles['Discard Pile'])
-            dlg.title = "Patrice Hathaway"
-            dlg.text = "Choose 1 card to leave in the discard:"
-            dlg.min = 1
-            dlg.max = 1
-            leave = dlg.show()
-            if leave is not None:
-                for c in card.owner.piles['Discard Pile']:
-                    if c != leave[0]:
-                        c.moveTo(card.owner.deck)
-                shuffle(card.owner.deck)
-    elif card.Name == "Silas Marsh" and card.Type == "Investigator":
-        if 1 == askChoice("Trigger Elder Sign ?", ["Yes","No"],["#000000","#000000"]):
-            skills = [c for c in card.owner.piles['Discard Pile']
-            if c.Type == "Skill"]
-            dlg = cardDlg(skills)
-            dlg.title = "Silas Marsh"
-            dlg.text = "Choose 1 skill card to commit:"
-            dlg.min = 1
-            dlg.max = 1
-            skill = dlg.show()
-            if skill is not None:
-                skill[0].moveToTable(card.position[0], card.position[1] - 100)
-                skill[0].select()
-    elif card.Name == "Salvage":
-        items = [c for c in card.owner.piles['Discard Pile'] if
-         "Item." in c.Traits]
-        if items:
-            dlg = cardDlg(items)
-            dlg.title = "Salvage"
-            dlg.text = "Select a card to play or remove from the game:"
-            dlg.min = 1
-            dlg.max = 1
-            cardsSelected = dlg.show()
-            if cardsSelected:
-                c = cardsSelected[0]
-                choice_list = ['Remove from the game','Play']
-                color_list = ['#000000','#000000']
-                sets = askChoice("Choose an option:", choice_list, color_list)
-                if sets == 0:
-                    return
-                if sets == 1: #Remove for resources
-                    Investigator(card.owner).markers[Resource] += int(c.Cost)
-                    notify("{} uses {} to remove {} from the game and gain {} resources.".format(card.owner, card, c, c.Cost))
-                    c.delete()
-                if sets == 2: #Play
-                    playCard(c)
-                    notify("{} uses {} to play {} from their discard pile.".format(card.owner, card, c))
+
 #############################################
 #                                           #
 #           Neutral Cards                   #
