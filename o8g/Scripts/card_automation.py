@@ -88,6 +88,18 @@ cardScripts={
     "Patrice Hathaway": {'onDoubleClick': [lambda card: patriceHathaway(card)]},
     "Silas Marsh":{'onDoubleClick': [lambda card: silasMarsh(card)]},
     "Salvage":{'onDoubleClick': [lambda card: salvage(card)]},
+    # Neutral Cards
+    "Eldritch Tongue": {'onDoubleClick': [lambda card: eldritchTongue(card)]},
+    "Backpack": {'onDoubleClick': [lambda card: backpack(card)]},
+    "Calling in Favors": {'onDoubleClick': [lambda card: callingInFavors(card)]},
+    "Anna Kaslow": {'onDoubleClick': [lambda card: annaKaslow(card)]},
+    "Lucid Dreaming": {'onDoubleClick': [lambda card: lucidDreaming(card)]},
+    "Tekeli-li": {'onDoubleClick': [lambda card: tekeliLi(card)]},
+    "Favor of the Moon":{'onDoubleClick': [lambda card: favorOfTheMoon(card)]},
+    "Favor of the Sun":{'onDoubleClick': [lambda card: favorOfThesun(card)]},
+    "Collected Works of Poe":{'onDoubleClick': [lambda card: collectedWorksOfPoe(card)]},
+    # Scenario Cards
+    "Mine Cart": {'onDoubleClick': [lambda card: mineCart(card)]},
 }
 
 def reduceCost(cost):
@@ -141,8 +153,10 @@ def search(group, target, count = None, TypeFilter="ALL", TraitsFilter="ALL", fi
         cardsInGroup_TraitsandType_Filtered=[card for card in cardsInGroup_Type_Filtered if re.search(TraitsFilter, card.Traits)]
     else:
         cardsInGroup_TraitsandType_Filtered=cardsInGroup_Type_Filtered
-    if filterFunction!='True':
-        filteredCardsInGroup=[c for c in cardsInGroup_TraitsandType_Filtered if eval(filterFunction, allowed_globals, {'c':c})]
+    if callable(filterFunction):
+        filteredCardsInGroup = [c for c in cardsInGroup_TraitsandType_Filtered if filterFunction(c)]
+    elif filterFunction != 'True':
+        filteredCardsInGroup = [c for c in cardsInGroup_TraitsandType_Filtered if eval(filterFunction, allowed_globals, {'c': c})]
     else:
         filteredCardsInGroup=cardsInGroup_TraitsandType_Filtered
     special_cards_to_include = [
@@ -1644,6 +1658,192 @@ def salvage(card):
                 if c.group == table:
                     notify("{} uses {} to play {} from their discard pile.".format(card.owner, card, c))
 
+#############################################
+#                                           #
+#           Neutral Cards                   #
+#                                           #
+#############################################      
+def eldritchTongue(card):
+    parleyEvents = [c for c in card.owner.piles['Discard Pile']
+        if c.Type == "Event" and "Parley." in c.Text]
+    if parleyEvents:
+        dlg = cardDlg(parleyEvents)
+        dlg.title = "Eldritch Tongue"
+        dlg.text = "Select a card to play"
+        dlg.min = 1
+        dlg.max = 1
+        cardsSelected = dlg.show()
+        if cardsSelected:
+            c = cardsSelected[0]
+            playCard(c)
+            if c.group == table:
+                c.Subtype += "RemoveFromGame."
+                card.markers[Resource] -= 1
+                notify("{} uses {} to play {} from their discard pile".format(card.owner, card, c))
+    else:
+        whisper("No parley events to play")
+
+def backpack(card):
+    global cardToAttachTo
+    if card.Level == "0":
+        count = 6
+    else: count = 12
+    backpackCards = [c for c in card.owner.deck.top(count)
+            if "Supply" in c.Traits or "Item" in c.Traits]
+    if backpackCards:
+        dlg = cardDlg(backpackCards)
+        dlg.title = "Backpack"
+        dlg.text = "Select up to 3 cards"
+        dlg.min = 0
+        dlg.max = 3
+        cardsSelected = dlg.show()
+        if cardsSelected:
+            attachTo(card)
+            for c in cardsSelected:
+                c.moveToTable(cardToAttachTo[0], cardToAttachTo[1], True)
+                c.sendToBack()
+                c.peek()
+                attachTo(c)
+        cardToAttachTo = None
+        card.owner.deck.shuffle()
+
+def callingInFavors(card):
+    allys = [c for c in table if c.owner == card.owner and "Ally" in c.Traits]
+    if allys:
+        dlg = cardDlg(allys)
+        dlg.title = "Calling in Favors"
+        dlg.text = "Select an ally to move back to your hand"
+        dlg.min = 1
+        dlg.max = 1
+        cardsSelected = dlg.show()
+        if cardsSelected:
+            ally = cardsSelected[0]
+            reduceCost(int(ally.Cost))
+            notify("{} uses {} to get {} back to their hand, reducing the cost of the next ally played by {}".format(card.owner, card, ally, int(ally.Cost)))
+            ally.moveTo(card.owner.hand)
+        notify("{} uses {} to search their deck for an Ally and play it.".format(card.owner, card))        
+        search(card.owner.deck, card.owner.hand, 9, TraitsFilter="Ally")
+        if cardsFound:
+            playCard(cardsFound[0],fast=True)
+
+def annaKaslow(card):
+    notify("{} uses {} to search their deck for a Tarot and put it in play.".format(card.owner, card))        
+    search(card.owner.deck, table, TraitsFilter="Tarot")
+
+def lucidDreaming(card):
+    lucidCards = []
+    added = []
+    for c in table:
+        if isPlayerCard(c) and card.owner == c.owner and c.Type != "Investigator" and c.Type != "Mini":
+            if c.Name not in added:
+                lucidCards.append(c)
+                added.append(c.Name)
+    for c in card.owner.hand:
+        if c.Name not in added:
+            lucidCards.append(c)
+            added.append(c.Name)
+    dlg = cardDlg(lucidCards)
+    dlg.title = "Lucid Dreaming"
+    dlg.text = "Choose a card to search a copy in your deck"
+    dlg.min = 1
+    dlg.max = 1
+    cardsSelected = dlg.show()
+    if cardsSelected:
+        notify("{} uses {} to search a copy of {} in their deck".format(card.owner, card, cardsSelected[0]))
+        search(card.owner.deck,card.owner.hand,filterFunction=lambda c: c.Name == cardsSelected[0].Name)
+
+def tekeliLi(card):
+    notify("{} is placed on the bottom of the Tekeli-li deck".format(card))
+    remoteCall(specialDeck().controller, "toBottomMove", [card, specialDeck()])
+    
+def favorOfTheMoon(card):
+    if not "Locked." in card.Subtype:
+        sealXCurse(card, 3)
+    elif 1 == askChoice("Trigger Favor of the Moon ?", ["Yes","No"],["#000000","#000000"]):
+        exhaust(card)
+        table.create('81df3f18-e341-401d-a6bb-528940a9c39e', ChaosTokenX, ChaosTokenY, quantity = 1, persist = True)
+        card.markers[Curse] -= 1
+        Investigator(card.owner).markers[Resource] += 1
+        notify("{} gains 1 resource".format(card.owner))
+        if not card.markers[Curse]:
+            notify("{} has no Curse tokens left and is discarded.".format(card))
+            discard(card)
+
+def favorOfThesun(card):
+    if not "Locked." in card.Subtype:
+        sealXBless(card, 3)
+    elif 1 == askChoice("Trigger Favor of the Sun ?", ["Yes","No"],["#000000","#000000"]):
+        exhaust(card)
+        table.create('360db0ee-c362-4bbe-9554-b1fbf101d9ab', ChaosTokenX, ChaosTokenY, quantity = 1, persist = False)
+        card.markers[Bless] -= 1
+        if not card.markers[Bless]:
+            notify("{} has no Bless tokens left and is discarded.".format(card))
+            discard(card)
+
+def collectedWorksOfPoe(card):
+    subResource(card)
+    choice_list, color_list = InvestigatorList()
+    sets = askChoice("Choose a player at your location:", choice_list, color_list)
+    if sets == 0:
+        return
+    else:
+        chosenPlayer = getPlayers()[sets - 1]
+        notify("{} uses {} to let {} remove each Tekeli-li cards from the top 6 cards of their deck.".format(card.controller, card, chosenPlayer))
+        tekeliliCards = [c for c in chosenPlayer.deck.top(6) if c.Name == "Tekeli-li"]
+        if tekeliliCards:
+            number = len(tekeliliCards)
+            for c in tekeliliCards:
+                remoteCall(chosenPlayer, "toBottomMove", [c, specialDeck()])
+                update()
+            notify("{} cards were moved to the bottom of the Tekeli-li deck".format(number))
+
+def scenarioMechanism(card):
+    if card.set == "Edge of the Earth Campaign Expansion":
+        if 1 == askChoice("Randomly kill an expedition member ?", ["Yes","No"],["#000000","#000000"]):
+            cards = queryCard({"Encounter Set":"Expedition Team"})
+            for m in cards:
+                shared.piles['Temporary Shuffle'].create(m)
+            expeditionTeam = [c for c in shared.piles['Temporary Shuffle']]
+            dlg = cardDlg(expeditionTeam)
+            dlg.title = "Expedition Team"
+            dlg.text = "Select the DEAD members"
+            dlg.min = 0
+            dlg.max = 8
+            dead = dlg.show()
+            alive = [c for c in expeditionTeam if c not in dead]
+            if alive:
+                notify("Randomly killed : ")
+                notify("{}".format(alive[rnd(0,len(alive)-1)]))
+            for c in expeditionTeam:
+                c.delete()
+    elif card.set == "The Scarlet Keys Campaign Expansion":
+        if 1 == askChoice("Generate the Red Coterie members ?", ["Yes","No"],["#000000","#000000"]):
+            coterie = queryCard({"Encounter Set":"Red Coterie"})
+            for c in coterie:
+                encounterDeck().create(c)
+            dlg = cardDlg(c for c in encounterDeck() if c.properties["Encounter Set"] == "Red Coterie")
+            dlg.title = "You haven't seen the last of:"
+            dlg.text = "Select 1 or more cards"
+            dlg.max = len(coterie)
+            members = dlg.show()
+            if members:
+                member = members.pop(rnd(0,len(members)-1))
+                for c in encounterDeck():
+                    if c.name != member.name and c.properties["Encounter Set"] == "Red Coterie":
+                        c.delete()
+                encounterDeck().shuffle()
+                notify("1 Red Coterie member shuffled into the encounter deck.")
+    elif card.set == "Undimensioned and Unseen":
+        location = locationDeck()[rnd(0,5)]
+        notify("{}".format(location))
+
+def mineCart(card):
+    turn = askChoice("Rotate", ["Left","Right"],["#000000","#000000"])
+    if turn == 1: # Left
+        rotateLeft(card)
+    elif turn == 2:
+        rotateRight(card)
+
 
 def attachCard(host, card):
     mute()
@@ -1779,153 +1979,16 @@ def defaultAction(card, x = 0, y = 0):
         mute()
     elif card.Type == "Mini": #Add action token
         addToken(card, Action)
-    elif card.Type == "Campaign": #Add a progress token
-        flipcard(card, x, y)
     elif card.Name == "Flood Token": #Flip flood token
         flipcard(card, x, y)
+    elif card.Type == "Scenario":
+        scenarioMechanism(card)
     elif card.Name in cardScripts:
         card_actions = cardScripts[card.Name]
         if 'onDoubleClick' in card_actions:
-            # Récupérer la liste des fonctions
             functions_list = card_actions['onDoubleClick']
-
-            # Vérifier si la liste n'est pas vide et que le premier élément est bien appelable
-            if functions_list and callable(functions_list[0]): # <--- MODIFICATION ICI
-                # Appeler le PREMIER élément de la liste, qui est la fonction lambda
-                functions_list[0](card) # <--- MODIFICATION ICI
-
-
-
-  
-
-
-
-    
-
-#############################################
-#                                           #
-#           Neutral Cards                   #
-#                                           #
-#############################################      
-    elif card.Name == "Eldritch Tongue":
-        parleyEvents = [c for c in card.owner.piles['Discard Pile']
-            if c.Type == "Event" and "Parley." in c.Text]
-        if parleyEvents:
-            dlg = cardDlg(parleyEvents)
-            dlg.title = "Eldritch Tongue"
-            dlg.text = "Select a card to play"
-            dlg.min = 1
-            dlg.max = 1
-            cardsSelected = dlg.show()
-            if cardsSelected:
-                c = cardsSelected[0]
-                playCard(c)
-                if c.group == table:
-                    c.Subtype += "RemoveFromGame"
-                    card.markers[Resource] -= 1
-                    notify("{} uses {} to play {} from their discard pile".format(card.owner, card, c))
-    elif card.Name == "Backpack" and card.Level == "0":
-        attachTo(card)        
-        searchTopDeck(card.owner.deck, table, 6, traits="Item,Supply")
-    elif card.Name == "Backpack" and card.Level == "2":
-        attachTo(card)    
-        searchTopDeck(card.owner.deck, table, 12, traits="Item,Supply")
-    elif card.Name == "Calling in Favors":
-        notify("{} uses {} to search their deck for an Ally and play it.".format(card.owner, card))        
-        searchTopDeck(card.owner.deck, table, 9, traits="Ally")
-    elif card.Name == "Anna Kaslow":
-        notify("{} uses {} to search their deck for a Tarot and put it in play.".format(card.owner, card))        
-        searchTopDeck(card.owner.deck, table, traits="Tarot")
-    elif card.Name == "Lucid Dreaming":
-        searchTopDeck(card.owner.deck, card.owner.hand)
-    elif card.Name == "Tekeli-li":
-        remoteCall(specialDeck().controller, "toBottomMove", [card, specialDeck()])
-        notify("{} is placed on the bottom of the Tekeli-li deck".format(card.name))
-    elif card.Name == "Favor of the Moon":
-        if card.Subtype != "Locked":
-            sealXCurse(card, 3)
-        elif 1 == askChoice("Trigger Favor of the Moon ?", ["Yes","No"],["#000000","#000000"]):
-            exhaust(card, x=0,y=0)
-            table.create('81df3f18-e341-401d-a6bb-528940a9c39e', ChaosTokenX, ChaosTokenY, quantity = 1, persist = True)
-            card.markers[Curse] -= 1
-            if not card.markers[Curse]:
-                notify("{} has no Curse tokens left and is discarded.".format(card))
-                discard(card)
-            Investigator(card.owner).markers[Resource] += 1
-    elif card.Name == "Favor of the Sun":
-        if card.Subtype != "Locked":
-            sealXBless(card, 3)
-        elif 1 == askChoice("Trigger Favor of the Sun ?", ["Yes","No"],["#000000","#000000"]):
-            exhaust(card, x=0,y=0)
-            table.create('360db0ee-c362-4bbe-9554-b1fbf101d9ab', ChaosTokenX, ChaosTokenY, quantity = 1, persist = False)
-            card.markers[Bless] -= 1
-            if not card.markers[Bless]:
-                notify("{} has no Bless tokens left and is discarded.".format(card))
-                discard(card)
-    elif card.Name == "Collected Works of Poe": # Automation doesn't account for location
-        subResource(card, x, y)
-        choice_list, color_list = InvestigatorList()
-        sets = askChoice("Choose a player at your location:", choice_list, color_list)
-        if sets == 0:
-            return
-        else:
-            chosenPlayer = getPlayers()[sets - 1]
-            notify("{} uses {} to let {} search the top 6 cards of their deck for Tekeli-li cards.".format(card.controller, card, chosenPlayer))
-            if len(chosenPlayer.deck) < 6:
-                count = len(chosenPlayer.deck)
-            else:
-                count = 6
-            remoteCall(chosenPlayer, "searchTopDeck", [chosenPlayer.deck, table, count])
-            update()
-            for c in table:
-                if c.Name == "Tekeli-li":
-                    remoteCall(specialDeck().controller, "toBottomMove", [c, specialDeck()]) 
-    elif card.set == "Edge of the Earth Campaign Expansion" and card.Type == "Scenario":
-        if 1 == askChoice("Randomly kill an expedition member ?", ["Yes","No"],["#000000","#000000"]):
-            cards = queryCard({"Encounter Set":"Expedition Team"})
-            for m in cards:
-                shared.piles['Temporary Shuffle'].create(m)
-            expeditionTeam = [c for c in shared.piles['Temporary Shuffle']]
-            dlg = cardDlg(expeditionTeam)
-            dlg.title = "Expedition Team"
-            dlg.text = "Select the DEAD members"
-            dlg.min = 0
-            dlg.max = 8
-            dead = dlg.show()
-            alive = [c for c in expeditionTeam if c not in dead]
-            if alive:
-                notify("Randomly killed : ")
-                notify("{}".format(alive[rnd(0,len(alive)-1)]))
-            for c in expeditionTeam:
-                c.delete()
-    elif card.set == "The Scarlet Keys Campaign Expansion" and card.Type == "Scenario":
-        if 1 == askChoice("Generate the Red Coterie members ?", ["Yes","No"],["#000000","#000000"]):
-            coterie = queryCard({"Encounter Set":"Red Coterie"})
-            for c in coterie:
-                encounterDeck().create(c)
-            dlg = cardDlg(c for c in encounterDeck() if c.properties["Encounter Set"] == "Red Coterie")
-            dlg.title = "You haven't seen the last of:"
-            dlg.text = "Select 1 or more cards"
-            dlg.max = len(coterie)
-            members = dlg.show()
-            if members:
-                member = members.pop(rnd(0,len(members)-1))
-                for c in encounterDeck():
-                    if c.name != member.name and c.properties["Encounter Set"] == "Red Coterie":
-                        c.delete()
-                encounterDeck().shuffle()
-                notify("1 Red Coterie member shuffled into the encounter deck.")
-    elif card.set == "Undimensioned and Unseen" and card.Type == "Scenario":
-        location = locationDeck()[rnd(0,5)]
-        notify("{}".format(location))
-    elif card.Name == "Mine Cart":
-        turn = askChoice("Rotate", ["Left","Right"],["#000000","#000000"])
-        if turn == 1: # Left
-            rotateLeft(card)
-        elif turn == 2:
-            rotateRight(card)
-
-
+            if functions_list and callable(functions_list[0]):
+                functions_list[0](card)
     else:
         exhaustcard = re.search(r'[Ee]xhaust\s(X\s)?' + card.Name + r's?', card.Text)
         if exhaustcard:

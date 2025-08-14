@@ -6,11 +6,102 @@ import collections
 import clr
 clr.AddReference('System.Web.Extensions')
 from System.Web.Script.Serialization import JavaScriptSerializer as json #since .net 3.5?
+clr.AddReference('Newtonsoft.Json')
+from Newtonsoft.Json.Linq import JArray, JObject
+import re
 
 PLAYER_DECK = ['Investigator', 'Special', 'Asset', 'Event', 'Skill', 'Weakness', 'Sideboard', 'Basic Weaknesses']
 
 gameLoaded = False
 loadedPhase = None
+
+def downloadDeckArkhamDB(group, x = 0, y = 0):
+    deck_url = askString("Insert ArkhamDB deck URL:", "")
+    if not deck_url:
+        notify("No deck URL provided")
+        return
+    match = re.search(r'/deck/view/(\d+)', deck_url)
+    if not match:
+        notify("Invalid deck URL format")
+        return
+    deck_id = match.group(1)
+    url = "https://arkhamdb.com/api/public/deck/"+ str(deck_id)
+    notify(url)
+    try:
+            notify("Downloading deck: " + url)
+            data, code = webRead(url)
+            if not data:
+                    notify("Error: No deck found.")
+                    return
+    except Exception as e:
+            notify("Error: " + str(e))
+    investigator_code = re.search(r'"investigator_code":"(\d+)"', data)
+    if investigator_code:
+        investigator_code = investigator_code.group(1)
+    match = re.search(r'"slots":\s*\{([^}]+)\}(?=\s*(,|\}|\s*$))', data)
+    slots = re.findall(r'"(\d+)":(\d+)', match.group(1))
+    slots_dict = {key: int(value) for key, value in slots}
+    deckDict = {
+        "investigator": investigator_code,
+        "slots": slots_dict
+        }
+    createDeckArkhamDB(deckDict)
+
+def createDeckArkhamDB(deckDict):
+    allCards = downloadAllCardsArkhamDB()
+    cards = []
+    basicWeakness = False
+
+	#function to return json matching cardID
+    def quickSearch(id, array):
+        result = next((obj for obj in array if obj.code.ToString() == str(id)), None)
+        return result
+
+    investigator_id = quickSearch(deckDict["investigator"], allCards).octgn_id.ToString()
+    for id in investigator_id.split(":"):
+        cards.append({"qty": 1, "id": id})    
+    for id, qty in deckDict['slots'].items():
+        if id == '01000':
+            notify("Don't forget your random basic weakness")
+            basicWeakness = True
+            continue
+        card_id = quickSearch(id, allCards).octgn_id.ToString()
+        if card_id:
+            cards.append({"qty": int(qty), "id": card_id})
+    for card in cards:
+        notify("ID: " + card['id'] + " e Quantity: " + str(card['qty']))
+        cardData = {'model': '', 'markers': {}, 'orientation': 0, 'position': [], 'isFaceUp': False}
+        cardData['model'] = card['id']
+        cardData['position'] = [0, 0]
+        for _ in range(card['qty']):
+            card_obj = deserizlizeCard(cardData)
+            card_obj.moveTo(me.deck)
+
+    # no idea why the investigator and mini goes to hand pile and not deck pile during the setup
+    investigator = filter(lambda card: card.Type == "Investigator", me.deck)
+    mini = filter(lambda card: card.Type == "Mini", me.deck)
+    for m in mini:
+        m.moveTo(me.hand)
+    for i in investigator:
+        i.moveTo(me.hand)
+    playerSetup()
+    if basicWeakness:
+        drawBasicWeaknessToDeck("deck")
+
+def downloadAllCardsArkhamDB(encounterCards="0"):
+	url = "https://arkhamdb.com/api/public/cards/?encounter=" + str(encounterCards)
+	data, code = webRead(url)
+	jarray = JArray.Parse(data)
+	allCardsDict = jobject_to_dict(jarray)
+	return allCardsDict
+
+def jobject_to_dict(jobject):
+	if isinstance(jobject, JObject): 
+		return {key: jobject_to_dict(jobject[key]) for key in jobject}
+	elif isinstance(jobject, list):  
+		return [jobject_to_dict(item) for item in jobject]
+	else:
+ 		return jobject
 
 def takeControlGlobal(group, x=0, y=0):
     notify( me.name + " takes control of shared cards")

@@ -1808,7 +1808,7 @@ def shuffleOnTable(cards, x=0, y=0):
     clearSelection()
 
     
-def playCard(card, cost=None,x=0, y=0):
+def playCard(card, cost=None, fast=False,x=0, y=0):
     reducedCost = int(getGlobalVariable("reduceCost"))
     if x == 0 and y == 0 and inGame(card.owner):
         x, y = firstInvestigator(card.owner).position
@@ -1824,13 +1824,12 @@ def playCard(card, cost=None,x=0, y=0):
     if InvestigatorName(card.owner) != "Preston Fairmont":
         if investigator.markers[Resource] + reducedCost >= cardCost:
             investigator.markers[Resource] -= cardCost - reducedCost
-            reduceCost(0)
         else:
             whisper("Not enough resources to play {}".format(card))
             return
     card.moveToTable(x, y)
     if card.Type == "Event" or card.Type == "Asset":
-        if not "Fast." in card.Keywords and not "Fast." in card.Text and not "Dilemma." in card.Traits:
+        if not "Fast." in card.Keywords and not "Fast." in card.Text and not "Dilemma." in card.Traits and not fast:
             addAction(InvestigatorMini(card.owner))
         if "Double." in card.Traits:
             addAction(InvestigatorMini(card.owner))
@@ -1850,7 +1849,14 @@ def playCard(card, cost=None,x=0, y=0):
                     else: # Pas de niveau de carte
                         card.owner.counters[str(stat)].value += 1
     if card.group == table:
-        notify("{} plays {}".format(card.owner, card))
+        if card.Type == "Asset" or card.Type == "Event":
+            message = "{} plays {}".format(card.owner, card)
+            if reducedCost > 0:
+                message += ", reducing its cost by {})".format(reducedCost)
+        else:
+            message = "{} commits {}".format(card.owner, card)
+        notify(message)
+        reduceCost(0)
 
 def playFromDiscard(group):
     shuffleback = ["Winging It","Impromptu Barrier","Improvised Shield","Improvised Weapon"]
